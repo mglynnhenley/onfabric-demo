@@ -75,6 +75,18 @@ Fabric Intelligence Dashboard is a beautiful, design-first CLI tool that analyze
    # PERPLEXITY_API_KEY=your_key_here
    ```
 
+5. **Authenticate with OnFabric**
+   ```bash
+   fabric-dashboard auth
+   ```
+
+   This will:
+   - Open your browser to OnFabric's login page
+   - Ask you to authorize Fabric Dashboard
+   - Save your access token to `.env` automatically
+
+   **Note**: You only need to do this once. The token is saved and reused for future commands.
+
 ## External API Setup (Optional)
 
 UI components can be enriched with real-time data from external APIs. **All APIs work in mock mode without keys** - real API keys are only needed for live data.
@@ -106,6 +118,16 @@ UI components can be enriched with real-time data from external APIs. **All APIs
 **Note**: Components display mock data when API keys are not configured. This is perfect for development and testing.
 
 ## Usage
+
+### First Time Setup
+
+Before generating dashboards, authenticate with OnFabric:
+
+```bash
+fabric-dashboard auth
+```
+
+This opens your browser for a secure OAuth login. After authorizing the app, your access token is saved automatically.
 
 ### Generate Dashboard
 

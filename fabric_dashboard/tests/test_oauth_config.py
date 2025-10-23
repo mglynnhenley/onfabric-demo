@@ -5,22 +5,24 @@ from fabric_dashboard.mcp.oauth_config import OAuthConfig
 
 
 def test_oauth_config_has_required_fields():
-    """Test that OAuthConfig has all required OAuth fields."""
+    """Test that OAuthConfig has all required OAuth fields for Device Flow."""
     config = OAuthConfig()
 
     assert hasattr(config, "client_id")
-    assert hasattr(config, "authorization_url")
+    assert hasattr(config, "device_code_url")
     assert hasattr(config, "token_url")
-    assert hasattr(config, "redirect_uri")
+    assert hasattr(config, "verification_uri")
     assert hasattr(config, "scopes")
+    assert hasattr(config, "default_poll_interval")
 
 
-def test_oauth_config_redirect_uri_is_localhost():
-    """Test that redirect URI points to localhost for local auth server."""
+def test_oauth_config_uses_auth_onfabric_domain():
+    """Test that OAuth URLs use auth.onfabric.io domain."""
     config = OAuthConfig()
 
-    assert config.redirect_uri.startswith("http://localhost:")
-    assert "/callback" in config.redirect_uri
+    assert "auth.onfabric.io" in config.device_code_url
+    assert "auth.onfabric.io" in config.token_url
+    assert "auth.onfabric.io" in config.verification_uri
 
 
 def test_oauth_config_scopes_not_empty():

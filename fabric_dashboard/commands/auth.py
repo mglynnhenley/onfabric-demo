@@ -34,18 +34,42 @@ def auth():
 
         console.print("\n🔄 Re-authenticating...\n")
 
-    # Run OAuth flow
-    console.print("[dim]Step 1: Opening browser for authorization...[/dim]")
-    console.print("[dim]Step 2: Log in to OnFabric in your browser[/dim]")
-    console.print("[dim]Step 3: Authorize Fabric Dashboard to access your data[/dim]")
-    console.print("[dim]Step 4: Wait for redirect (this may take a moment)[/dim]\n")
-
+    # Run OAuth Device Code Flow
     flow_manager = OAuthFlowManager()
-    token = flow_manager.run_interactive_flow()
+
+    # Request device code
+    console.print("📱 [bold]Requesting authorization code...[/bold]")
+    device_data = flow_manager.request_device_code()
+
+    if not device_data:
+        console.print("\n[bold red]❌ Failed to start authorization[/bold red]")
+        console.print("Please check your internet connection and try again.\n")
+        raise click.Abort()
+
+    # Display user code and instructions
+    console.print("\n" + "="*60)
+    console.print("[bold cyan]Please authorize Fabric Dashboard:[/bold cyan]\n")
+    console.print(f"1. Open your browser and go to:")
+    console.print(f"   [bold green]{device_data['verification_uri']}[/bold green]\n")
+    console.print(f"2. Enter this code:")
+    console.print(f"   [bold yellow]{device_data['user_code']}[/bold yellow]\n")
+    console.print(f"3. Log in and authorize the application\n")
+    console.print(f"⏱️  Code expires in {device_data['expires_in'] // 60} minutes")
+    console.print("="*60 + "\n")
+
+    # Poll for token
+    console.print("⏳ Waiting for authorization...")
+    console.print("[dim]You can authorize in your browser now...[/dim]\n")
+
+    token = flow_manager.poll_for_token(
+        device_code=device_data["device_code"],
+        interval=device_data["interval"],
+        timeout=device_data["expires_in"]
+    )
 
     if not token:
-        console.print("\n[bold red]❌ Authentication failed[/bold red]")
-        console.print("Please try again or check your internet connection.\n")
+        console.print("\n[bold red]❌ Authorization failed or timed out[/bold red]")
+        console.print("Please try again.\n")
         raise click.Abort()
 
     # Save token

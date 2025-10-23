@@ -86,11 +86,24 @@ If OnFabric provides refresh tokens:
    - Use refresh token to get new access token
    - Update stored token in `.env`
 
-## Current Status
+## Current Status - UPDATED for Device Code Flow
 
-- ✅ OAuth flow implementation complete
+- ✅ OAuth Device Code Flow implementation complete
 - ✅ Token storage working
-- ✅ CLI command functional
+- ✅ CLI command functional with Device Code UX
 - ✅ MCP client loads tokens
-- ⏸️ **Blocked on**: Real OnFabric OAuth credentials
-- ⏸️ **Next step**: Contact OnFabric for client_id and endpoints
+- ✅ Real OnFabric endpoints configured (auth.onfabric.io)
+- ✅ Real client_id extracted from Claude's auth flow
+- ✅ All tests passing (8/8 OAuth tests)
+- ❌ **BLOCKED**: Client not authorized for Device Code Flow
+  - Error: `403 unauthorized_client`
+  - Client `UGZtoLYZap8A94TnLcaF37bkXoIsi2Vn` is configured for Authorization Code Flow only
+- ⏳ **Next step**: Waiting for OnFabric to enable Device Code Flow for this client
+
+## What OnFabric Needs to Do
+
+See `docs/ONFABRIC_SUPPORT_REQUEST.md` for the complete request.
+
+**TL;DR**: Enable "Device Code" grant type in Auth0 for client `UGZtoLYZap8A94TnLcaF37bkXoIsi2Vn`
+
+Once enabled, `fabric-dashboard auth` will work immediately - no code changes needed!

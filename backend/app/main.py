@@ -2,6 +2,7 @@
 
 import asyncio
 import json
+from pathlib import Path
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -74,44 +75,34 @@ async def websocket_generate_dashboard(websocket: WebSocket, persona: str):
         }))
         await asyncio.sleep(1)
 
-        # Step 3: Send the final HTML dashboard
-        # For now, this is mock HTML
-        # Later, we'll generate real dashboards here
-        mock_html = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Dashboard for {persona}</title>
-            <style>
-                body {{
-                    font-family: Arial, sans-serif;
-                    padding: 40px;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    color: white;
-                }}
-                .container {{
-                    max-width: 800px;
-                    margin: 0 auto;
-                    background: rgba(255,255,255,0.1);
-                    padding: 40px;
-                    border-radius: 20px;
-                }}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>Dashboard Generated!</h1>
-                <p>Persona: <strong>{persona}</strong></p>
-                <p>This is a mock dashboard. Soon we'll generate real personalized content here.</p>
-            </div>
-        </body>
-        </html>
-        """
+        # Step 3: Load the pre-generated dashboard HTML file
+        # The files are in backend/dashboards/{persona}.html
+        # For example: backend/dashboards/fitness-enthusiast.html
 
+        # Get the path to the dashboard file
+        dashboards_dir = Path(__file__).parent.parent / "dashboards"
+        dashboard_file = dashboards_dir / f"{persona}.html"
+
+        # Check if the file exists
+        if not dashboard_file.exists():
+            # If the persona doesn't exist, send an error
+            await websocket.send_text(json.dumps({
+                "type": "error",
+                "message": f"Dashboard for '{persona}' not found. Valid options: fitness-enthusiast, creative-professional, tech-learner"
+            }))
+            return
+
+        # Read the HTML file
+        # This loads the entire pre-generated dashboard
+        dashboard_html = dashboard_file.read_text()
+
+        # Send the real dashboard HTML to the frontend
         await websocket.send_text(json.dumps({
             "type": "complete",
-            "html": mock_html
+            "html": dashboard_html
         }))
+
+        print(f"✓ Sent {persona} dashboard ({len(dashboard_html):,} characters)")
 
     except WebSocketDisconnect:
         # This happens if the user closes their browser or navigates away

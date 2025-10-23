@@ -81,7 +81,8 @@ Fabric Intelligence Dashboard is a beautiful, design-first CLI tool that analyze
    ```
 
    This will:
-   - Open your browser to OnFabric's login page
+   - Display a user code (e.g., "ABCD-1234")
+   - Show a verification URL to visit in your browser
    - Ask you to authorize Fabric Dashboard
    - Save your access token to `.env` automatically
 
@@ -127,7 +128,12 @@ Before generating dashboards, authenticate with OnFabric:
 fabric-dashboard auth
 ```
 
-This opens your browser for a secure OAuth login. After authorizing the app, your access token is saved automatically.
+This uses OAuth Device Code Flow:
+1. You'll receive a code (like "ABCD-1234")
+2. Open the verification URL in your browser
+3. Enter the code and log in to OnFabric
+4. Authorize Fabric Dashboard
+5. Your access token is saved automatically to `.env`
 
 ### Generate Dashboard
 

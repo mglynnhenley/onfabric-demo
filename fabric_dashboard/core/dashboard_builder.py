@@ -38,7 +38,7 @@ class DashboardBuilder:
         Build complete dashboard from cards, persona, and theme.
 
         Args:
-            cards: List of 4-8 CardContent objects.
+            cards: List of 4-10 CardContent objects.
             persona: PersonaProfile for personalization.
             color_scheme: ColorScheme for visual theming.
             title: Optional custom title (default: generated from persona).
@@ -49,8 +49,8 @@ class DashboardBuilder:
         Returns:
             Dashboard model with complete HTML and metadata.
         """
-        if not 4 <= len(cards) <= 8:
-            raise ValueError(f"Expected 4-8 cards, got {len(cards)}")
+        if not 4 <= len(cards) <= 10:
+            raise ValueError(f"Expected 4-10 cards, got {len(cards)}")
 
         # Default to empty list if no UI components provided
         if ui_components is None:
@@ -121,10 +121,10 @@ class DashboardBuilder:
         html = f"""<!DOCTYPE html>
 <html lang="en">
 {head}
-<body class="bg-background text-foreground antialiased">
-    <div class="min-h-screen flex flex-col">
+<body>
+    <div style="min-height: 100vh; display: flex; flex-direction: column;">
         {header}
-        <main class="flex-1 py-8">
+        <main style="flex: 1; padding: 2rem 0;">
             {cards_html}
         </main>
         {footer}
@@ -146,9 +146,6 @@ class DashboardBuilder:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -161,8 +158,24 @@ class DashboardBuilder:
     <style>
         {css_vars}
 
+        * {{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }}
+
         body {{
             font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }}
+
+        .container {{
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
         }}
 
         .content-text {{
@@ -255,43 +268,56 @@ class DashboardBuilder:
         /* Markdown content styles */
         .prose {{
             max-width: none;
+            color: #374151;
         }}
 
         .prose h1, .prose h2, .prose h3 {{
-            color: var(--foreground);
+            color: #1f2937;
             font-weight: 600;
-            margin-top: 1.5em;
-            margin-bottom: 0.5em;
+            margin-top: 0.75em;
+            margin-bottom: 0.375em;
+            line-height: 1.3;
         }}
 
+        .prose h1 {{ font-size: 1.25em; }}
+        .prose h2 {{ font-size: 1.125em; }}
+        .prose h3 {{ font-size: 1em; }}
+
         .prose p {{
-            margin-bottom: 1em;
+            margin-bottom: 0.75em;
+            line-height: 1.5;
         }}
 
         .prose ul, .prose ol {{
-            margin: 1em 0;
-            padding-left: 1.5em;
+            margin: 0.5em 0;
+            padding-left: 1.25em;
         }}
 
         .prose li {{
-            margin-bottom: 0.5em;
+            margin-bottom: 0.25em;
+            line-height: 1.4;
         }}
 
         .prose strong {{
-            color: var(--foreground);
+            color: #1f2937;
             font-weight: 600;
         }}
 
         .prose a {{
-            color: var(--primary);
+            color: #3b82f6;
+            text-decoration: none;
+        }}
+
+        .prose a:hover {{
             text-decoration: underline;
         }}
 
         .prose code {{
-            background: var(--muted);
-            padding: 0.2em 0.4em;
-            border-radius: 0.25rem;
-            font-size: 0.9em;
+            background: #f3f4f6;
+            color: #1f2937;
+            padding: 0.15em 0.3em;
+            border-radius: 0.2rem;
+            font-size: 0.875em;
         }}
 
         /* UI Component Styles */
@@ -385,10 +411,10 @@ class DashboardBuilder:
 
     def _build_header(self, title: str, persona: PersonaProfile) -> str:
         """Build header section."""
-        return f"""<header class="border-b border-[var(--border)] bg-[var(--background)]">
-        <div class="container mx-auto px-4 py-6">
-            <h1 class="text-3xl font-bold text-[var(--foreground)] mb-2">{title}</h1>
-            <p class="text-sm text-[var(--foreground)] opacity-70">
+        return f"""<header style="border-bottom: 1px solid var(--border); background: var(--background); padding: 1.5rem 0;">
+        <div class="container">
+            <h1 style="font-size: 2rem; font-weight: 700; color: var(--foreground); margin-bottom: 0.5rem;">{title}</h1>
+            <p style="font-size: 0.875rem; color: var(--foreground); opacity: 0.7;">
                 Personalized insights based on your activity • Generated {datetime.utcnow().strftime("%B %d, %Y")}
             </p>
         </div>
@@ -402,16 +428,15 @@ class DashboardBuilder:
         """
         Build 2-column grid layout for cards with drag and drop support.
 
-        Cards are displayed in a 2-column grid that extends as many rows as needed.
-        Small cards first, then large cards.
+        Cards are displayed in a 2-column grid in a generative, mixed order.
+        No sorting - maintains order from generation for organic feel.
 
         Args:
             cards: List of blog-style content cards.
             ui_components: List of interactive UI widgets (not yet rendered).
         """
-        # Sort cards: SMALL and COMPACT first, then MEDIUM and LARGE
-        size_priority = {CardSize.COMPACT: 0, CardSize.SMALL: 1, CardSize.MEDIUM: 2, CardSize.LARGE: 3}
-        sorted_cards = sorted(cards, key=lambda c: size_priority[c.size])
+        # Keep cards in generated order for organic, generative feel
+        sorted_cards = cards
 
         # Render blog cards
         cards_html = []
@@ -429,10 +454,22 @@ class DashboardBuilder:
         # Combine blog cards and UI components
         all_items = cards_html + components_html
 
-        # 2-column grid layout with full width (no left/right borders)
-        grid_html = f"""<div id="cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
+        # Dense 3-column grid layout for generative feel
+        grid_html = f"""<div id="cards-grid" style="display: grid; grid-template-columns: 1fr; gap: 0.875rem; padding: 0 1rem; max-width: 1400px; margin: 0 auto;">
     {"".join(all_items)}
-</div>"""
+</div>
+<style>
+    @media (min-width: 640px) {{
+        #cards-grid {{
+            grid-template-columns: repeat(2, 1fr);
+        }}
+    }}
+    @media (min-width: 1024px) {{
+        #cards-grid {{
+            grid-template-columns: repeat(3, 1fr);
+        }}
+    }}
+</style>"""
 
         return grid_html
 
@@ -444,26 +481,26 @@ class DashboardBuilder:
             extensions=['extra', 'codehilite']
         )
 
-        # Build sources list
+        # Build sources list - more compact
         sources_html = ""
         if card.sources:
             sources_list = "\n".join(
-                f'<li><a href="{source}" target="_blank" class="text-[var(--primary)] hover:underline text-sm">{self._extract_domain(source)}</a></li>'
-                for source in card.sources[:5]  # Max 5 sources
+                f'<li style="margin-bottom: 0.125rem;"><a href="{source}" target="_blank" style="color: #3b82f6; text-decoration: none; font-size: 0.6875rem;">{self._extract_domain(source)}</a></li>'
+                for source in card.sources[:3]  # Max 3 sources for compact feel
             )
-            sources_html = f"""<div class="mt-6 pt-4 border-t border-[var(--border)]">
-                <p class="text-xs font-semibold text-[var(--foreground)] opacity-60 uppercase tracking-wide mb-2">Sources</p>
-                <ul class="list-none space-y-1">
+            sources_html = f"""<div style="margin-top: 0.75rem; padding-top: 0.625rem; border-top: 1px solid #e5e7eb;">
+                <p style="font-size: 0.625rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.375rem;">Sources</p>
+                <ul style="list-style: none; padding: 0;">
                     {sources_list}
                 </ul>
             </div>"""
 
-        # Reading time badge
-        reading_time_html = f"""<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--muted)] text-[var(--foreground)]">
-            {card.reading_time_minutes} min read
+        # Reading time badge - smaller
+        reading_time_html = f"""<span style="display: inline-flex; align-items: center; padding: 0.125rem 0.5rem; border-radius: 9999px; font-size: 0.6875rem; font-weight: 500; background: #f3f4f6; color: #6b7280;">
+            {card.reading_time_minutes} min
         </span>"""
 
-        return f"""<div class="dashboard-card rounded-lg border border-[var(--border)] bg-white shadow-sm overflow-hidden" draggable="true" data-card-index="{idx}">
+        return f"""<div class="dashboard-card" style="border-radius: 0.375rem; border: 1px solid #e5e7eb; background: #ffffff; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); overflow: hidden;" draggable="true" data-card-index="{idx}">
         <!-- Drag Handle -->
         <div class="drag-handle" title="Drag to reorder">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -475,19 +512,17 @@ class DashboardBuilder:
                 <line x1="3" y1="18" x2="3.01" y2="18"></line>
             </svg>
         </div>
-        
-        <div class="p-6">
+
+        <div style="padding: 0.875rem;">
             <!-- Card Header -->
-            <div class="flex items-start justify-between mb-4">
-                <div class="flex-1">
-                    <h2 class="text-xl font-semibold text-[var(--foreground)] mb-2">{card.title}</h2>
-                    <p class="text-sm text-[var(--foreground)] opacity-70 mb-3">{card.description}</p>
-                    {reading_time_html}
-                </div>
+            <div style="margin-bottom: 0.625rem;">
+                <h2 style="font-size: 1rem; font-weight: 600; color: #1f2937; margin-bottom: 0.25rem; line-height: 1.3;">{card.title}</h2>
+                <p style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.5rem; line-height: 1.4;">{card.description}</p>
+                {reading_time_html}
             </div>
 
             <!-- Card Content -->
-            <div class="prose content-text text-[var(--foreground)] opacity-90">
+            <div class="prose content-text" style="color: #374151; font-size: 0.8125rem; line-height: 1.5;">
                 {body_html}
             </div>
 
@@ -1004,16 +1039,26 @@ class DashboardBuilder:
 
     def _build_footer(self) -> str:
         """Build footer section."""
-        return f"""<footer class="border-t border-[var(--border)] bg-[var(--background)] mt-16">
-        <div class="container mx-auto px-4 py-6">
-            <div class="flex flex-col md:flex-row items-center justify-between text-sm text-[var(--foreground)] opacity-60">
-                <p>Generated by Fabric Intelligence Dashboard</p>
-                <p class="mt-2 md:mt-0">
-                    Powered by <a href="https://www.anthropic.com/claude" target="_blank" class="text-[var(--primary)] hover:underline">Claude</a> &
-                    <a href="https://www.perplexity.ai" target="_blank" class="text-[var(--primary)] hover:underline">Perplexity</a>
+        return f"""<footer style="border-top: 1px solid var(--border); background: var(--background); margin-top: 4rem; padding: 1.5rem 0;">
+        <div class="container">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; font-size: 0.875rem; color: var(--foreground); opacity: 0.6;">
+                <p style="margin: 0;">Generated by Fabric Intelligence Dashboard</p>
+                <p style="margin: 0.5rem 0 0 0;">
+                    Powered by <a href="https://www.anthropic.com/claude" target="_blank" style="color: var(--primary); text-decoration: none;">Claude</a> &
+                    <a href="https://www.perplexity.ai" target="_blank" style="color: var(--primary); text-decoration: none;">Perplexity</a>
                 </p>
             </div>
         </div>
+        <style>
+            @media (min-width: 768px) {{
+                footer > div > div {{
+                    flex-direction: row;
+                }}
+                footer > div > div > p:last-child {{
+                    margin-top: 0;
+                }}
+            }}
+        </style>
     </footer>"""
 
     def _generate_title(self, persona: PersonaProfile) -> str:

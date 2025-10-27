@@ -1,0 +1,413 @@
+{
+  "connection_id": "conn_abc123def456",
+  "interactions": [
+    {
+      "platform": "instagram",
+      "type": "post",
+      "timestamp": "2025-09-15T19:45:00Z",
+      "content": "Sunset views from Santorini never get old 🌅 Three weeks into this Greece trip and I'm already planning my return",
+      "engagement": {
+        "likes": 312,
+        "comments": 45,
+        "shares": 8
+      },
+      "topics": ["travel", "Greece", "Santorini", "photography"]
+    },
+    {
+      "platform": "instagram",
+      "type": "post",
+      "timestamp": "2025-09-18T14:20:00Z",
+      "content": "Best gyros I've had in Athens hands down. This little spot near the Acropolis is a hidden gem 🇬🇷",
+      "engagement": {
+        "likes": 198,
+        "comments": 32,
+        "shares": 5
+      },
+      "topics": ["travel", "food", "Greece", "Athens"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-09-20T10:30:00Z",
+      "query": "best surf camps in Morocco for beginners",
+      "topics": ["surfing", "Morocco", "travel", "adventure sports"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-09-20T10:45:00Z",
+      "query": "Taghazout vs Essaouira surf spots Morocco",
+      "topics": ["surfing", "Morocco", "travel", "beaches"]
+    },
+    {
+      "platform": "pinterest",
+      "type": "pin",
+      "timestamp": "2025-09-21T16:00:00Z",
+      "content": "Morocco surf camp packing list - essential gear for Atlantic coast",
+      "topics": ["travel", "Morocco", "surfing", "packing"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-09-23T21:15:00Z",
+      "query": "gossip girl reboot season 3 release date",
+      "topics": ["TV shows", "entertainment", "Gossip Girl", "Netflix"]
+    },
+    {
+      "platform": "instagram",
+      "type": "saved",
+      "timestamp": "2025-09-24T09:30:00Z",
+      "content": "Thread comparing the original Gossip Girl to the reboot - character development and modern themes",
+      "topics": ["TV shows", "Gossip Girl", "entertainment", "culture"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-09-25T13:00:00Z",
+      "query": "best places to visit in December for warm weather",
+      "topics": ["travel", "December", "vacation", "warm destinations"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-09-25T13:15:00Z",
+      "query": "December travel destinations Europe Christmas markets",
+      "topics": ["travel", "Europe", "December", "Christmas markets"]
+    },
+    {
+      "platform": "pinterest",
+      "type": "board",
+      "timestamp": "2025-09-26T18:30:00Z",
+      "content": "Created board: Winter Travel Inspo - December 2025",
+      "topics": ["travel", "winter", "December", "vacation planning"]
+    },
+    {
+      "platform": "instagram",
+      "type": "comment",
+      "timestamp": "2025-09-27T11:20:00Z",
+      "content": "Just binged the entire new season in one weekend! The fashion choices this season are incredible",
+      "topics": ["TV shows", "fashion", "binge watching"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-09-28T15:45:00Z",
+      "query": "surf lessons Morocco December weather conditions",
+      "topics": ["surfing", "Morocco", "December", "weather"]
+    },
+    {
+      "platform": "instagram",
+      "type": "saved",
+      "timestamp": "2025-09-29T10:00:00Z",
+      "content": "Complete guide to visiting Greek islands in off-season - pros and cons",
+      "source_url": "https://example.com/greek-islands-off-season",
+      "topics": ["travel", "Greece", "islands", "travel tips"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-09-30T08:30:00Z",
+      "query": "best Netflix shows to binge watch October 2025",
+      "topics": ["Netflix", "TV shows", "entertainment", "streaming"]
+    },
+    {
+      "platform": "instagram",
+      "type": "post",
+      "timestamp": "2025-10-01T20:15:00Z",
+      "content": "Finally home from Greece and already missing the Mediterranean lifestyle. But excited to plan the next adventure - thinking Morocco surf camp in December? 🏄‍♀️",
+      "engagement": {
+        "likes": 245,
+        "comments": 38,
+        "shares": 12
+      },
+      "topics": ["travel", "surfing", "Morocco", "lifestyle"]
+    },
+    {
+      "platform": "pinterest",
+      "type": "pin",
+      "timestamp": "2025-10-02T14:30:00Z",
+      "content": "Serena van der Woodsen style evolution - iconic looks from all seasons",
+      "topics": ["fashion", "Gossip Girl", "style inspiration", "TV fashion"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-03T09:00:00Z",
+      "query": "Agadir to Taghazout taxi cost and transport options",
+      "topics": ["Morocco", "travel", "transportation", "Taghazout"]
+    },
+    {
+      "platform": "instagram",
+      "type": "saved",
+      "timestamp": "2025-10-04T16:45:00Z",
+      "content": "Beginner's guide to surf etiquette and ocean safety",
+      "topics": ["surfing", "safety", "ocean", "sports"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-05T11:30:00Z",
+      "query": "best Christmas markets in Germany December 2025",
+      "topics": ["travel", "Germany", "Christmas", "December"]
+    },
+    {
+      "platform": "instagram",
+      "type": "comment",
+      "timestamp": "2025-10-06T19:00:00Z",
+      "content": "This looks amazing! Adding it to my December travel list. Have you been during winter?",
+      "topics": ["travel", "winter", "recommendations"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-07T10:15:00Z",
+      "query": "Netflix drama series similar to Gossip Girl",
+      "topics": ["Netflix", "TV shows", "drama", "recommendations"]
+    },
+    {
+      "platform": "pinterest",
+      "type": "pin",
+      "timestamp": "2025-10-08T13:20:00Z",
+      "content": "Moroccan interior design inspiration - modern riad aesthetic",
+      "topics": ["design", "Morocco", "interior design", "architecture"]
+    },
+    {
+      "platform": "instagram",
+      "type": "post",
+      "timestamp": "2025-10-09T17:30:00Z",
+      "content": "Current mood: planning winter escapes and rewatching comfort shows. Anyone else already thinking about December plans?",
+      "engagement": {
+        "likes": 167,
+        "comments": 29,
+        "shares": 6
+      },
+      "topics": ["travel", "lifestyle", "winter", "TV shows"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-10T09:45:00Z",
+      "query": "best time to surf in Morocco for beginners",
+      "topics": ["surfing", "Morocco", "beginner", "seasons"]
+    },
+    {
+      "platform": "instagram",
+      "type": "saved",
+      "timestamp": "2025-10-11T12:00:00Z",
+      "content": "Solo female traveler guide to Morocco - safety tips and best destinations",
+      "source_url": "https://example.com/morocco-solo-female",
+      "topics": ["travel", "Morocco", "solo travel", "safety"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-12T15:30:00Z",
+      "query": "where to watch Gossip Girl original series streaming",
+      "topics": ["Gossip Girl", "streaming", "TV shows"]
+    },
+    {
+      "platform": "pinterest",
+      "type": "pin",
+      "timestamp": "2025-10-13T11:00:00Z",
+      "content": "European winter travel outfit ideas - stylish and warm",
+      "topics": ["fashion", "travel", "winter", "Europe"]
+    },
+    {
+      "platform": "instagram",
+      "type": "comment",
+      "timestamp": "2025-10-14T14:15:00Z",
+      "content": "Just booked! So excited for surf camp. Your photos from Taghazout convinced me",
+      "topics": ["surfing", "travel", "Morocco", "adventure"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-15T09:30:00Z",
+      "query": "Claude API pricing vs OpenAI GPT-4",
+      "topics": ["AI", "APIs", "technology", "development"]
+    },
+    {
+      "platform": "instagram",
+      "type": "saved",
+      "timestamp": "2025-10-15T14:45:00Z",
+      "content": "Thread on how AI agents are changing the way we work - practical use cases",
+      "topics": ["AI", "productivity", "technology", "automation"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-16T11:00:00Z",
+      "query": "best AI tools for content creation 2025",
+      "topics": ["AI", "content creation", "tools", "productivity"]
+    },
+    {
+      "platform": "instagram",
+      "type": "comment",
+      "timestamp": "2025-10-17T10:15:00Z",
+      "content": "The pace of AI development is wild. Just saw a demo of the new Claude features and I'm impressed",
+      "topics": ["AI", "technology", "innovation"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-18T16:20:00Z",
+      "query": "AI ethics concerns autonomous systems decision making",
+      "topics": ["AI", "ethics", "technology", "society"]
+    },
+    {
+      "platform": "pinterest",
+      "type": "pin",
+      "timestamp": "2025-10-19T13:30:00Z",
+      "content": "Visual guide: How transformer models work in large language models",
+      "topics": ["AI", "machine learning", "education", "technology"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-20T08:45:00Z",
+      "query": "impact of generative AI on creative industries",
+      "topics": ["AI", "creativity", "technology", "future of work"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-21T07:30:00Z",
+      "query": "anthropic claude api structured output json schema implementation",
+      "topics": ["AI", "API", "development", "programming"]
+    },
+    {
+      "platform": "instagram",
+      "type": "saved",
+      "timestamp": "2025-10-21T12:15:00Z",
+      "content": "Deep dive into transformer architecture improvements - attention mechanisms explained",
+      "topics": ["AI", "deep learning", "transformers", "research"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-22T09:00:00Z",
+      "query": "latest research papers on reinforcement learning from human feedback RLHF",
+      "topics": ["AI", "machine learning", "RLHF", "research"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-23T14:30:00Z",
+      "query": "best practices prompt engineering complex reasoning tasks",
+      "topics": ["AI", "prompt engineering", "LLMs", "optimization"]
+    },
+    {
+      "platform": "instagram",
+      "type": "post",
+      "timestamp": "2025-10-24T11:45:00Z",
+      "content": "Spent the morning debugging an AI agent workflow. The satisfaction when it finally works perfectly is unmatched 🤖 Now time to plan that Morocco trip!",
+      "engagement": {
+        "likes": 189,
+        "comments": 24,
+        "shares": 7
+      },
+      "topics": ["AI", "coding", "development", "productivity"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-25T08:15:00Z",
+      "query": "vector databases comparison pinecone vs weaviate performance",
+      "topics": ["AI", "databases", "embeddings", "infrastructure"]
+    },
+    {
+      "platform": "pinterest",
+      "type": "pin",
+      "timestamp": "2025-10-26T16:00:00Z",
+      "content": "AI system architecture diagram - building production-ready LLM applications",
+      "topics": ["AI", "architecture", "development", "systems design"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-27T10:30:00Z",
+      "query": "fine-tuning LLMs on custom datasets best practices 2025",
+      "topics": ["AI", "machine learning", "fine-tuning", "training"]
+    },
+    {
+      "platform": "instagram",
+      "type": "comment",
+      "timestamp": "2025-10-28T13:20:00Z",
+      "content": "The AI alignment problem is fascinating. We need more people thinking about this before AGI becomes reality",
+      "topics": ["AI", "safety", "ethics", "alignment"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-29T09:45:00Z",
+      "query": "langchain vs llamaindex for building AI agents comparison",
+      "topics": ["AI", "frameworks", "development", "tools"]
+    },
+    {
+      "platform": "instagram",
+      "type": "saved",
+      "timestamp": "2025-10-30T15:00:00Z",
+      "content": "Tutorial: Building multi-agent systems with Claude - step by step guide",
+      "topics": ["AI", "agents", "development", "tutorial"]
+    },
+    {
+      "platform": "google",
+      "type": "search",
+      "timestamp": "2025-10-31T11:00:00Z",
+      "query": "retrieval augmented generation RAG optimization techniques",
+      "topics": ["AI", "RAG", "optimization", "search"]
+    }
+  ],
+  "summary": {
+    "total_interactions": 46,
+    "date_range_start": "2025-09-15T00:00:00Z",
+    "date_range_end": "2025-10-31T23:59:59Z",
+    "days_analyzed": 47,
+    "platforms": ["instagram", "google", "pinterest"],
+    "top_themes": [
+      "AI development and coding",
+      "Travel and adventure",
+      "Surfing and water sports",
+      "Machine learning research",
+      "TV shows and entertainment",
+      "Greece holiday experiences",
+      "Morocco trip planning",
+      "AI ethics and safety",
+      "Fashion and style"
+    ],
+    "platform_breakdown": {
+      "instagram": 17,
+      "google": 24,
+      "pinterest": 6
+    },
+    "content_types": {
+      "posts": 6,
+      "searches": 24,
+      "saved": 7,
+      "comments": 6,
+      "pins": 4,
+      "boards": 1
+    }
+  },
+  "persona": {
+    "writing_style": "casual and enthusiastic with vivid storytelling about experiences and discoveries, mixing personal adventures with deep technical knowledge",
+    "interests": [
+      "AI development and coding",
+      "Machine learning and LLMs",
+      "Travel and exploration",
+      "Surfing and beach culture",
+      "AI safety and ethics",
+      "Mediterranean lifestyle",
+      "TV shows and entertainment",
+      "Fashion and style",
+      "Adventure sports",
+      "Building AI agents",
+      "Cultural experiences"
+    ],
+    "activity_level": "high",
+    "professional_context": "AI developer/coder who travels frequently, coding AI as hobby and profession",
+    "tone_preference": "casual and conversational with excitement about experiences and technical topics",
+    "age_range": "25-32",
+    "content_depth_preference": "deep_dives"
+  }
+}

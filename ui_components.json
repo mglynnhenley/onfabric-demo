@@ -1,0 +1,91 @@
+{
+  "generated_at": "2025-10-15T18:51:49.215686+00:00",
+  "total_patterns_analyzed": 5,
+  "components": [
+    {
+      "component_type": "info-card",
+      "title": "Local Weather",
+      "pattern_title": "Tech Enthusiast",
+      "confidence": 0.95,
+      "location": "San Francisco, CA",
+      "info_type": "weather",
+      "units": "metric",
+      "show_forecast": true
+    },
+    {
+      "component_type": "video-feed",
+      "title": "San Francisco Explorer Videos",
+      "pattern_title": "San Francisco Explorer",
+      "confidence": 0.88,
+      "search_query": "san francisco bay area",
+      "max_results": 3,
+      "video_duration": "any",
+      "order_by": "relevance"
+    },
+    {
+      "component_type": "event-calendar",
+      "title": "Continuous Learner Events",
+      "pattern_title": "Continuous Learner",
+      "confidence": 0.82,
+      "search_query": "learning tutorial",
+      "location": "San Francisco, CA",
+      "date_range_days": 30,
+      "max_events": 5,
+      "include_online": true
+    },
+    {
+      "component_type": "task-list",
+      "title": "Recommended Actions",
+      "pattern_title": "Event Networker",
+      "confidence": 0.76,
+      "tasks": [
+        {
+          "text": "Explore more about meetup",
+          "completed": false,
+          "priority": "high"
+        },
+        {
+          "text": "Research conference",
+          "completed": false,
+          "priority": "medium"
+        },
+        {
+          "text": "Review saved content",
+          "completed": false,
+          "priority": "low"
+        }
+      ],
+      "list_type": "recommendations"
+    },
+    {
+      "component_type": "content-card",
+      "title": "Deep Dive Resource",
+      "pattern_title": "Tech Enthusiast",
+      "confidence": 0.95,
+      "article_title": "Understanding Tech Enthusiast: A Comprehensive Guide",
+      "overview": "An in-depth exploration of Tech Enthusiast covering key concepts, practical applications, and recent developments in the field.",
+      "url": "https://example.com/article",
+      "source_name": "Tech Insights",
+      "published_date": "2024-10-15",
+      "search_query": "technology AI machine learning"
+    },
+    {
+      "component_type": "map-card",
+      "title": "Places of Interest",
+      "pattern_title": "Tech Enthusiast",
+      "confidence": 0.95,
+      "center_lat": 37.7749,
+      "center_lng": -122.4194,
+      "zoom": 12,
+      "style": "streets",
+      "markers": [
+        {
+          "lat": 37.7749,
+          "lng": -122.4194,
+          "title": "San Francisco",
+          "description": "City by the Bay"
+        }
+      ]
+    }
+  ]
+}

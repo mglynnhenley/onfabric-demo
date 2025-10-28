@@ -74,52 +74,90 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
     const newMessages: TerminalMessage[] = [];
 
     if (progress >= 0) {
-      newMessages.push({ text: 'Initializing blueprint rendering engine', completed: progress > 8 });
+      newMessages.push({ text: 'Initializing OnFabric orchestration layer', completed: progress > 8 });
     }
     if (progress >= 5) {
-      newMessages.push({ text: 'Drawing construction grid...', completed: progress > 15 });
+      newMessages.push({ text: 'Establishing secure API connections', completed: progress > 15 });
     }
     if (progress >= 15) {
-      newMessages.push({ text: 'Foundation ready', completed: true });
-      newMessages.push({ text: 'Connecting to OnFabric API endpoints', completed: progress > 20 });
+      newMessages.push({ text: 'Connection established', completed: true });
+      newMessages.push({ text: 'Fetching Instagram interactions', completed: progress > 20 });
     }
     if (progress >= 18) {
-      newMessages.push({ text: `Fetching Instagram data... ${dataSources[0].interactions} interactions`, completed: progress > 23 });
+      newMessages.push({ text: `Retrieved ${dataSources[0].interactions} Instagram interactions`, completed: true });
     }
-    if (progress >= 23) {
-      newMessages.push({ text: `Fetching Google data... ${dataSources[1].interactions} interactions`, completed: progress > 30 });
+    if (progress >= 22) {
+      newMessages.push({ text: 'Fetching Google activity data', completed: progress > 27 });
+    }
+    if (progress >= 25) {
+      newMessages.push({ text: `Retrieved ${dataSources[1].interactions} Google interactions`, completed: true });
     }
     if (progress >= 28) {
-      newMessages.push({ text: `Fetching Pinterest data... ${dataSources[2].interactions} interactions`, completed: progress > 35 });
+      newMessages.push({ text: 'Fetching Pinterest engagement data', completed: progress > 33 });
+    }
+    if (progress >= 31) {
+      newMessages.push({ text: `Retrieved ${dataSources[2].interactions} Pinterest interactions`, completed: true });
     }
     if (progress >= 35) {
-      newMessages.push({ text: 'Data streams established', completed: true });
+      newMessages.push({ text: 'Calling Weather API for location context', completed: progress > 40 });
     }
-    if (progress >= 40) {
+    if (progress >= 38) {
+      newMessages.push({ text: 'Weather data integrated', completed: true });
+    }
+    if (progress >= 42) {
       newMessages.push({ text: 'Running pattern detection algorithms', completed: progress > 47 });
     }
     if (progress >= 47 && intelligence.patterns.length > 0) {
       intelligence.patterns.slice(0, 2).forEach((pattern) => {
-        newMessages.push({ text: `Detected: ${pattern.title}`, completed: progress > 53 });
+        newMessages.push({ text: `Detected: ${pattern.title}`, completed: progress > 52 });
       });
     }
+    if (progress >= 50) {
+      newMessages.push({ text: 'Calling Perplexity API for content insights', completed: progress > 55 });
+    }
     if (progress >= 53) {
-      newMessages.push({ text: 'Generating color palette from data entropy', completed: progress > 60 });
+      newMessages.push({ text: 'Content recommendations generated', completed: true });
     }
-    if (progress >= 58 && intelligence.theme) {
-      newMessages.push({ text: `Color sampled: ${intelligence.theme.primary}`, completed: progress > 65 });
+    if (progress >= 56) {
+      newMessages.push({ text: 'Generating personalized color palette', completed: progress > 61 });
     }
-    if (progress >= 63) {
-      newMessages.push({ text: 'Orchestrating AI agents for UI selection', completed: progress > 68 });
+    if (progress >= 59 && intelligence.theme) {
+      newMessages.push({ text: `Theme generated: ${intelligence.theme.primary}`, completed: true });
+    }
+    if (progress >= 62) {
+      newMessages.push({ text: 'Calling Google Maps API for location data', completed: progress > 66 });
+    }
+    if (progress >= 65) {
+      newMessages.push({ text: 'Location context integrated', completed: true });
     }
     if (progress >= 68) {
-      newMessages.push({ text: 'Fabricating personalized dashboard cards...', completed: progress > 75 });
+      newMessages.push({ text: 'Generating personalized to-do list', completed: progress > 72 });
     }
-    if (progress >= 75) {
-      newMessages.push({ text: 'Dashboard components assembled', completed: true });
-      newMessages.push({ text: 'Finalizing render...', completed: progress > 88 });
+    if (progress >= 71) {
+      newMessages.push({ text: 'Task priorities calculated', completed: true });
     }
-    if (progress >= 94) {
+    if (progress >= 74) {
+      newMessages.push({ text: 'Orchestrating AI agents for UI assembly', completed: progress > 78 });
+    }
+    if (progress >= 77) {
+      newMessages.push({ text: 'Fabricating dashboard components', completed: progress > 82 });
+    }
+    if (progress >= 80) {
+      newMessages.push({ text: 'Generating personalized widgets', completed: progress > 85 });
+    }
+    if (progress >= 83) {
+      newMessages.push({ text: 'Applying custom styling and layout', completed: progress > 88 });
+    }
+    if (progress >= 86) {
+      newMessages.push({ text: 'Optimizing render performance', completed: progress > 91 });
+    }
+    if (progress >= 89) {
+      newMessages.push({ text: 'Dashboard assembly complete', completed: true });
+    }
+    if (progress >= 92) {
+      newMessages.push({ text: 'Finalizing personalized experience', completed: progress > 96 });
+    }
+    if (progress >= 95) {
       newMessages.push({ text: 'Your dashboard is ready', completed: true });
     }
 

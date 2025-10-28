@@ -49,19 +49,19 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
   const dataSources: DataSource[] = useMemo(() => [
     {
       name: 'INSTAGRAM',
-      position: { x: 25, y: 20 }, // Top left quadrant
+      position: { x: 25, y: 18 }, // Top left quadrant
       color: 'var(--color-crimson)',
       interactions: intelligence.platforms.includes('instagram') ? intelligence.interactions : 847,
     },
     {
       name: 'GOOGLE',
-      position: { x: 75, y: 20 }, // Top right quadrant
+      position: { x: 75, y: 18 }, // Top right quadrant
       color: 'var(--color-terminal-green)',
       interactions: intelligence.platforms.includes('google') ? intelligence.interactions : 1203,
     },
     {
       name: 'PINTEREST',
-      position: { x: 50, y: 85 }, // Bottom center, below construction
+      position: { x: 15, y: 75 }, // Bottom left, well clear of construction zone
       color: 'var(--color-charcoal)',
       interactions: intelligence.platforms.includes('pinterest') ? intelligence.interactions : 456,
     },

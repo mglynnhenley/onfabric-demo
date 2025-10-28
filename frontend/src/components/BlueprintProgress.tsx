@@ -177,7 +177,7 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
       <AnimatePresence>
         {showGrid && !startFadeOut && (
           <motion.div
-            className="fixed inset-0 pointer-events-none"
+            className="fixed inset-0 pointer-events-none z-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -242,7 +242,7 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
           show && !startFadeOut && (
             <motion.div
               key={source.name}
-              className="fixed z-20"
+              className="fixed z-10"
               style={{
                 left: `${source.position.x}%`,
                 top: `${source.position.y}%`,
@@ -361,7 +361,7 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
       <AnimatePresence>
         {showConstruction && !startFadeOut && (
           <motion.div
-            className="fixed left-1/2 z-10"
+            className="fixed left-1/2 z-15"
             style={{
               top: '50%',
               transform: 'translate(-50%, -50%)',
@@ -371,15 +371,15 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Dashed construction frame */}
+            {/* Dashed construction frame - larger with better proportions */}
             <div
               className="relative border-2 border-dashed"
               style={{
-                width: '600px',
-                height: '400px',
+                width: '650px',
+                height: '450px',
                 borderColor: 'var(--color-stroke)',
-                background: 'rgba(255, 255, 255, 0.5)',
-                padding: 'var(--spacing-blueprint-lg)',
+                background: 'rgba(255, 255, 255, 0.6)',
+                padding: 'var(--spacing-blueprint-md)',
               }}
             >
               {/* Dashboard Card Grid - 3 rows × 2 cols */}
@@ -440,9 +440,9 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
                 ))}
               </div>
 
-              {/* Pattern labels - top left */}
+              {/* Pattern labels - positioned INSIDE frame with proper spacing */}
               {showPatterns && intelligence.patterns.length > 0 && (
-                <div className="absolute top-4 left-4 space-y-2">
+                <div className="absolute space-y-2" style={{ top: 'var(--spacing-blueprint-sm)', left: 'var(--spacing-blueprint-sm)' }}>
                   {intelligence.patterns.slice(0, 2).map((pattern, i) => (
                     <motion.div
                       key={i}
@@ -455,7 +455,7 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
                       }}
                       style={{
                         fontFamily: 'var(--font-family-mono)',
-                        fontSize: '11px',
+                        fontSize: '10px',
                         color: 'var(--color-gray)',
                       }}
                     >
@@ -465,10 +465,11 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
                 </div>
               )}
 
-              {/* Color swatches - bottom right */}
+              {/* Color swatches - positioned INSIDE frame bottom-right with proper spacing */}
               {showColors && intelligence.theme && (
                 <motion.div
-                  className="absolute bottom-4 right-4 flex gap-2"
+                  className="absolute flex gap-2"
+                  style={{ bottom: 'var(--spacing-blueprint-sm)', right: 'var(--spacing-blueprint-sm)' }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -554,11 +555,12 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
         </div>
       </div>
 
-      {/* Terminal Log - Repositioned to right side to avoid overlaps */}
+      {/* Terminal Log - Far right, narrower, no overlaps */}
       <motion.div
-        className="fixed right-8 top-1/2 z-20 border max-w-[400px] max-h-[400px] overflow-y-auto"
+        className="fixed top-1/2 z-20 border max-w-[320px] max-h-[500px] overflow-y-auto"
         style={{
-          background: 'rgba(255, 255, 255, 0.95)',
+          right: 'var(--spacing-blueprint-md)',
+          background: 'rgba(255, 255, 255, 0.97)',
           borderColor: 'var(--color-stroke)',
           padding: 'var(--spacing-blueprint-sm)',
           transform: 'translateY(-50%)',

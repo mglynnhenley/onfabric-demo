@@ -29,8 +29,14 @@ interface DashboardCard {
   label: string;
 }
 
+interface APICall {
+  service: string;
+  status: 'calling' | 'complete';
+}
+
 export function BlueprintProgress({ progress, intelligence }: BlueprintProgressProps) {
   const [messages, setMessages] = useState<TerminalMessage[]>([]);
+  const [apiCalls, setApiCalls] = useState<APICall[]>([]);
 
   // Dashboard cards
   const dashboardCards: DashboardCard[] = [
@@ -69,100 +75,69 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
   const showPatterns = progress >= 53;
   const showColors = progress >= 60;
 
-  // Terminal messages
+  // Terminal messages - simplified, no API details
   useEffect(() => {
     const newMessages: TerminalMessage[] = [];
 
     if (progress >= 0) {
-      newMessages.push({ text: 'Initializing OnFabric orchestration layer', completed: progress > 8 });
+      newMessages.push({ text: 'Initializing OnFabric', completed: progress > 10 });
     }
-    if (progress >= 5) {
-      newMessages.push({ text: 'Establishing secure API connections', completed: progress > 15 });
+    if (progress >= 10) {
+      newMessages.push({ text: 'Connecting to data sources', completed: progress > 30 });
     }
-    if (progress >= 15) {
-      newMessages.push({ text: 'Connection established', completed: true });
-      newMessages.push({ text: 'Fetching Instagram interactions', completed: progress > 20 });
-    }
-    if (progress >= 18) {
-      newMessages.push({ text: `Retrieved ${dataSources[0].interactions} Instagram interactions`, completed: true });
-    }
-    if (progress >= 22) {
-      newMessages.push({ text: 'Fetching Google activity data', completed: progress > 27 });
-    }
-    if (progress >= 25) {
-      newMessages.push({ text: `Retrieved ${dataSources[1].interactions} Google interactions`, completed: true });
-    }
-    if (progress >= 28) {
-      newMessages.push({ text: 'Fetching Pinterest engagement data', completed: progress > 33 });
-    }
-    if (progress >= 31) {
-      newMessages.push({ text: `Retrieved ${dataSources[2].interactions} Pinterest interactions`, completed: true });
+    if (progress >= 30) {
+      newMessages.push({ text: 'Data collection complete', completed: true });
     }
     if (progress >= 35) {
-      newMessages.push({ text: 'Calling Weather API for location context', completed: progress > 40 });
+      newMessages.push({ text: 'Analyzing patterns', completed: progress > 55 });
     }
-    if (progress >= 38) {
-      newMessages.push({ text: 'Weather data integrated', completed: true });
+    if (progress >= 55) {
+      newMessages.push({ text: 'Pattern analysis complete', completed: true });
     }
-    if (progress >= 42) {
-      newMessages.push({ text: 'Running pattern detection algorithms', completed: progress > 47 });
-    }
-    if (progress >= 47 && intelligence.patterns.length > 0) {
-      intelligence.patterns.slice(0, 2).forEach((pattern) => {
-        newMessages.push({ text: `Detected: ${pattern.title}`, completed: progress > 52 });
-      });
-    }
-    if (progress >= 50) {
-      newMessages.push({ text: 'Calling Perplexity API for content insights', completed: progress > 55 });
-    }
-    if (progress >= 53) {
-      newMessages.push({ text: 'Content recommendations generated', completed: true });
-    }
-    if (progress >= 56) {
-      newMessages.push({ text: 'Generating personalized color palette', completed: progress > 61 });
-    }
-    if (progress >= 59 && intelligence.theme) {
-      newMessages.push({ text: `Theme generated: ${intelligence.theme.primary}`, completed: true });
-    }
-    if (progress >= 62) {
-      newMessages.push({ text: 'Calling Google Maps API for location data', completed: progress > 66 });
-    }
-    if (progress >= 65) {
-      newMessages.push({ text: 'Location context integrated', completed: true });
-    }
-    if (progress >= 68) {
-      newMessages.push({ text: 'Generating personalized to-do list', completed: progress > 72 });
-    }
-    if (progress >= 71) {
-      newMessages.push({ text: 'Task priorities calculated', completed: true });
-    }
-    if (progress >= 74) {
-      newMessages.push({ text: 'Orchestrating AI agents for UI assembly', completed: progress > 78 });
-    }
-    if (progress >= 77) {
-      newMessages.push({ text: 'Fabricating dashboard components', completed: progress > 82 });
+    if (progress >= 60) {
+      newMessages.push({ text: 'Orchestrating personalization', completed: progress > 80 });
     }
     if (progress >= 80) {
-      newMessages.push({ text: 'Generating personalized widgets', completed: progress > 85 });
-    }
-    if (progress >= 83) {
-      newMessages.push({ text: 'Applying custom styling and layout', completed: progress > 88 });
-    }
-    if (progress >= 86) {
-      newMessages.push({ text: 'Optimizing render performance', completed: progress > 91 });
-    }
-    if (progress >= 89) {
-      newMessages.push({ text: 'Dashboard assembly complete', completed: true });
-    }
-    if (progress >= 92) {
-      newMessages.push({ text: 'Finalizing personalized experience', completed: progress > 96 });
+      newMessages.push({ text: 'Building your dashboard', completed: progress > 95 });
     }
     if (progress >= 95) {
-      newMessages.push({ text: 'Your dashboard is ready', completed: true });
+      newMessages.push({ text: 'Dashboard ready', completed: true });
     }
 
     setMessages(newMessages);
   }, [progress, intelligence, dataSources]);
+
+  // API orchestration tracking
+  useEffect(() => {
+    const calls: APICall[] = [];
+
+    if (progress >= 15) {
+      calls.push({ service: 'Instagram Data', status: progress > 20 ? 'complete' : 'calling' });
+    }
+    if (progress >= 22) {
+      calls.push({ service: 'Google Activity', status: progress > 27 ? 'complete' : 'calling' });
+    }
+    if (progress >= 28) {
+      calls.push({ service: 'Pinterest Data', status: progress > 33 ? 'complete' : 'calling' });
+    }
+    if (progress >= 35) {
+      calls.push({ service: 'Weather API', status: progress > 40 ? 'complete' : 'calling' });
+    }
+    if (progress >= 45) {
+      calls.push({ service: 'Perplexity AI', status: progress > 52 ? 'complete' : 'calling' });
+    }
+    if (progress >= 58) {
+      calls.push({ service: 'Google Maps API', status: progress > 64 ? 'complete' : 'calling' });
+    }
+    if (progress >= 68) {
+      calls.push({ service: 'To-Do Generator', status: progress > 74 ? 'complete' : 'calling' });
+    }
+    if (progress >= 77) {
+      calls.push({ service: 'Content Generator', status: progress > 83 ? 'complete' : 'calling' });
+    }
+
+    setApiCalls(calls);
+  }, [progress]);
 
   return (
     <div
@@ -256,8 +231,93 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
           </div>
         </div>
 
-        {/* CENTER COLUMN: Dashboard Construction */}
+        {/* CENTER COLUMN: API Orchestration then Dashboard Construction */}
         <div className="flex-1 flex items-center justify-center" style={{ padding: 'var(--spacing-blueprint-lg)' }}>
+          {/* API Orchestration View (before dashboard cards) */}
+          <AnimatePresence>
+            {!showConstruction && apiCalls.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                style={{ maxWidth: '600px', width: '100%' }}
+              >
+                <div
+                  className="mb-6"
+                  style={{
+                    fontFamily: 'var(--font-family-mono)',
+                    fontSize: '14px',
+                    color: 'var(--color-charcoal)',
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  Orchestrating Services
+                </div>
+                <div className="space-y-3">
+                  {apiCalls.map((call, i) => (
+                    <motion.div
+                      key={call.service}
+                      className="flex items-center justify-between border-2 bg-white"
+                      style={{
+                        padding: 'var(--spacing-blueprint-md)',
+                        borderColor: call.status === 'complete' ? 'var(--color-terminal-green)' : 'var(--color-stroke)',
+                      }}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-family-mono)',
+                          fontSize: '13px',
+                          color: 'var(--color-charcoal)',
+                        }}
+                      >
+                        {call.service}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        {call.status === 'calling' ? (
+                          <>
+                            <motion.div
+                              className="w-1.5 h-1.5 rounded-full"
+                              style={{ background: 'var(--color-terminal-green)' }}
+                              animate={{ opacity: [1, 0.3, 1] }}
+                              transition={{ duration: 1, repeat: Infinity }}
+                            />
+                            <span
+                              style={{
+                                fontFamily: 'var(--font-family-mono)',
+                                fontSize: '11px',
+                                color: 'var(--color-gray)',
+                              }}
+                            >
+                              calling...
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <span style={{ color: 'var(--color-terminal-green)', fontSize: '14px' }}>✓</span>
+                            <span
+                              style={{
+                                fontFamily: 'var(--font-family-mono)',
+                                fontSize: '11px',
+                                color: 'var(--color-gray)',
+                              }}
+                            >
+                              complete
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Dashboard Construction View */}
           <AnimatePresence>
             {showConstruction && (
               <motion.div

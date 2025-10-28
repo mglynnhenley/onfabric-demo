@@ -1,6 +1,6 @@
 /**
- * Blueprint Assembly Loading State
- * A technical blueprint construction metaphor showing OnFabric's orchestration
+ * Blueprint Assembly Loading State - Refined & Professional
+ * Shows OnFabric's orchestration with polished animations and clear spatial zones
  */
 
 import { useEffect, useState, useMemo } from 'react';
@@ -26,26 +26,42 @@ interface DataSource {
   interactions: number;
 }
 
+interface DashboardCard {
+  label: string;
+  row: number;
+  col: number;
+}
+
 export function BlueprintProgress({ progress, intelligence }: BlueprintProgressProps) {
   const [messages, setMessages] = useState<TerminalMessage[]>([]);
 
-  // Data sources configuration
+  // Dashboard cards that will be "constructed"
+  const dashboardCards: DashboardCard[] = [
+    { label: 'Activity Timeline', row: 0, col: 0 },
+    { label: 'Pattern Analysis', row: 0, col: 1 },
+    { label: 'Engagement Metrics', row: 1, col: 0 },
+    { label: 'Content Insights', row: 1, col: 1 },
+    { label: 'Peak Hours', row: 2, col: 0 },
+    { label: 'Recommendations', row: 2, col: 1 },
+  ];
+
+  // Data sources - repositioned to avoid overlaps
   const dataSources: DataSource[] = useMemo(() => [
     {
       name: 'INSTAGRAM',
-      position: { x: 20, y: 15 },
+      position: { x: 25, y: 20 }, // Top left quadrant
       color: 'var(--color-crimson)',
       interactions: intelligence.platforms.includes('instagram') ? intelligence.interactions : 847,
     },
     {
       name: 'GOOGLE',
-      position: { x: 80, y: 20 },
+      position: { x: 75, y: 20 }, // Top right quadrant
       color: 'var(--color-terminal-green)',
       interactions: intelligence.platforms.includes('google') ? intelligence.interactions : 1203,
     },
     {
       name: 'PINTEREST',
-      position: { x: 50, y: 75 },
+      position: { x: 50, y: 85 }, // Bottom center, below construction
       color: 'var(--color-charcoal)',
       interactions: intelligence.platforms.includes('pinterest') ? intelligence.interactions : 456,
     },
@@ -105,10 +121,10 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
       newMessages.push({ text: '▸ Orchestrating AI agents for UI selection', completed: progress > 68 });
     }
     if (progress >= 68) {
-      newMessages.push({ text: '▸ Fabricating personalized widgets...', completed: progress > 75 });
+      newMessages.push({ text: '▸ Fabricating personalized dashboard cards...', completed: progress > 75 });
     }
     if (progress >= 75) {
-      newMessages.push({ text: '✓ Interface components assembled', completed: true });
+      newMessages.push({ text: '✓ Dashboard components assembled', completed: true });
       newMessages.push({ text: '▸ Finalizing render...', completed: progress > 88 });
     }
     if (progress >= 94) {
@@ -139,7 +155,7 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
             linear-gradient(to right, var(--color-stroke) 1px, transparent 1px),
             linear-gradient(to bottom, var(--color-stroke) 1px, transparent 1px)
           `,
-          backgroundSize: '60px 60px',
+          backgroundSize: 'var(--spacing-blueprint-xl) var(--spacing-blueprint-xl)',
         }}
       />
 
@@ -165,7 +181,7 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <svg className="w-full h-full">
               {/* Technical grid lines */}
@@ -188,26 +204,27 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
 
               <rect width="100%" height="100%" fill="url(#blueprint-grid)" />
 
-              {/* Corner brackets */}
+              {/* Corner brackets - aligned to 32px from edges */}
               {[
-                { x: '2%', y: '2%', rotate: 0 },
-                { x: '98%', y: '2%', rotate: 90 },
-                { x: '98%', y: '98%', rotate: 180 },
-                { x: '2%', y: '98%', rotate: 270 },
+                { x: 32, y: 32, rotate: 0 },
+                { x: 'calc(100% - 32px)', y: 32, rotate: 90 },
+                { x: 'calc(100% - 32px)', y: 'calc(100% - 32px)', rotate: 180 },
+                { x: 32, y: 'calc(100% - 32px)', rotate: 270 },
               ].map((corner, i) => (
                 <motion.g
                   key={i}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 0.4 }}
-                  transition={{ delay: 0.5 + i * 0.1, duration: 0.5 }}
-                  transform={`translate(${corner.x}, ${corner.y}) rotate(${corner.rotate})`}
+                  transition={{ delay: 0.5 + i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <path
-                    d="M 0 0 L 40 0 M 0 0 L 0 40"
-                    stroke="var(--color-charcoal)"
-                    strokeWidth="2"
-                    fill="none"
-                  />
+                  <g transform={`translate(${corner.x}, ${corner.y}) rotate(${corner.rotate})`}>
+                    <path
+                      d="M 0 0 L 40 0 M 0 0 L 0 40"
+                      stroke="var(--color-charcoal)"
+                      strokeWidth="2"
+                      fill="none"
+                    />
+                  </g>
                 </motion.g>
               ))}
             </svg>
@@ -215,7 +232,7 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
         )}
       </AnimatePresence>
 
-      {/* Data Source Nodes */}
+      {/* Data Source Nodes - Clear Zones, No Overlaps */}
       <AnimatePresence>
         {[
           { show: showInstagram, delay: 0, source: dataSources[0] },
@@ -225,7 +242,7 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
           show && !startFadeOut && (
             <motion.div
               key={source.name}
-              className="fixed"
+              className="fixed z-20"
               style={{
                 left: `${source.position.x}%`,
                 top: `${source.position.y}%`,
@@ -236,12 +253,14 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ delay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Node box */}
+              {/* Node box with spacing system */}
               <div
-                className="relative border-2 bg-white px-6 py-4 min-w-[240px]"
+                className="relative border-2 bg-white min-w-[260px]"
                 style={{
                   borderColor: 'var(--color-stroke)',
                   fontFamily: 'var(--font-family-mono)',
+                  padding: 'var(--spacing-blueprint-md)',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                 }}
               >
                 {/* Animated border reveal */}
@@ -250,7 +269,7 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
                   style={{ borderColor: source.color }}
                   initial={{ clipPath: 'inset(0 100% 100% 0)' }}
                   animate={{ clipPath: 'inset(0 0 0 0)' }}
-                  transition={{ delay: delay + 0.2, duration: 0.8 }}
+                  transition={{ delay: delay + 0.2, duration: 0.8, ease: [0.4, 0.0, 0.2, 1] }}
                 />
 
                 <div className="space-y-1">
@@ -289,43 +308,47 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
                   width: '100vw',
                   height: '100vh',
                   transform: 'translate(-50%, -50%)',
+                  overflow: 'visible',
                 }}
               >
                 <motion.line
                   x1="50%"
                   y1="50%"
-                  x2="50vw"
-                  y2="50vh"
+                  x2="50%"
+                  y2="50%"
                   stroke={source.color}
                   strokeWidth="1"
                   opacity="0.3"
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
-                  transition={{ delay: delay + 0.4, duration: 1 }}
+                  transition={{ delay: delay + 0.4, duration: 1, ease: [0.4, 0.0, 0.2, 1] }}
                 />
               </svg>
 
-              {/* Data particles flowing */}
-              {Array.from({ length: 8 }).map((_, i) => (
+              {/* Data particles with trail effects - reduced from 8 to 5 */}
+              {Array.from({ length: 5 }).map((_, i) => (
                 <motion.div
                   key={i}
-                  className="absolute w-2 h-2 rounded-full pointer-events-none"
+                  className="absolute w-[3px] h-[3px] rounded-full pointer-events-none"
                   style={{
                     background: source.color,
                     left: '50%',
                     top: '50%',
+                    mixBlendMode: 'screen',
                   }}
-                  initial={{ x: 0, y: 0, opacity: 0 }}
+                  initial={{ x: 0, y: 0, opacity: 0, filter: 'blur(0px)' }}
                   animate={{
                     x: (window.innerWidth / 2 - (source.position.x * window.innerWidth) / 100),
                     y: (window.innerHeight / 2 - (source.position.y * window.innerHeight) / 100),
-                    opacity: [0, 0.8, 0],
+                    opacity: [0, 0.8, 0.6, 0],
+                    filter: ['blur(0px)', 'blur(2px)', 'blur(3px)', 'blur(4px)'],
                   }}
                   transition={{
-                    delay: delay + 1 + i * 0.3,
-                    duration: 2,
+                    delay: delay + 1 + i * 0.4,
+                    duration: 2.5,
                     repeat: Infinity,
-                    repeatDelay: 1,
+                    repeatDelay: 1.5,
+                    ease: [0.4, 0.0, 0.2, 1],
                   }}
                 />
               ))}
@@ -334,26 +357,90 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
         ))}
       </AnimatePresence>
 
-      {/* Construction Zone */}
+      {/* Construction Zone - Dashboard Card Grid */}
       <AnimatePresence>
         {showConstruction && !startFadeOut && (
           <motion.div
-            className="fixed left-1/2 top-1/2"
-            style={{ transform: 'translate(-50%, -50%)' }}
+            className="fixed left-1/2 z-10"
+            style={{
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* Dashed construction frame */}
             <div
-              className="relative border-2 border-dashed w-[400px] h-[300px] flex items-center justify-center"
+              className="relative border-2 border-dashed"
               style={{
+                width: '600px',
+                height: '400px',
                 borderColor: 'var(--color-stroke)',
                 background: 'rgba(255, 255, 255, 0.5)',
+                padding: 'var(--spacing-blueprint-lg)',
               }}
             >
-              {/* Pattern labels */}
+              {/* Dashboard Card Grid - 3 rows × 2 cols */}
+              <div className="grid grid-cols-2 gap-6 h-full">
+                {dashboardCards.map((card, i) => (
+                  <motion.div
+                    key={i}
+                    className="relative border-2 flex items-center justify-center"
+                    style={{
+                      borderColor: 'var(--color-terminal-green)',
+                      background: 'rgba(255, 255, 255, 0.8)',
+                    }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      borderColor: [
+                        'var(--color-stroke)',
+                        'var(--color-terminal-green)',
+                        'var(--color-terminal-green)',
+                      ],
+                    }}
+                    transition={{
+                      delay: 0.5 + i * 0.15,
+                      duration: 0.6,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  >
+                    {/* Card border drawing animation */}
+                    <motion.div
+                      className="absolute inset-0 border-2 pointer-events-none"
+                      style={{ borderColor: 'var(--color-terminal-green)' }}
+                      initial={{ clipPath: 'inset(0 100% 100% 0)' }}
+                      animate={{ clipPath: 'inset(0 0 0 0)' }}
+                      transition={{
+                        delay: 0.5 + i * 0.15,
+                        duration: 0.8,
+                        ease: [0.4, 0.0, 0.2, 1],
+                      }}
+                    />
+
+                    {/* Card label */}
+                    <motion.div
+                      style={{
+                        fontFamily: 'var(--font-family-mono)',
+                        fontSize: '11px',
+                        color: 'var(--color-gray)',
+                        textAlign: 'center',
+                        padding: 'var(--spacing-blueprint-sm)',
+                      }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.8 + i * 0.15, duration: 0.4 }}
+                    >
+                      {card.label}
+                    </motion.div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Pattern labels - top left */}
               {showPatterns && intelligence.patterns.length > 0 && (
                 <div className="absolute top-4 left-4 space-y-2">
                   {intelligence.patterns.slice(0, 2).map((pattern, i) => (
@@ -361,7 +448,11 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
                       key={i}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.2, duration: 0.4 }}
+                      transition={{
+                        delay: i * 0.2,
+                        duration: 0.4,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
                       style={{
                         fontFamily: 'var(--font-family-mono)',
                         fontSize: '11px',
@@ -374,13 +465,13 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
                 </div>
               )}
 
-              {/* Color swatches */}
+              {/* Color swatches - bottom right */}
               {showColors && intelligence.theme && (
                 <motion.div
                   className="absolute bottom-4 right-4 flex gap-2"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 >
                   {[
                     { color: 'var(--color-crimson)', label: 'crimson' },
@@ -391,7 +482,11 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
                       key={i}
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      transition={{ delay: i * 0.1, duration: 0.3 }}
+                      transition={{
+                        delay: i * 0.1,
+                        duration: 0.3,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
                     >
                       <div
                         className="w-6 h-6 border"
@@ -415,32 +510,6 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
                   ))}
                 </motion.div>
               )}
-
-              {/* Widget shapes assembling */}
-              <div className="relative w-full h-full p-8">
-                {[
-                  { x: 20, y: 30, w: 80, h: 60 },
-                  { x: 120, y: 40, w: 100, h: 80 },
-                  { x: 40, y: 140, w: 120, h: 50 },
-                ].map((shape, i) => (
-                  showConstruction && (
-                    <motion.div
-                      key={i}
-                      className="absolute border"
-                      style={{
-                        left: shape.x,
-                        top: shape.y,
-                        width: shape.w,
-                        height: shape.h,
-                        borderColor: 'var(--color-terminal-green)',
-                      }}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 0.4, scale: 1 }}
-                      transition={{ delay: 0.3 + i * 0.2, duration: 0.5 }}
-                    />
-                  )
-                ))}
-              </div>
             </div>
           </motion.div>
         )}
@@ -448,8 +517,11 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
 
       {/* Top Status Bar */}
       <div
-        className="relative z-10 border-b px-8 py-6 flex items-center justify-between"
-        style={{ borderColor: 'var(--color-stroke)' }}
+        className="relative z-30 border-b flex items-center justify-between"
+        style={{
+          borderColor: 'var(--color-stroke)',
+          padding: 'var(--spacing-blueprint-md) var(--spacing-blueprint-lg)',
+        }}
       >
         <div
           className="flex items-center gap-3"
@@ -482,41 +554,51 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
         </div>
       </div>
 
-      {/* Terminal Log - Bottom Left */}
+      {/* Terminal Log - Repositioned to right side to avoid overlaps */}
       <motion.div
-        className="fixed bottom-8 left-8 z-20 border max-w-[500px] max-h-[300px] overflow-y-auto"
+        className="fixed right-8 top-1/2 z-20 border max-w-[400px] max-h-[400px] overflow-y-auto"
         style={{
           background: 'rgba(255, 255, 255, 0.95)',
           borderColor: 'var(--color-stroke)',
+          padding: 'var(--spacing-blueprint-sm)',
+          transform: 'translateY(-50%)',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
         }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.6 }}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="p-4 space-y-1">
+        <div className="space-y-1">
           {messages.map((msg, i) => (
             <motion.div
               key={i}
-              className="flex items-start gap-3"
+              className="flex items-start"
+              style={{ gap: 'var(--spacing-blueprint-xs)' }}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
-              style={{
-                fontFamily: 'var(--font-family-mono)',
-                fontSize: '13px',
-                lineHeight: 1.8,
-                color: msg.completed ? 'var(--color-gray)' : 'var(--color-charcoal)',
-              }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
               <span
                 style={{
                   color: msg.completed ? 'var(--color-gray)' : 'var(--color-terminal-green)',
+                  fontFamily: 'var(--font-family-mono)',
+                  fontSize: '13px',
+                  lineHeight: 1.8,
                   minWidth: '16px',
                 }}
               >
                 {msg.text.startsWith('✓') ? '✓' : '▸'}
               </span>
-              <span>{msg.text.replace(/^[▸✓]\s*/, '')}</span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-family-mono)',
+                  fontSize: '13px',
+                  lineHeight: 1.8,
+                  color: msg.completed ? 'var(--color-gray)' : 'var(--color-charcoal)',
+                }}
+              >
+                {msg.text.replace(/^[▸✓]\s*/, '')}
+              </span>
             </motion.div>
           ))}
         </div>

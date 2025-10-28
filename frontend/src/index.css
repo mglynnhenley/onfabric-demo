@@ -17,6 +17,13 @@
   /* Distinctive Font Families */
   --font-family-mono: 'JetBrains Mono', monospace;
   --font-family-serif: 'Noto Serif JP', Georgia, serif;
+
+  /* Blueprint Spacing System */
+  --spacing-blueprint-xs: 8px;
+  --spacing-blueprint-sm: 16px;
+  --spacing-blueprint-md: 24px;
+  --spacing-blueprint-lg: 48px;
+  --spacing-blueprint-xl: 80px;
 }
 
 @layer base {

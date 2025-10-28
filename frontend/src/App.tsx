@@ -114,6 +114,67 @@ function App() {
     }));
   }, []);
 
+  // Mock mode for testing Blueprint Assembly without backend
+  const runMockProgress = useCallback(() => {
+    setState(prev => ({ ...prev, screen: 'generating', progress: 0 }));
+
+    let currentProgress = 0;
+    const interval = setInterval(() => {
+      currentProgress += 1;
+
+      setState(prev => {
+        const newState = { ...prev, progress: currentProgress };
+        const intelligence = { ...prev.intelligence };
+
+        // Simulate data appearing at key moments
+        if (currentProgress === 18) {
+          intelligence.platforms = ['instagram', 'google', 'pinterest'];
+          intelligence.interactions = 2506;
+        }
+
+        if (currentProgress === 50) {
+          intelligence.patterns = [
+            { title: 'Evening content consumer', confidence: 0.87, description: 'Most active 6-10pm' },
+            { title: 'Visual-focused interactions', confidence: 0.92, description: 'Prefers image content' },
+          ];
+        }
+
+        if (currentProgress === 60) {
+          intelligence.theme = {
+            mood: 'focused & minimal',
+            primary: '#DC143C',
+            rationale: 'Derived from interaction patterns',
+          };
+        }
+
+        if (currentProgress === 70) {
+          intelligence.widgets = ['activity-chart', 'pattern-cards', 'insights'];
+          intelligence.cards = [
+            { title: 'Weekly Activity' },
+            { title: 'Content Preferences' },
+            { title: 'Peak Hours' },
+          ];
+        }
+
+        if (currentProgress >= 100) {
+          clearInterval(interval);
+          // Stay on generating screen to show completed state
+          setTimeout(() => {
+            setState(prev => ({
+              ...prev,
+              screen: 'landing',
+              progress: 0,
+            }));
+          }, 2000);
+        }
+
+        return { ...newState, intelligence };
+      });
+    }, 200); // 200ms per percent = 20 second total
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleGenerate = (persona: PersonaType) => {
     setState({
       screen: 'generating',
@@ -133,7 +194,13 @@ function App() {
       error: null,
     });
 
-    connect(persona, handleMessage, handleError);
+    // Check if we should use mock mode (hold Shift while clicking)
+    // Or if persona is 'demo', always use mock
+    if (persona === 'demo') {
+      runMockProgress();
+    } else {
+      connect(persona, handleMessage, handleError);
+    }
   };
 
   const handleGenerateNew = () => {

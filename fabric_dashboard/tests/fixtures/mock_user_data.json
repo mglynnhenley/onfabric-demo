@@ -1,413 +1,1000 @@
 {
-  "connection_id": "conn_abc123def456",
-  "interactions": [
+  "items": [
     {
-      "platform": "instagram",
-      "type": "post",
-      "timestamp": "2025-09-15T19:45:00Z",
-      "content": "Sunset views from Santorini never get old 🌅 Three weeks into this Greece trip and I'm already planning my return",
-      "engagement": {
-        "likes": 312,
-        "comments": 45,
-        "shares": 8
+      "id": "292aa10c-52a5-4237-af8c-6207e3a449e3",
+      "provider": "instagram",
+      "data_type": "videos_watched",
+      "data_subtype": null,
+      "interaction_type": "instagram_videos_watched",
+      "preview": "Viewed video by thetimes on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Video",
+          "attributedTo": {
+            "url": "https://www.instagram.com/thetimes",
+            "name": "thetimes",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T18:37:28Z"
       },
-      "topics": ["travel", "Greece", "Santorini", "photography"]
-    },
-    {
-      "platform": "instagram",
-      "type": "post",
-      "timestamp": "2025-09-18T14:20:00Z",
-      "content": "Best gyros I've had in Athens hands down. This little spot near the Acropolis is a hidden gem 🇬🇷",
-      "engagement": {
-        "likes": 198,
-        "comments": 32,
-        "shares": 5
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-27T18:37:28",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed video by thetimes on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Video",
+          "attributedTo": {
+            "url": "https://www.instagram.com/thetimes",
+            "name": "thetimes",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T18:37:28Z"
       },
-      "topics": ["travel", "food", "Greece", "Athens"]
+      "asset_id": null
     },
     {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-09-20T10:30:00Z",
-      "query": "best surf camps in Morocco for beginners",
-      "topics": ["surfing", "Morocco", "travel", "adventure sports"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-09-20T10:45:00Z",
-      "query": "Taghazout vs Essaouira surf spots Morocco",
-      "topics": ["surfing", "Morocco", "travel", "beaches"]
-    },
-    {
-      "platform": "pinterest",
-      "type": "pin",
-      "timestamp": "2025-09-21T16:00:00Z",
-      "content": "Morocco surf camp packing list - essential gear for Atlantic coast",
-      "topics": ["travel", "Morocco", "surfing", "packing"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-09-23T21:15:00Z",
-      "query": "gossip girl reboot season 3 release date",
-      "topics": ["TV shows", "entertainment", "Gossip Girl", "Netflix"]
-    },
-    {
-      "platform": "instagram",
-      "type": "saved",
-      "timestamp": "2025-09-24T09:30:00Z",
-      "content": "Thread comparing the original Gossip Girl to the reboot - character development and modern themes",
-      "topics": ["TV shows", "Gossip Girl", "entertainment", "culture"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-09-25T13:00:00Z",
-      "query": "best places to visit in December for warm weather",
-      "topics": ["travel", "December", "vacation", "warm destinations"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-09-25T13:15:00Z",
-      "query": "December travel destinations Europe Christmas markets",
-      "topics": ["travel", "Europe", "December", "Christmas markets"]
-    },
-    {
-      "platform": "pinterest",
-      "type": "board",
-      "timestamp": "2025-09-26T18:30:00Z",
-      "content": "Created board: Winter Travel Inspo - December 2025",
-      "topics": ["travel", "winter", "December", "vacation planning"]
-    },
-    {
-      "platform": "instagram",
-      "type": "comment",
-      "timestamp": "2025-09-27T11:20:00Z",
-      "content": "Just binged the entire new season in one weekend! The fashion choices this season are incredible",
-      "topics": ["TV shows", "fashion", "binge watching"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-09-28T15:45:00Z",
-      "query": "surf lessons Morocco December weather conditions",
-      "topics": ["surfing", "Morocco", "December", "weather"]
-    },
-    {
-      "platform": "instagram",
-      "type": "saved",
-      "timestamp": "2025-09-29T10:00:00Z",
-      "content": "Complete guide to visiting Greek islands in off-season - pros and cons",
-      "source_url": "https://example.com/greek-islands-off-season",
-      "topics": ["travel", "Greece", "islands", "travel tips"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-09-30T08:30:00Z",
-      "query": "best Netflix shows to binge watch October 2025",
-      "topics": ["Netflix", "TV shows", "entertainment", "streaming"]
-    },
-    {
-      "platform": "instagram",
-      "type": "post",
-      "timestamp": "2025-10-01T20:15:00Z",
-      "content": "Finally home from Greece and already missing the Mediterranean lifestyle. But excited to plan the next adventure - thinking Morocco surf camp in December? 🏄‍♀️",
-      "engagement": {
-        "likes": 245,
-        "comments": 38,
-        "shares": 12
+      "id": "aa898fa2-498b-4161-a15a-735bb58f6f86",
+      "provider": "instagram",
+      "data_type": "posts_viewed",
+      "data_subtype": null,
+      "interaction_type": "instagram_posts_viewed",
+      "preview": "Viewed post by imjustnews on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Note",
+          "fibreKind": "Post",
+          "attributedTo": {
+            "url": "https://www.instagram.com/imjustnews",
+            "name": "imjustnews",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T15:58:45Z"
       },
-      "topics": ["travel", "surfing", "Morocco", "lifestyle"]
-    },
-    {
-      "platform": "pinterest",
-      "type": "pin",
-      "timestamp": "2025-10-02T14:30:00Z",
-      "content": "Serena van der Woodsen style evolution - iconic looks from all seasons",
-      "topics": ["fashion", "Gossip Girl", "style inspiration", "TV fashion"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-03T09:00:00Z",
-      "query": "Agadir to Taghazout taxi cost and transport options",
-      "topics": ["Morocco", "travel", "transportation", "Taghazout"]
-    },
-    {
-      "platform": "instagram",
-      "type": "saved",
-      "timestamp": "2025-10-04T16:45:00Z",
-      "content": "Beginner's guide to surf etiquette and ocean safety",
-      "topics": ["surfing", "safety", "ocean", "sports"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-05T11:30:00Z",
-      "query": "best Christmas markets in Germany December 2025",
-      "topics": ["travel", "Germany", "Christmas", "December"]
-    },
-    {
-      "platform": "instagram",
-      "type": "comment",
-      "timestamp": "2025-10-06T19:00:00Z",
-      "content": "This looks amazing! Adding it to my December travel list. Have you been during winter?",
-      "topics": ["travel", "winter", "recommendations"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-07T10:15:00Z",
-      "query": "Netflix drama series similar to Gossip Girl",
-      "topics": ["Netflix", "TV shows", "drama", "recommendations"]
-    },
-    {
-      "platform": "pinterest",
-      "type": "pin",
-      "timestamp": "2025-10-08T13:20:00Z",
-      "content": "Moroccan interior design inspiration - modern riad aesthetic",
-      "topics": ["design", "Morocco", "interior design", "architecture"]
-    },
-    {
-      "platform": "instagram",
-      "type": "post",
-      "timestamp": "2025-10-09T17:30:00Z",
-      "content": "Current mood: planning winter escapes and rewatching comfort shows. Anyone else already thinking about December plans?",
-      "engagement": {
-        "likes": 167,
-        "comments": 29,
-        "shares": 6
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-27T15:58:45",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed post by imjustnews on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Note",
+          "fibreKind": "Post",
+          "attributedTo": {
+            "url": "https://www.instagram.com/imjustnews",
+            "name": "imjustnews",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T15:58:45Z"
       },
-      "topics": ["travel", "lifestyle", "winter", "TV shows"]
+      "asset_id": null
     },
     {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-10T09:45:00Z",
-      "query": "best time to surf in Morocco for beginners",
-      "topics": ["surfing", "Morocco", "beginner", "seasons"]
-    },
-    {
-      "platform": "instagram",
-      "type": "saved",
-      "timestamp": "2025-10-11T12:00:00Z",
-      "content": "Solo female traveler guide to Morocco - safety tips and best destinations",
-      "source_url": "https://example.com/morocco-solo-female",
-      "topics": ["travel", "Morocco", "solo travel", "safety"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-12T15:30:00Z",
-      "query": "where to watch Gossip Girl original series streaming",
-      "topics": ["Gossip Girl", "streaming", "TV shows"]
-    },
-    {
-      "platform": "pinterest",
-      "type": "pin",
-      "timestamp": "2025-10-13T11:00:00Z",
-      "content": "European winter travel outfit ideas - stylish and warm",
-      "topics": ["fashion", "travel", "winter", "Europe"]
-    },
-    {
-      "platform": "instagram",
-      "type": "comment",
-      "timestamp": "2025-10-14T14:15:00Z",
-      "content": "Just booked! So excited for surf camp. Your photos from Taghazout convinced me",
-      "topics": ["surfing", "travel", "Morocco", "adventure"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-15T09:30:00Z",
-      "query": "Claude API pricing vs OpenAI GPT-4",
-      "topics": ["AI", "APIs", "technology", "development"]
-    },
-    {
-      "platform": "instagram",
-      "type": "saved",
-      "timestamp": "2025-10-15T14:45:00Z",
-      "content": "Thread on how AI agents are changing the way we work - practical use cases",
-      "topics": ["AI", "productivity", "technology", "automation"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-16T11:00:00Z",
-      "query": "best AI tools for content creation 2025",
-      "topics": ["AI", "content creation", "tools", "productivity"]
-    },
-    {
-      "platform": "instagram",
-      "type": "comment",
-      "timestamp": "2025-10-17T10:15:00Z",
-      "content": "The pace of AI development is wild. Just saw a demo of the new Claude features and I'm impressed",
-      "topics": ["AI", "technology", "innovation"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-18T16:20:00Z",
-      "query": "AI ethics concerns autonomous systems decision making",
-      "topics": ["AI", "ethics", "technology", "society"]
-    },
-    {
-      "platform": "pinterest",
-      "type": "pin",
-      "timestamp": "2025-10-19T13:30:00Z",
-      "content": "Visual guide: How transformer models work in large language models",
-      "topics": ["AI", "machine learning", "education", "technology"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-20T08:45:00Z",
-      "query": "impact of generative AI on creative industries",
-      "topics": ["AI", "creativity", "technology", "future of work"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-21T07:30:00Z",
-      "query": "anthropic claude api structured output json schema implementation",
-      "topics": ["AI", "API", "development", "programming"]
-    },
-    {
-      "platform": "instagram",
-      "type": "saved",
-      "timestamp": "2025-10-21T12:15:00Z",
-      "content": "Deep dive into transformer architecture improvements - attention mechanisms explained",
-      "topics": ["AI", "deep learning", "transformers", "research"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-22T09:00:00Z",
-      "query": "latest research papers on reinforcement learning from human feedback RLHF",
-      "topics": ["AI", "machine learning", "RLHF", "research"]
-    },
-    {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-23T14:30:00Z",
-      "query": "best practices prompt engineering complex reasoning tasks",
-      "topics": ["AI", "prompt engineering", "LLMs", "optimization"]
-    },
-    {
-      "platform": "instagram",
-      "type": "post",
-      "timestamp": "2025-10-24T11:45:00Z",
-      "content": "Spent the morning debugging an AI agent workflow. The satisfaction when it finally works perfectly is unmatched 🤖 Now time to plan that Morocco trip!",
-      "engagement": {
-        "likes": 189,
-        "comments": 24,
-        "shares": 7
+      "id": "8fe6e78e-3ef7-47c5-b714-d8cb0231c5ae",
+      "provider": "instagram",
+      "data_type": "posts_viewed",
+      "data_subtype": null,
+      "interaction_type": "instagram_posts_viewed",
+      "preview": "Viewed post by akiraa.gayle on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Note",
+          "fibreKind": "Post",
+          "attributedTo": {
+            "url": "https://www.instagram.com/akiraa.gayle",
+            "name": "akiraa.gayle",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T13:57:49Z"
       },
-      "topics": ["AI", "coding", "development", "productivity"]
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-27T13:57:49",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed post by akiraa.gayle on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Note",
+          "fibreKind": "Post",
+          "attributedTo": {
+            "url": "https://www.instagram.com/akiraa.gayle",
+            "name": "akiraa.gayle",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T13:57:49Z"
+      },
+      "asset_id": null
     },
     {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-25T08:15:00Z",
-      "query": "vector databases comparison pinecone vs weaviate performance",
-      "topics": ["AI", "databases", "embeddings", "infrastructure"]
+      "id": "878cc671-6946-4ece-b543-b8280486f977",
+      "provider": "instagram",
+      "data_type": "ads_viewed",
+      "data_subtype": null,
+      "interaction_type": "instagram_ads_viewed",
+      "preview": "Viewed ad by hyperoptic on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Object",
+          "fibreKind": "Ad",
+          "attributedTo": {
+            "url": "https://www.instagram.com/hyperoptic",
+            "name": "hyperoptic",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "ViewAd",
+        "published": "2025-10-27T10:16:05Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-27T10:16:05",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed ad by hyperoptic on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Object",
+          "fibreKind": "Ad",
+          "attributedTo": {
+            "url": "https://www.instagram.com/hyperoptic",
+            "name": "hyperoptic",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "ViewAd",
+        "published": "2025-10-27T10:16:05Z"
+      },
+      "asset_id": null
     },
     {
-      "platform": "pinterest",
-      "type": "pin",
-      "timestamp": "2025-10-26T16:00:00Z",
-      "content": "AI system architecture diagram - building production-ready LLM applications",
-      "topics": ["AI", "architecture", "development", "systems design"]
+      "id": "9fc78c3b-2968-40be-b1c4-1e9acdbb4350",
+      "provider": "instagram",
+      "data_type": "posts_viewed",
+      "data_subtype": null,
+      "interaction_type": "instagram_posts_viewed",
+      "preview": "Viewed post by thenewsmovement on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Note",
+          "fibreKind": "Post",
+          "attributedTo": {
+            "url": "https://www.instagram.com/thenewsmovement",
+            "name": "thenewsmovement",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T10:15:39Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-27T10:15:39",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed post by thenewsmovement on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Note",
+          "fibreKind": "Post",
+          "attributedTo": {
+            "url": "https://www.instagram.com/thenewsmovement",
+            "name": "thenewsmovement",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T10:15:39Z"
+      },
+      "asset_id": null
     },
     {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-27T10:30:00Z",
-      "query": "fine-tuning LLMs on custom datasets best practices 2025",
-      "topics": ["AI", "machine learning", "fine-tuning", "training"]
+      "id": "d4152d6d-80f2-451f-82b1-32d9fc204e8c",
+      "provider": "instagram",
+      "data_type": "videos_watched",
+      "data_subtype": null,
+      "interaction_type": "instagram_videos_watched",
+      "preview": "Viewed video by industryoxford on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Video",
+          "attributedTo": {
+            "url": "https://www.instagram.com/industryoxford",
+            "name": "industryoxford",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T10:13:45Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-27T10:13:45",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed video by industryoxford on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Video",
+          "attributedTo": {
+            "url": "https://www.instagram.com/industryoxford",
+            "name": "industryoxford",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T10:13:45Z"
+      },
+      "asset_id": null
     },
     {
-      "platform": "instagram",
-      "type": "comment",
-      "timestamp": "2025-10-28T13:20:00Z",
-      "content": "The AI alignment problem is fascinating. We need more people thinking about this before AGI becomes reality",
-      "topics": ["AI", "safety", "ethics", "alignment"]
+      "id": "b449be3c-2a8d-45e3-8ffd-eebb63381f2d",
+      "provider": "instagram",
+      "data_type": "videos_watched",
+      "data_subtype": null,
+      "interaction_type": "instagram_videos_watched",
+      "preview": "Viewed video by telegraph on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Video",
+          "attributedTo": {
+            "url": "https://www.instagram.com/telegraph",
+            "name": "telegraph",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T09:08:17Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-27T09:08:17",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed video by telegraph on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Video",
+          "attributedTo": {
+            "url": "https://www.instagram.com/telegraph",
+            "name": "telegraph",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T09:08:17Z"
+      },
+      "asset_id": null
     },
     {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-29T09:45:00Z",
-      "query": "langchain vs llamaindex for building AI agents comparison",
-      "topics": ["AI", "frameworks", "development", "tools"]
+      "id": "0c3c82d9-9d52-4a35-a0c0-6c379f56a4be",
+      "provider": "instagram",
+      "data_type": "ads_viewed",
+      "data_subtype": null,
+      "interaction_type": "instagram_ads_viewed",
+      "preview": "Viewed ad by thetimes on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Object",
+          "fibreKind": "Ad",
+          "attributedTo": {
+            "url": "https://www.instagram.com/thetimes",
+            "name": "thetimes",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "ViewAd",
+        "published": "2025-10-27T09:08:08Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-27T09:08:08",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed ad by thetimes on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Object",
+          "fibreKind": "Ad",
+          "attributedTo": {
+            "url": "https://www.instagram.com/thetimes",
+            "name": "thetimes",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "ViewAd",
+        "published": "2025-10-27T09:08:08Z"
+      },
+      "asset_id": null
     },
     {
-      "platform": "instagram",
-      "type": "saved",
-      "timestamp": "2025-10-30T15:00:00Z",
-      "content": "Tutorial: Building multi-agent systems with Claude - step by step guide",
-      "topics": ["AI", "agents", "development", "tutorial"]
+      "id": "0532f006-11ab-4d36-9206-d97400c577ad",
+      "provider": "instagram",
+      "data_type": "videos_watched",
+      "data_subtype": null,
+      "interaction_type": "instagram_videos_watched",
+      "preview": "Viewed video by aixils on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Video",
+          "attributedTo": {
+            "url": "https://www.instagram.com/aixils",
+            "name": "aixils",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T09:02:33Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-27T09:02:33",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed video by aixils on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Video",
+          "attributedTo": {
+            "url": "https://www.instagram.com/aixils",
+            "name": "aixils",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-27T09:02:33Z"
+      },
+      "asset_id": null
     },
     {
-      "platform": "google",
-      "type": "search",
-      "timestamp": "2025-10-31T11:00:00Z",
-      "query": "retrieval augmented generation RAG optimization techniques",
-      "topics": ["AI", "RAG", "optimization", "search"]
+      "id": "4fc362b8-3ef1-4a3d-84f8-fc04b76ee570",
+      "provider": "instagram",
+      "data_type": "posts_viewed",
+      "data_subtype": null,
+      "interaction_type": "instagram_posts_viewed",
+      "preview": "Viewed post by honeyyynails on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Note",
+          "fibreKind": "Post",
+          "attributedTo": {
+            "url": "https://www.instagram.com/honeyyynails",
+            "name": "honeyyynails",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-26T22:36:23Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-26T22:36:23",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed post by honeyyynails on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Note",
+          "fibreKind": "Post",
+          "attributedTo": {
+            "url": "https://www.instagram.com/honeyyynails",
+            "name": "honeyyynails",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-26T22:36:23Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "3a20f994-4751-493c-b374-adf7b1c6c445",
+      "provider": "instagram",
+      "data_type": "ads_viewed",
+      "data_subtype": null,
+      "interaction_type": "instagram_ads_viewed",
+      "preview": "Viewed ad by therow on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Object",
+          "fibreKind": "Ad",
+          "attributedTo": {
+            "url": "https://www.instagram.com/therow",
+            "name": "therow",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "ViewAd",
+        "published": "2025-10-26T22:22:24Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-26T22:22:24",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed ad by therow on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Object",
+          "fibreKind": "Ad",
+          "attributedTo": {
+            "url": "https://www.instagram.com/therow",
+            "name": "therow",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "ViewAd",
+        "published": "2025-10-26T22:22:24Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "d61f201e-4810-4cfb-b778-8c035d2a2768",
+      "provider": "instagram",
+      "data_type": "ads_viewed",
+      "data_subtype": null,
+      "interaction_type": "instagram_ads_viewed",
+      "preview": "Viewed ad by therow on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Object",
+          "fibreKind": "Ad",
+          "attributedTo": {
+            "url": "https://www.instagram.com/therow",
+            "name": "therow",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "ViewAd",
+        "published": "2025-10-26T22:05:26Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-26T22:05:26",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed ad by therow on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Object",
+          "fibreKind": "Ad",
+          "attributedTo": {
+            "url": "https://www.instagram.com/therow",
+            "name": "therow",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "ViewAd",
+        "published": "2025-10-26T22:05:26Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "f9570a9d-ffba-44c7-952a-dc3dd6834fe6",
+      "provider": "instagram",
+      "data_type": "posts_viewed",
+      "data_subtype": null,
+      "interaction_type": "instagram_posts_viewed",
+      "preview": "Viewed post by visualdistraction__ on instagram",
+      "payload": {
+        "type": "View",
+        "object": {
+          "type": "Note",
+          "fibreKind": "Post",
+          "attributedTo": {
+            "url": "https://www.instagram.com/visualdistraction__",
+            "name": "visualdistraction__",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-26T22:02:11Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "196bc7f1-7243-46c8-a556-2326554090fd",
+      "asat": "2025-10-26T22:02:11",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Viewed post by visualdistraction__ on instagram",
+      "details": {
+        "type": "View",
+        "object": {
+          "type": "Note",
+          "fibreKind": "Post",
+          "attributedTo": {
+            "url": "https://www.instagram.com/visualdistraction__",
+            "name": "visualdistraction__",
+            "type": "Profile"
+          }
+        },
+        "fibreKind": "View",
+        "published": "2025-10-26T22:02:11Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "b0ca1df9-ee6a-4675-8eda-e2b0b6105b36",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"chipagents\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=chipagents&tbm=nws",
+          "name": "chipagents",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-26T19:08:53.212000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-26T19:08:53.212000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"chipagents\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=chipagents&tbm=nws",
+          "name": "chipagents",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-26T19:08:53.212000Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "dba35f0c-c375-40da-92d8-dd94978c2f22",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"formal definition outer and inner misalignment\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=formal+definition+outer+and+inner+misalignment",
+          "name": "formal definition outer and inner misalignment",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-25T15:48:18.501000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-25T15:48:18.501000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"formal definition outer and inner misalignment\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=formal+definition+outer+and+inner+misalignment",
+          "name": "formal definition outer and inner misalignment",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-25T15:48:18.501000Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "96ea9ce1-ec21-4c45-b496-9e950ee5b7c2",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"chipmind\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=chipmind",
+          "name": "chipmind",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-24T11:58:37.938000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-24T11:58:37.938000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"chipmind\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=chipmind",
+          "name": "chipmind",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-24T11:58:37.938000Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "cabc5eee-9c0d-44b7-b13d-5890aa23edb3",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"willow ai\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=willow+ai",
+          "name": "willow ai",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-24T10:54:18.069000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-24T10:54:18.069000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"willow ai\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=willow+ai",
+          "name": "willow ai",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-24T10:54:18.069000Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "588cd44e-465a-4b0b-9ed1-8c62b6f48722",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"solarpunk concepts\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=solarpunk+concepts",
+          "name": "solarpunk concepts",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-24T10:34:55.154000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-24T10:34:55.154000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"solarpunk concepts\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=solarpunk+concepts",
+          "name": "solarpunk concepts",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-24T10:34:55.154000Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "9fbf39e5-4660-4f0f-a8c8-c3b50ddf8801",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"what are tensors\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=what+are+tensors",
+          "name": "what are tensors",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T19:39:21.042000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-23T19:39:21.042000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"what are tensors\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=what+are+tensors",
+          "name": "what are tensors",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T19:39:21.042000Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "bb9f09e3-fb4a-42f4-93e3-b6ca9a1d6bf4",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"hamilton the musical london\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=hamilton+the+musical+london",
+          "name": "hamilton the musical london",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T19:11:46.155000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-23T19:11:46.155000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"hamilton the musical london\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=hamilton+the+musical+london",
+          "name": "hamilton the musical london",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T19:11:46.155000Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "234def51-b870-4d8f-9c30-49a98f957461",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"ideas for for profit ai safety startups\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=ideas+for+for+profit+ai+safety+startups",
+          "name": "ideas for for profit ai safety startups",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T19:09:08.878000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-23T19:09:08.878000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"ideas for for profit ai safety startups\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=ideas+for+for+profit+ai+safety+startups",
+          "name": "ideas for for profit ai safety startups",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T19:09:08.878000Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "a9e91ef3-15c9-487a-b174-501c04a50a28",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"ai safety startups\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=ai+safety+startups",
+          "name": "ai safety startups",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T19:07:07.951000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-23T19:07:07.951000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"ai safety startups\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=ai+safety+startups",
+          "name": "ai safety startups",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T19:07:07.951000Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "eb38d7a8-f432-4799-ba43-fb17938c7398",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"what is a chip tape out\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=what+is+a+chip+tape+out",
+          "name": "what is a chip tape out",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T13:03:51.289000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-23T13:03:51.289000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"what is a chip tape out\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=what+is+a+chip+tape+out",
+          "name": "what is a chip tape out",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T13:03:51.289000Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "38d49a67-bdca-4c4b-97df-db3c1b51c519",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"yc deadline\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=yc+deadline",
+          "name": "yc deadline",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T12:20:28.738000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-23T12:20:28.738000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"yc deadline\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=yc+deadline",
+          "name": "yc deadline",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T12:20:28.738000Z"
+      },
+      "asset_id": null
+    },
+    {
+      "id": "f740e32c-3094-4455-964d-c3a38e8acce8",
+      "provider": "google",
+      "data_type": "search",
+      "data_subtype": "searched",
+      "interaction_type": "google_search",
+      "preview": "Searched for \"transformers ai safety\" on Google",
+      "payload": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=transformers+ai+safety",
+          "name": "transformers ai safety",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T10:19:55.340000Z"
+      },
+      "version": "1.0.0-beta",
+      "provider_connection_id": "171a432c-1c06-4534-9bb3-970c38230cbe",
+      "asat": "2025-10-23T10:19:55.340000",
+      "is_pii": false,
+      "is_health_related": false,
+      "is_pornographic": false,
+      "content": "Searched for \"transformers ai safety\" on Google",
+      "details": {
+        "type": "View",
+        "object": {
+          "url": "https://www.google.com/search?q=transformers+ai+safety",
+          "name": "transformers ai safety",
+          "type": "Page"
+        },
+        "fibreKind": "Search",
+        "published": "2025-10-23T10:19:55.340000Z"
+      },
+      "asset_id": null
     }
-  ],
-  "summary": {
-    "total_interactions": 46,
-    "date_range_start": "2025-09-15T00:00:00Z",
-    "date_range_end": "2025-10-31T23:59:59Z",
-    "days_analyzed": 47,
-    "platforms": ["instagram", "google", "pinterest"],
-    "top_themes": [
-      "AI development and coding",
-      "Travel and adventure",
-      "Surfing and water sports",
-      "Machine learning research",
-      "TV shows and entertainment",
-      "Greece holiday experiences",
-      "Morocco trip planning",
-      "AI ethics and safety",
-      "Fashion and style"
-    ],
-    "platform_breakdown": {
-      "instagram": 17,
-      "google": 24,
-      "pinterest": 6
-    },
-    "content_types": {
-      "posts": 6,
-      "searches": 24,
-      "saved": 7,
-      "comments": 6,
-      "pins": 4,
-      "boards": 1
-    }
-  },
-  "persona": {
-    "writing_style": "casual and enthusiastic with vivid storytelling about experiences and discoveries, mixing personal adventures with deep technical knowledge",
-    "interests": [
-      "AI development and coding",
-      "Machine learning and LLMs",
-      "Travel and exploration",
-      "Surfing and beach culture",
-      "AI safety and ethics",
-      "Mediterranean lifestyle",
-      "TV shows and entertainment",
-      "Fashion and style",
-      "Adventure sports",
-      "Building AI agents",
-      "Cultural experiences"
-    ],
-    "activity_level": "high",
-    "professional_context": "AI developer/coder who travels frequently, coding AI as hobby and profession",
-    "tone_preference": "casual and conversational with excitement about experiences and technical topics",
-    "age_range": "25-32",
-    "content_depth_preference": "deep_dives"
-  }
+  ]
 }

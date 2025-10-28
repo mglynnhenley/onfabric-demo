@@ -43,7 +43,7 @@ class DataFetcher:
 
     def _load_mock_data(self) -> Optional[UserData]:
         """
-        Load user data from mock JSON fixture.
+        Load user data from mock JSON fixture (OnFabric format).
 
         Returns:
             UserData model or None if load fails.
@@ -60,48 +60,58 @@ class DataFetcher:
             with open(fixture_path) as f:
                 raw_data = json.load(f)
 
-            # Extract persona profile
-            persona_data = raw_data.get("persona", {})
-            persona = PersonaProfile(
-                writing_style=persona_data.get(
-                    "writing_style",
-                    "analytical yet accessible",
-                ),
-                interests=persona_data.get("interests", []),
-                activity_level=persona_data.get("activity_level", "moderate"),
-                professional_context=persona_data.get("professional_context"),
-                tone_preference=persona_data.get("tone_preference", "balanced and approachable"),
-                age_range=persona_data.get("age_range"),
-                content_depth_preference=persona_data.get("content_depth_preference", "balanced"),
-            )
+            # OnFabric format: {"items": [...]}
+            items = raw_data.get("items", [])
 
-            # Extract summary data
-            summary_data = raw_data.get("summary", {})
+            if not items:
+                logger.warning("No items found in mock data")
+                return None
+
+            # Generate summary from items
+            total_interactions = len(items)
+            providers = list(set(item.get("provider", "unknown") for item in items))
+
+            # Extract date range from 'asat' field
+            dates = [item.get("asat") for item in items if item.get("asat")]
+            if dates:
+                dates_parsed = [datetime.fromisoformat(d.replace("Z", "+00:00")) for d in dates]
+                date_range_start = min(dates_parsed)
+                date_range_end = max(dates_parsed)
+                days_analyzed = (date_range_end - date_range_start).days + 1
+            else:
+                date_range_start = datetime.now(timezone.utc)
+                date_range_end = datetime.now(timezone.utc)
+                days_analyzed = 1
+
             summary = DataSummary(
-                total_interactions=summary_data.get("total_interactions", 0),
-                date_range_start=datetime.fromisoformat(
-                    summary_data.get("date_range_start", datetime.now(timezone.utc).isoformat()).replace("Z", "+00:00")
-                ),
-                date_range_end=datetime.fromisoformat(
-                    summary_data.get("date_range_end", datetime.now(timezone.utc).isoformat()).replace("Z", "+00:00")
-                ),
-                days_analyzed=summary_data.get("days_analyzed", 1),
-                platforms=summary_data.get("platforms", []),
-                top_themes=summary_data.get("top_themes", []),
+                total_interactions=total_interactions,
+                date_range_start=date_range_start,
+                date_range_end=date_range_end,
+                days_analyzed=days_analyzed,
+                platforms=providers,
+                top_themes=[],  # Will be populated by PatternDetector
             )
 
-            # Get interactions as-is (they're already dicts)
-            interactions = raw_data.get("interactions", [])
+            # Create default persona (will be refined by PatternDetector)
+            persona = PersonaProfile(
+                writing_style="analytical yet accessible",
+                interests=["general"],  # Will be populated by PatternDetector
+                activity_level="moderate",
+                professional_context=None,
+                tone_preference="balanced and approachable",
+                age_range=None,
+                content_depth_preference="balanced",
+            )
 
-            # Build UserData
+            # Build UserData with OnFabric items as-is
             user_data = UserData(
-                connection_id=raw_data.get("connection_id", "mock_connection"),
-                interactions=interactions,
+                connection_id=raw_data.get("provider_connection_id", items[0].get("provider_connection_id", "mock_connection")) if items else "mock_connection",
+                interactions=items,  # OnFabric items with their original structure
                 summary=summary,
                 persona=persona,
             )
 
-            logger.success(f"Loaded {len(interactions)} interactions from mock data")
+            logger.success(f"Loaded {total_interactions} OnFabric interactions from {len(providers)} provider(s)")
             return user_data
 
         except Exception as e:

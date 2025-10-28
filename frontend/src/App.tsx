@@ -4,7 +4,7 @@
 
 import { useState, useCallback } from 'react';
 import { Landing } from './components/Landing';
-import { Progress } from './components/Progress';
+import { BlueprintProgress } from './components/BlueprintProgress';
 import { Dashboard } from './components/Dashboard';
 import { useWebSocket } from './hooks/useWebSocket';
 import type { AppState, PersonaType, WebSocketMessage, Pattern, ThemeData, CardPreview } from './types';
@@ -163,7 +163,7 @@ function App() {
 
     case 'generating':
       return (
-        <Progress
+        <BlueprintProgress
           progress={state.progress}
           currentStep={state.currentStep}
           currentMessage={state.currentMessage}

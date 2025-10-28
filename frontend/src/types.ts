@@ -4,7 +4,7 @@
 
 export type AppScreen = 'landing' | 'generating' | 'dashboard';
 
-export type PersonaType = 'fitness-enthusiast' | 'creative-professional' | 'tech-learner' | 'remote-worker';
+export type PersonaType = 'fitness-enthusiast' | 'creative-professional' | 'tech-learner' | 'remote-worker' | 'demo';
 
 // Pattern data from AI analysis
 export interface Pattern {

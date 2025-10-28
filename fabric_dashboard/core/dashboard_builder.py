@@ -146,10 +146,10 @@ class DashboardBuilder:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Humanist Tech Design System -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <!-- Mapbox GL JS for interactive maps -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js'></script>
@@ -165,21 +165,43 @@ class DashboardBuilder:
         }}
 
         body {{
-            font-family: 'Inter', sans-serif;
-            background: var(--background);
-            color: var(--foreground);
+            font-family: 'Manrope', system-ui, sans-serif;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(245, 230, 218, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(217, 229, 214, 0.3) 0%, transparent 50%),
+                #FAF7F2;
+            color: #2B2726;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            position: relative;
+        }}
+
+        body::before {{
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }}
+
+        h1, h2, h3, h4, h5, h6 {{
+            font-family: 'EB Garamond', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }}
 
         .container {{
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }}
 
         .content-text {{
-            font-family: 'Geist', sans-serif;
+            font-family: 'Manrope', system-ui, sans-serif;
             line-height: 1.75;
         }}
 
@@ -265,59 +287,64 @@ class DashboardBuilder:
             transition: all 0.3s ease;
         }}
 
-        /* Markdown content styles */
+        /* Markdown content styles - Humanist Tech */
         .prose {{
             max-width: none;
-            color: #374151;
+            color: #2B2726;
         }}
 
         .prose h1, .prose h2, .prose h3 {{
-            color: #1f2937;
+            color: #2B2726;
             font-weight: 600;
-            margin-top: 0.75em;
-            margin-bottom: 0.375em;
+            margin-top: 0.875em;
+            margin-bottom: 0.5em;
             line-height: 1.3;
+            font-family: 'EB Garamond', serif;
+            letter-spacing: -0.02em;
         }}
 
-        .prose h1 {{ font-size: 1.25em; }}
-        .prose h2 {{ font-size: 1.125em; }}
-        .prose h3 {{ font-size: 1em; }}
+        .prose h1 {{ font-size: 1.375em; }}
+        .prose h2 {{ font-size: 1.25em; }}
+        .prose h3 {{ font-size: 1.125em; }}
 
         .prose p {{
-            margin-bottom: 0.75em;
-            line-height: 1.5;
+            margin-bottom: 0.875em;
+            line-height: 1.6;
         }}
 
         .prose ul, .prose ol {{
-            margin: 0.5em 0;
-            padding-left: 1.25em;
+            margin: 0.625em 0;
+            padding-left: 1.5em;
         }}
 
         .prose li {{
-            margin-bottom: 0.25em;
-            line-height: 1.4;
+            margin-bottom: 0.375em;
+            line-height: 1.5;
         }}
 
         .prose strong {{
-            color: #1f2937;
+            color: #2B2726;
             font-weight: 600;
         }}
 
         .prose a {{
-            color: #3b82f6;
+            color: #D4734B;
             text-decoration: none;
+            border-bottom: 1px solid rgba(212, 115, 75, 0.3);
+            transition: border-color 0.2s ease;
         }}
 
         .prose a:hover {{
-            text-decoration: underline;
+            border-bottom-color: #D4734B;
         }}
 
         .prose code {{
-            background: #f3f4f6;
-            color: #1f2937;
-            padding: 0.15em 0.3em;
-            border-radius: 0.2rem;
+            background: rgba(212, 115, 75, 0.08);
+            color: #2C5F5D;
+            padding: 0.2em 0.4em;
+            border-radius: 0.25rem;
             font-size: 0.875em;
+            font-family: 'IBM Plex Mono', monospace;
         }}
 
         /* UI Component Styles */
@@ -411,10 +438,10 @@ class DashboardBuilder:
 
     def _build_header(self, title: str, persona: PersonaProfile) -> str:
         """Build header section."""
-        return f"""<header style="border-bottom: 1px solid var(--border); background: var(--background); padding: 1.5rem 0;">
+        return f"""<header style="border-bottom: 1px solid rgba(168, 153, 143, 0.2); background: transparent; padding: 2rem 0 1.5rem 0;">
         <div class="container">
-            <h1 style="font-size: 2rem; font-weight: 700; color: var(--foreground); margin-bottom: 0.5rem;">{title}</h1>
-            <p style="font-size: 0.875rem; color: var(--foreground); opacity: 0.7;">
+            <h1 style="font-size: 2.5rem; font-weight: 600; color: #2B2726; margin-bottom: 0.625rem; font-family: 'EB Garamond', serif; letter-spacing: -0.02em; line-height: 1.2;">{title}</h1>
+            <p style="font-size: 0.9375rem; color: #A8998F; font-family: 'Manrope', sans-serif;">
                 Personalized insights based on your activity • Generated {datetime.utcnow().strftime("%B %d, %Y")}
             </p>
         </div>
@@ -485,22 +512,22 @@ class DashboardBuilder:
         sources_html = ""
         if card.sources:
             sources_list = "\n".join(
-                f'<li style="margin-bottom: 0.125rem;"><a href="{source}" target="_blank" style="color: #3b82f6; text-decoration: none; font-size: 0.6875rem;">{self._extract_domain(source)}</a></li>'
+                f'<li style="margin-bottom: 0.125rem;"><a href="{source}" target="_blank" style="color: #D4734B; text-decoration: none; font-size: 0.75rem; font-family: \'IBM Plex Mono\', monospace;">{self._extract_domain(source)}</a></li>'
                 for source in card.sources[:3]  # Max 3 sources for compact feel
             )
-            sources_html = f"""<div style="margin-top: 0.75rem; padding-top: 0.625rem; border-top: 1px solid #e5e7eb;">
-                <p style="font-size: 0.625rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.375rem;">Sources</p>
+            sources_html = f"""<div style="margin-top: 0.875rem; padding-top: 0.75rem; border-top: 1px solid rgba(168, 153, 143, 0.3);">
+                <p style="font-size: 0.6875rem; font-weight: 600; color: #A8998F; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; font-family: 'IBM Plex Mono', monospace;">Sources</p>
                 <ul style="list-style: none; padding: 0;">
                     {sources_list}
                 </ul>
             </div>"""
 
-        # Reading time badge - smaller
-        reading_time_html = f"""<span style="display: inline-flex; align-items: center; padding: 0.125rem 0.5rem; border-radius: 9999px; font-size: 0.6875rem; font-weight: 500; background: #f3f4f6; color: #6b7280;">
-            {card.reading_time_minutes} min
+        # Reading time badge - warmer colors
+        reading_time_html = f"""<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; background: rgba(212, 115, 75, 0.1); color: #D4734B; font-family: 'IBM Plex Mono', monospace;">
+            {card.reading_time_minutes} min read
         </span>"""
 
-        return f"""<div class="dashboard-card" style="border-radius: 0.375rem; border: 1px solid #e5e7eb; background: #ffffff; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); overflow: hidden;" draggable="true" data-card-index="{idx}">
+        return f"""<div class="dashboard-card" style="border-radius: 1rem; border: 1px solid rgba(168, 153, 143, 0.2); background: rgba(250, 247, 242, 0.75); backdrop-filter: blur(16px); box-shadow: 0 4px 12px -2px rgba(43, 39, 38, 0.08); overflow: hidden;" draggable="true" data-card-index="{idx}">
         <!-- Drag Handle -->
         <div class="drag-handle" title="Drag to reorder">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -513,16 +540,16 @@ class DashboardBuilder:
             </svg>
         </div>
 
-        <div style="padding: 0.875rem;">
+        <div style="padding: 1.25rem;">
             <!-- Card Header -->
-            <div style="margin-bottom: 0.625rem;">
-                <h2 style="font-size: 1rem; font-weight: 600; color: #1f2937; margin-bottom: 0.25rem; line-height: 1.3;">{card.title}</h2>
-                <p style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.5rem; line-height: 1.4;">{card.description}</p>
+            <div style="margin-bottom: 0.75rem;">
+                <h2 style="font-size: 1.125rem; font-weight: 600; color: #2B2726; margin-bottom: 0.375rem; line-height: 1.3; font-family: 'EB Garamond', serif;">{card.title}</h2>
+                <p style="font-size: 0.875rem; color: #A8998F; margin-bottom: 0.625rem; line-height: 1.4;">{card.description}</p>
                 {reading_time_html}
             </div>
 
             <!-- Card Content -->
-            <div class="prose content-text" style="color: #374151; font-size: 0.8125rem; line-height: 1.5;">
+            <div class="prose content-text" style="color: #2B2726; font-size: 0.9375rem; line-height: 1.6;">
                 {body_html}
             </div>
 
@@ -1039,13 +1066,13 @@ class DashboardBuilder:
 
     def _build_footer(self) -> str:
         """Build footer section."""
-        return f"""<footer style="border-top: 1px solid var(--border); background: var(--background); margin-top: 4rem; padding: 1.5rem 0;">
+        return f"""<footer style="border-top: 1px solid rgba(168, 153, 143, 0.2); background: transparent; margin-top: 4rem; padding: 2rem 0;">
         <div class="container">
-            <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; font-size: 0.875rem; color: var(--foreground); opacity: 0.6;">
-                <p style="margin: 0;">Generated by Fabric Intelligence Dashboard</p>
-                <p style="margin: 0.5rem 0 0 0;">
-                    Powered by <a href="https://www.anthropic.com/claude" target="_blank" style="color: var(--primary); text-decoration: none;">Claude</a> &
-                    <a href="https://www.perplexity.ai" target="_blank" style="color: var(--primary); text-decoration: none;">Perplexity</a>
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; font-size: 0.875rem; color: #A8998F;">
+                <p style="margin: 0; font-family: 'Manrope', sans-serif;">Generated by Fabric Intelligence Dashboard</p>
+                <p style="margin: 0.5rem 0 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 0.8125rem;">
+                    Powered by <a href="https://www.anthropic.com/claude" target="_blank" style="color: #D4734B; text-decoration: none; border-bottom: 1px solid rgba(212, 115, 75, 0.3);">Claude</a> &
+                    <a href="https://www.perplexity.ai" target="_blank" style="color: #2C5F5D; text-decoration: none; border-bottom: 1px solid rgba(44, 95, 93, 0.3);">Perplexity</a>
                 </p>
             </div>
         </div>

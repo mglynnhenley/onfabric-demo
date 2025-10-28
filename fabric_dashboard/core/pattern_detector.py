@@ -48,6 +48,7 @@ class PatternDetector:
                 temperature=1.0,  # Higher temperature for creative pattern detection
                 api_key=config.anthropic_api_key,
                 timeout=60,
+                max_tokens=4096,  # Ensure enough space for complete responses
                 stop=None,
             )
 

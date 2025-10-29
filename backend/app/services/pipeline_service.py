@@ -34,7 +34,7 @@ class PipelineService:
         self,
         persona: str,
         progress_callback: Optional[Callable[[Dict[str, Any]], None]] = None,
-    ) -> str:
+    ) -> tuple[str, Any]:
         """
         Generate a dashboard for the given persona using the real pipeline.
 
@@ -43,7 +43,7 @@ class PipelineService:
             progress_callback: Async function to call with progress updates
 
         Returns:
-            Generated dashboard HTML
+            Tuple of (HTML string, DashboardJSON object)
 
         Raises:
             FileNotFoundError: If persona fixture doesn't exist
@@ -216,13 +216,14 @@ class PipelineService:
 
             await asyncio.sleep(0.5)
 
-            # Step 7: Build dashboard
+            # Step 7: Build dashboard (both HTML and JSON)
             await self._send_progress(progress_callback, {
                 "step": "building",
                 "percent": 95,
                 "message": "Assembling final dashboard...",
             })
 
+            # Build HTML (for backward compatibility)
             dashboard = dashboard_builder.build(
                 cards=cards,
                 ui_components=ui_components,
@@ -234,6 +235,14 @@ class PipelineService:
 
             html = dashboard.metadata["html"]
 
+            # Build JSON (for new pin board frontend)
+            dashboard_json = dashboard_builder.build_json(
+                cards=cards,
+                ui_components=ui_components,
+                persona=persona_profile,
+                color_scheme=color_scheme,
+            )
+
             await asyncio.sleep(0.5)
 
             # Step 8: Complete
@@ -243,7 +252,7 @@ class PipelineService:
                 "message": "Dashboard ready!",
             })
 
-            return html
+            return html, dashboard_json
 
         except Exception as e:
             # Send error

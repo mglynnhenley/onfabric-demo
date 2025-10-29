@@ -7,11 +7,13 @@ from langchain_core.prompts import ChatPromptTemplate
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from fabric_dashboard.models.schemas import (
+    AnimationConfig,
     BackgroundTheme,
     ColorScheme,
     FontScheme,
     GradientConfig,
     Pattern,
+    PatternConfig,
     PersonaProfile,
 )
 from fabric_dashboard.utils import logger
@@ -215,9 +217,76 @@ Example Google Fonts URLs:
 - "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&display=swap"
 - "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap"
 
+**Pattern Overlay (pattern object - OPTIONAL):**
+- **type**: Choose one: "dots", "grid", "stripes", "noise", "waves", "hexagon"
+- **color**: Pattern color (hex)
+- **opacity**: 0.05-0.15 for subtle, 0.2-0.4 for bold (float)
+- **scale**: 0.5-2.0 (pattern size multiplier)
+- Use patterns for creative/experimental personas, skip for minimal/professional
+
+**Animation (animation object - OPTIONAL):**
+- **name**: Choose from: "float", "pulse", "drift", "wave", "rotate-slow", "gradient-shift", "glitch", "breathe", "shimmer", "none"
+- **duration**: "15s" to "30s" (slow is better for backgrounds)
+- **timing**: "ease-in-out" or "linear"
+- Match animation to aesthetic: glitch for cyber, float for organic, pulse for minimal, none for brutalist
+
 **Metadata:**
 - **Mood**: Single word or short phrase describing the emotional feel (e.g., "energetic", "calm", "professional", "creative", "bold")
 - **Rationale**: 1-2 sentences explaining why these colors AND fonts match the persona
+
+## CRITICAL: ANTI-GENERIC AESTHETIC RULES
+
+You MUST avoid generic AI aesthetics. Every dashboard should look radically different and distinctive.
+
+**BANNED FONTS (DO NOT USE THESE EVER):**
+- Inter, Roboto, Arial, Helvetica, system fonts
+- Open Sans, Lato, Montserrat, Poppins
+- Space Grotesk (overused)
+
+**BANNED COLOR PATTERNS:**
+- Generic purple gradients (#7c3aed, #8b5cf6)
+- Generic blues (#3b82f6)
+- Purple gradient on white background (extremely clichéd)
+
+**REQUIRED APPROACH:**
+- Choose fonts that are DISTINCTIVE, UNUSUAL, and MEMORABLE
+- Choose colors that are BOLD, UNEXPECTED, and contextual to the persona
+- Generate multi-layer backgrounds (gradient + optional pattern + optional animation)
+- Vary between aesthetic directions based on persona
+
+**Aesthetic Direction Examples (pick ONE that matches persona):**
+
+**80s/90s Vaporwave:**
+- Fonts: Orbitron, Rajdhani, Synth, Audiowide
+- Colors: Neon pink (#ff6ec7), cyan (#00f5ff), purple (#b759ff), dark navy base
+- Pattern: grid or waves
+- Animation: gradient-shift or glitch
+
+**Y2K Cyber Futurism:**
+- Fonts: Exo, Audiowide, Electrolize, Orbitron
+- Colors: Metallic silver tones, electric blue, holographic gradients
+- Pattern: hexagon or geometric
+- Animation: shimmer or rotate-slow
+
+**Brutalist Bold:**
+- Fonts: Rubik, Bebas Neue, Staatliches, Work Sans
+- Colors: Stark contrasts (pure black/white, or bold single color + black)
+- Pattern: grid (bold opacity 0.3-0.5)
+- Animation: none or pulse
+
+**Organic Psychedelic:**
+- Fonts: Righteous, Bungee, Fredoka One, Comfortaa
+- Colors: Warped multi-color gradients (4 colors), high saturation
+- Pattern: noise or waves
+- Animation: wave or drift
+
+**Elegant Serif:**
+- Fonts: Cormorant Garamond, Crimson Text, Libre Baskerville, Lora
+- Colors: Deep jewel tones, sophisticated muted palette
+- Pattern: dots (very subtle, 0.05 opacity)
+- Animation: float or breathe
+
+**IMPORTANT: Pick fonts and colors that FIT THE PERSONA. Don't always use the same combinations. Be experimental and creative.**
 
 ## Color Selection Strategy:
 

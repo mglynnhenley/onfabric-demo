@@ -332,8 +332,11 @@ class UIGenerator:
             # Execute
             result = await chain.ainvoke({"context": context})
 
+            # Deduplicate components before enrichment (saves API calls)
+            unique_components = self._deduplicate_components(result.components)
+
             # Enrich components with real data from APIs
-            enriched_components = await self._enrich_components(result.components)
+            enriched_components = await self._enrich_components(unique_components)
 
             logger.success(f"Generated {len(enriched_components)} UI components")
             return UIGenerationResult(
@@ -417,6 +420,23 @@ Your task is to select and configure 3-6 interactive UI components based on user
 ✓ Search queries use actual keywords from patterns
 ✓ Total: 3-6 components (not more, not less)
 
+## CRITICAL: NO DUPLICATE COMPONENTS
+
+**IMPORTANT**: You MUST generate diverse, non-duplicate components:
+- Each component must have a UNIQUE title
+- Do NOT create multiple components for the same pattern/topic
+- If a pattern deserves multiple widgets, make them meaningfully different
+  (e.g., "AI Research Papers" vs "AI Safety Events", NOT two identical "AI Events")
+- Aim for 3-6 varied widgets covering different aspects of the persona
+
+**Examples of what NOT to do:**
+❌ "AI Safety Events" + "AI Safety Events" (exact duplicate)
+❌ "AI Events" + "AI Tech Events" (essentially the same)
+
+**Examples of good diversity:**
+✅ "AI Research Papers" + "Tech Industry Events" + "Philosophy Lectures"
+✅ "Machine Learning Videos" + "AI Safety Conferences" + "Tech News Map"
+
 Your response will be automatically validated against a Pydantic schema."""
 
         human_message = """Select and configure UI components for this user:
@@ -429,6 +449,40 @@ Choose 3-6 diverse, relevant components with complete configuration."""
             ("system", system_message),
             ("human", human_message),
         ])
+
+    def _deduplicate_components(
+        self, components: list[UIComponentType]
+    ) -> list[UIComponentType]:
+        """
+        Remove duplicate components by type+title.
+
+        Args:
+            components: List of generated components (may contain duplicates)
+
+        Returns:
+            List of unique components (first occurrence kept)
+        """
+        seen = set()
+        unique = []
+
+        for comp in components:
+            # Create deduplication key from component type and normalized title
+            key = (comp.__class__.__name__, comp.title.lower().strip())
+
+            if key not in seen:
+                seen.add(key)
+                unique.append(comp)
+            else:
+                logger.warning(
+                    f"⚠ Removed duplicate: {comp.__class__.__name__} - {comp.title}"
+                )
+
+        if len(unique) < len(components):
+            logger.info(
+                f"Deduplicated {len(components)} → {len(unique)} components"
+            )
+
+        return unique
 
     def _prepare_context(
         self, patterns: list[Pattern], persona: PersonaProfile

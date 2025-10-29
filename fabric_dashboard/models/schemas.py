@@ -124,6 +124,30 @@ class PatternConfig(BaseModel):
     scale: float = Field(ge=0.1, le=5.0, description="Pattern scale factor")
 
 
+class AnimationConfig(BaseModel):
+    """CSS animation configuration for backgrounds."""
+
+    name: Literal[
+        "float",
+        "pulse",
+        "drift",
+        "wave",
+        "rotate-slow",
+        "gradient-shift",
+        "glitch",
+        "breathe",
+        "shimmer",
+        "none",
+    ] = Field(description="Animation name from predefined CSS keyframes library")
+    duration: str = Field(
+        default="20s", description="Animation duration (e.g., '20s', '30s')"
+    )
+    timing: str = Field(
+        default="ease-in-out",
+        description="Animation timing function (e.g., 'ease-in-out', 'linear')",
+    )
+
+
 class BackgroundTheme(BaseModel):
     """Complete background theming configuration."""
 
@@ -133,6 +157,9 @@ class BackgroundTheme(BaseModel):
     color: Optional[str] = Field(None, description="Solid background color (hex)")
     gradient: Optional[GradientConfig] = Field(None, description="Gradient configuration")
     pattern: Optional[PatternConfig] = Field(None, description="Pattern configuration")
+    animation: Optional[AnimationConfig] = Field(
+        None, description="CSS animation configuration"
+    )
     card_background: str = Field(description="Card background color or rgba value")
     card_backdrop_blur: bool = Field(
         default=False, description="Enable backdrop blur for glass effect"

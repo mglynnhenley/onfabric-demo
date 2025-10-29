@@ -2,7 +2,7 @@
 
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Literal, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -88,8 +88,55 @@ class UserData(BaseModel):
 
 
 # ============================================================================
-# COLOR SCHEME
+# COLOR SCHEME & THEMING
 # ============================================================================
+
+
+class FontScheme(BaseModel):
+    """Font configuration for dashboard theming."""
+
+    heading: str = Field(description="Heading font family (e.g., 'EB Garamond')")
+    body: str = Field(description="Body font family (e.g., 'Manrope')")
+    mono: str = Field(description="Monospace font family (e.g., 'IBM Plex Mono')")
+    heading_url: str = Field(description="Google Fonts URL for heading font")
+    body_url: str = Field(description="Google Fonts URL for body font")
+    mono_url: str = Field(description="Google Fonts URL for mono font")
+
+
+class GradientConfig(BaseModel):
+    """Gradient background configuration."""
+
+    type: str = Field(description="Gradient type: 'linear', 'radial', or 'mesh'")
+    colors: List[str] = Field(description="List of hex colors for gradient")
+    direction: Optional[str] = Field(
+        None, description="Gradient direction (e.g., 'to-br', 'to-r')"
+    )
+
+
+class PatternConfig(BaseModel):
+    """Pattern background configuration."""
+
+    type: str = Field(
+        description="Pattern type: 'dots', 'grid', 'noise', or 'geometric'"
+    )
+    color: str = Field(description="Pattern color (hex)")
+    opacity: float = Field(ge=0.0, le=1.0, description="Pattern opacity (0.0-1.0)")
+    scale: float = Field(ge=0.1, le=5.0, description="Pattern scale factor")
+
+
+class BackgroundTheme(BaseModel):
+    """Complete background theming configuration."""
+
+    type: str = Field(
+        description="Background type: 'solid', 'gradient', 'pattern', or 'animated'"
+    )
+    color: Optional[str] = Field(None, description="Solid background color (hex)")
+    gradient: Optional[GradientConfig] = Field(None, description="Gradient configuration")
+    pattern: Optional[PatternConfig] = Field(None, description="Pattern configuration")
+    card_background: str = Field(description="Card background color or rgba value")
+    card_backdrop_blur: bool = Field(
+        default=False, description="Enable backdrop blur for glass effect"
+    )
 
 
 class ColorScheme(BaseModel):
@@ -106,13 +153,11 @@ class ColorScheme(BaseModel):
         pattern=r"^#[0-9a-fA-F]{6}$", description="Highlights and CTAs (hex)"
     )
 
-    # Backgrounds
-    background: str = Field(
-        pattern=r"^#[0-9a-fA-F]{6}$", description="Page background (hex)"
+    # Theming
+    background_theme: BackgroundTheme = Field(
+        description="Complete background theming configuration"
     )
-    card: str = Field(
-        pattern=r"^#[0-9a-fA-F]{6}$", description="Card background (hex)"
-    )
+    fonts: FontScheme = Field(description="Font scheme for typography")
 
     # Text
     foreground: str = Field(
@@ -292,6 +337,38 @@ class Dashboard(BaseModel):
         if not (4 <= len(v) <= 8):
             raise ValueError(f"Dashboard must have 4-8 cards, got {len(v)}")
         return v
+
+
+# ============================================================================
+# JSON DASHBOARD (NEW FORMAT)
+# ============================================================================
+
+
+class Widget(BaseModel):
+    """Widget definition for JSON dashboard output."""
+
+    id: str = Field(description="Unique widget identifier")
+    type: str = Field(
+        description="Widget type (e.g., 'stat-card', 'article-card', 'chart-card')"
+    )
+    size: str = Field(description="Widget size: 'small', 'medium', or 'large'")
+    priority: int = Field(ge=1, description="Display priority (1 = highest)")
+    data: Dict[str, Any] = Field(description="Widget-specific data")
+
+
+class DashboardJSON(BaseModel):
+    """Dashboard in JSON format for frontend rendering."""
+
+    id: str = Field(description="Unique dashboard identifier")
+    generated_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
+        description="When this dashboard was generated",
+    )
+    widgets: List[Widget] = Field(
+        description="List of widgets to display", min_length=1
+    )
+    theme: ColorScheme = Field(description="Complete theme configuration")
+    persona: PersonaProfile = Field(description="User's persona profile")
 
 
 # ============================================================================

@@ -6,7 +6,14 @@ from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-from fabric_dashboard.models.schemas import ColorScheme, PersonaProfile, Pattern
+from fabric_dashboard.models.schemas import (
+    BackgroundTheme,
+    ColorScheme,
+    FontScheme,
+    GradientConfig,
+    Pattern,
+    PersonaProfile,
+)
 from fabric_dashboard.utils import logger
 from fabric_dashboard.utils.config import get_config
 
@@ -70,9 +77,6 @@ class ThemeGenerator:
             primary="#3b82f6",  # Blue
             secondary="#8b5cf6",  # Purple
             accent="#06b6d4",  # Cyan
-            # Backgrounds
-            background="#ffffff",  # White
-            card="#f8fafc",  # Light gray
             # Text
             foreground="#0f172a",  # Dark slate
             muted="#64748b",  # Muted slate
@@ -80,6 +84,22 @@ class ThemeGenerator:
             success="#22c55e",  # Green
             warning="#f59e0b",  # Amber
             destructive="#ef4444",  # Red
+            # Background theming
+            background_theme=BackgroundTheme(
+                type="solid",
+                color="#ffffff",  # White
+                card_background="#f8fafc",  # Light gray
+                card_backdrop_blur=False,
+            ),
+            # Typography
+            fonts=FontScheme(
+                heading="Inter",
+                body="Inter",
+                mono="Fira Code",
+                heading_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap",
+                body_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap",
+                mono_url="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap",
+            ),
             # Metadata
             mood="professional and balanced",
             rationale="Default neutral color scheme suitable for all personas",
@@ -150,7 +170,7 @@ class ThemeGenerator:
         """
         system_message = """You are an expert UI/UX designer and color theorist specializing in personalized design.
 
-Your task is to create a cohesive, persona-matched color scheme for a personalized dashboard.
+Your task is to create a cohesive, persona-matched color scheme AND typography for a personalized dashboard.
 
 ## Guidelines for Color Selection:
 
@@ -159,22 +179,45 @@ Your task is to create a cohesive, persona-matched color scheme for a personaliz
 - **Secondary**: Supporting color that complements primary
 - **Accent**: Highlight color for CTAs and important elements
 
-**Backgrounds:**
-- **Background**: Main page background, choose this to match the persona (for example with tech you might want dark background)
-- **Card**: Card/surface background (should have subtle contrast with background)
-
-**Text:**
-- **Foreground**: Primary text color (ALWAYS ensure good readability, light on dark or dark on light)
-- **Muted**: Secondary/muted text color
+**Text (CRITICAL FOR READABILITY):**
+- **Foreground**: Primary text color
+  - MUST have 4.5:1 contrast ratio minimum with BOTH background AND card_background
+  - If background is dark (gradient starting with dark colors, or dark solid), foreground MUST be light (#f8fafc or similar)
+  - If background is light, foreground MUST be dark (#0f172a or similar)
+  - When card_backdrop_blur is true, assume background color bleeds through cards by ~50%
+- **Muted**: Secondary/muted text color (should be readable but less prominent)
 
 **Semantic Colors:**
 - **Success**: Green-ish color for success states
 - **Warning**: Yellow/orange-ish color for warnings
 - **Destructive**: Red-ish color for errors/destructive actions
 
+**Background Theming (background_theme object):**
+- **type**: Choose one: "solid", "gradient", "pattern"
+- **color**: (if type="solid") Solid background color hex
+- **gradient**: (if type="gradient") Object with:
+  - type: "linear", "radial", or "mesh"
+  - colors: Array of 2-4 hex colors for gradient
+  - direction: "to-br", "to-r", "to-t", etc. (optional)
+- **pattern**: (if type="pattern") - RARELY use this, only for very creative personas
+- **card_background**: Card background color or rgba (e.g., "rgba(255, 255, 255, 0.7)" for glass effect)
+- **card_backdrop_blur**: true/false - enable glass morphism effect
+
+**Typography (fonts object):**
+- **heading**: Font family for headings (e.g., "EB Garamond", "Playfair Display", "Libre Baskerville")
+- **body**: Font family for body text (e.g., "Manrope", "Inter", "Source Sans Pro")
+- **mono**: Font family for code (e.g., "IBM Plex Mono", "Fira Code", "JetBrains Mono")
+- **heading_url**: Google Fonts URL for heading font
+- **body_url**: Google Fonts URL for body font
+- **mono_url**: Google Fonts URL for mono font
+
+Example Google Fonts URLs:
+- "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&display=swap"
+- "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap"
+
 **Metadata:**
 - **Mood**: Single word or short phrase describing the emotional feel (e.g., "energetic", "calm", "professional", "creative", "bold")
-- **Rationale**: 1-2 sentences explaining why these colors match the persona
+- **Rationale**: 1-2 sentences explaining why these colors AND fonts match the persona
 
 ## Color Selection Strategy:
 
@@ -196,6 +239,32 @@ Your task is to create a cohesive, persona-matched color scheme for a personaliz
    - Balance vibrancy with usability
 
 4. **All colors must be valid 6-digit hex codes** (e.g., #3b82f6, not #3b8 or 3b82f6)
+
+## CRITICAL VALIDATION REQUIREMENTS:
+
+Before finalizing your color choices, verify:
+
+1. **Contrast Ratio Check**:
+   - Foreground vs background_theme.color (or first gradient color): MUST be ≥ 4.5:1
+   - Foreground vs card_background: MUST be ≥ 4.5:1
+   - If card_backdrop_blur is true, test foreground against a blend of background + card_background
+
+2. **Dark Background Rule**:
+   - If gradient starts with colors like #1e3a8a, #1e293b, #0f172a (dark blues/grays)
+   - OR if solid background is dark (luminance < 0.5)
+   - THEN foreground MUST be light: #f8fafc, #e2e8f0, #ffffff, etc.
+
+3. **Light Background Rule**:
+   - If gradient starts with colors like #fef3c7, #fce7f3, #ffffff (light yellows/pinks/whites)
+   - OR if solid background is light (luminance > 0.5)
+   - THEN foreground MUST be dark: #0f172a, #1e293b, #334155, etc.
+
+4. **Backdrop Blur Warning**:
+   - When card_backdrop_blur is true, the background gradient will show through the card
+   - This darkens light cards and lightens dark cards
+   - Adjust card_background accordingly or disable backdrop blur
+
+**These validation requirements are NOT optional. Text readability is the highest priority.**
 
 Your response will be automatically validated against a Pydantic schema, so ensure all required fields are present and all hex codes are valid."""
 
@@ -260,12 +329,18 @@ Generate a cohesive color palette that reflects their personality and interests.
         Returns:
             ColorScheme with validated/fixed contrast ratios
         """
+        # Get background color for contrast checking
+        bg_color = scheme.background_theme.color or "#ffffff"
+        if scheme.background_theme.type == "gradient" and scheme.background_theme.gradient:
+            # Use first color of gradient for contrast check
+            bg_color = scheme.background_theme.gradient.colors[0]
+
         # Check foreground vs background
-        fg_bg_contrast = self._calculate_contrast(scheme.foreground, scheme.background)
+        fg_bg_contrast = self._calculate_contrast(scheme.foreground, bg_color)
         if fg_bg_contrast < 4.5:
             logger.warning(f"Low contrast detected: foreground/background = {fg_bg_contrast:.2f}:1")
             # Adjust foreground to be darker if background is light, or lighter if background is dark
-            if self._get_luminance(scheme.background) > 0.5:
+            if self._get_luminance(bg_color) > 0.5:
                 # Light background - make foreground darker
                 scheme.foreground = "#0f172a"  # Dark slate
             else:
@@ -273,18 +348,24 @@ Generate a cohesive color palette that reflects their personality and interests.
                 scheme.foreground = "#f8fafc"  # Light gray
             logger.info(f"Fixed foreground color to {scheme.foreground}")
 
-        # Check foreground vs card
-        fg_card_contrast = self._calculate_contrast(scheme.foreground, scheme.card)
+        # Check foreground vs card background
+        # Extract hex color from rgba if needed
+        card_bg = scheme.background_theme.card_background
+        if card_bg.startswith("rgba"):
+            # For rgba, assume white or light background for now
+            card_bg = "#ffffff"
+
+        fg_card_contrast = self._calculate_contrast(scheme.foreground, card_bg)
         if fg_card_contrast < 4.5:
             logger.warning(f"Low contrast detected: foreground/card = {fg_card_contrast:.2f}:1")
-            # Adjust card to have better contrast with foreground
+            # Adjust card background to have better contrast with foreground
             if self._get_luminance(scheme.foreground) > 0.5:
                 # Light foreground - make card darker
-                scheme.card = "#1e293b"  # Dark slate
+                scheme.background_theme.card_background = "#1e293b"  # Dark slate
             else:
                 # Dark foreground - make card lighter
-                scheme.card = "#ffffff"  # White
-            logger.info(f"Fixed card color to {scheme.card}")
+                scheme.background_theme.card_background = "#ffffff"  # White
+            logger.info(f"Fixed card background to {scheme.background_theme.card_background}")
 
         return scheme
 

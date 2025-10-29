@@ -3,7 +3,13 @@
 import pytest
 
 from fabric_dashboard.core.theme_generator import ThemeGenerator
-from fabric_dashboard.models.schemas import ColorScheme, Pattern, PersonaProfile
+from fabric_dashboard.models.schemas import (
+    BackgroundTheme,
+    ColorScheme,
+    FontScheme,
+    Pattern,
+    PersonaProfile,
+)
 
 
 # ============================================================================
@@ -107,8 +113,8 @@ def test_default_theme_structure():
     assert theme.primary.startswith("#") and len(theme.primary) == 7
     assert theme.secondary.startswith("#") and len(theme.secondary) == 7
     assert theme.accent.startswith("#") and len(theme.accent) == 7
-    assert theme.background.startswith("#") and len(theme.background) == 7
-    assert theme.card.startswith("#") and len(theme.card) == 7
+    assert theme.background_theme.color.startswith("#") and len(theme.background_theme.color) == 7
+    assert theme.background_theme.card_background.startswith("#") and len(theme.background_theme.card_background) == 7
     assert theme.foreground.startswith("#") and len(theme.foreground) == 7
     assert theme.muted.startswith("#") and len(theme.muted) == 7
     assert theme.success.startswith("#") and len(theme.success) == 7
@@ -134,8 +140,20 @@ def test_color_scheme_validation_hex():
         primary="#3b82f6",
         secondary="#8b5cf6",
         accent="#06b6d4",
-        background="#ffffff",
-        card="#f8fafc",
+        background_theme=BackgroundTheme(
+            type="solid",
+            color="#ffffff",
+            card_background="#f8fafc",
+            card_backdrop_blur=False,
+        ),
+        fonts=FontScheme(
+            heading="Inter",
+            body="Inter",
+            mono="Fira Code",
+            heading_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap",
+            body_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap",
+            mono_url="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap",
+        ),
         foreground="#0f172a",
         muted="#64748b",
         success="#22c55e",
@@ -152,8 +170,20 @@ def test_color_scheme_validation_hex():
             primary="3b82f6",  # Missing #
             secondary="#8b5cf6",
             accent="#06b6d4",
-            background="#ffffff",
-            card="#f8fafc",
+            background_theme=BackgroundTheme(
+                type="solid",
+                color="#ffffff",
+                card_background="#f8fafc",
+                card_backdrop_blur=False,
+            ),
+            fonts=FontScheme(
+                heading="Inter",
+                body="Inter",
+                mono="Fira Code",
+                heading_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap",
+                body_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap",
+                mono_url="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap",
+            ),
             foreground="#0f172a",
             muted="#64748b",
             success="#22c55e",
@@ -168,8 +198,20 @@ def test_color_scheme_validation_hex():
             primary="#3b8",  # Too short
             secondary="#8b5cf6",
             accent="#06b6d4",
-            background="#ffffff",
-            card="#f8fafc",
+            background_theme=BackgroundTheme(
+                type="solid",
+                color="#ffffff",
+                card_background="#f8fafc",
+                card_backdrop_blur=False,
+            ),
+            fonts=FontScheme(
+                heading="Inter",
+                body="Inter",
+                mono="Fira Code",
+                heading_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap",
+                body_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap",
+                mono_url="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap",
+            ),
             foreground="#0f172a",
             muted="#64748b",
             success="#22c55e",
@@ -187,8 +229,20 @@ def test_color_scheme_validation_mood():
         primary="#3b82f6",
         secondary="#8b5cf6",
         accent="#06b6d4",
-        background="#ffffff",
-        card="#f8fafc",
+        background_theme=BackgroundTheme(
+            type="solid",
+            color="#ffffff",
+            card_background="#f8fafc",
+            card_backdrop_blur=False,
+        ),
+        fonts=FontScheme(
+            heading="Inter",
+            body="Inter",
+            mono="Fira Code",
+            heading_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap",
+            body_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap",
+            mono_url="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap",
+        ),
         foreground="#0f172a",
         muted="#64748b",
         success="#22c55e",
@@ -205,8 +259,20 @@ def test_color_scheme_validation_mood():
             primary="#3b82f6",
             secondary="#8b5cf6",
             accent="#06b6d4",
-            background="#ffffff",
-            card="#f8fafc",
+            background_theme=BackgroundTheme(
+                type="solid",
+                color="#ffffff",
+                card_background="#f8fafc",
+                card_backdrop_blur=False,
+            ),
+            fonts=FontScheme(
+                heading="Inter",
+                body="Inter",
+                mono="Fira Code",
+                heading_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap",
+                body_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap",
+                mono_url="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap",
+            ),
             foreground="#0f172a",
             muted="#64748b",
             success="#22c55e",

@@ -5,10 +5,12 @@ import re
 
 from fabric_dashboard.core.dashboard_builder import DashboardBuilder
 from fabric_dashboard.models.schemas import (
+    BackgroundTheme,
     CardContent,
     CardSize,
     ColorScheme,
     Dashboard,
+    FontScheme,
     PersonaProfile,
 )
 
@@ -39,8 +41,20 @@ def sample_color_scheme():
         primary="#3B82F6",
         secondary="#8B5CF6",
         accent="#F59E0B",
-        background="#FFFFFF",
-        card="#F9FAFB",
+        background_theme=BackgroundTheme(
+            type="solid",
+            color="#FFFFFF",
+            card_background="#F9FAFB",
+            card_backdrop_blur=False,
+        ),
+        fonts=FontScheme(
+            heading="Inter",
+            body="Inter",
+            mono="Fira Code",
+            heading_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap",
+            body_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap",
+            mono_url="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap",
+        ),
         foreground="#1F2937",
         muted="#6B7280",
         success="#10B981",
@@ -149,15 +163,15 @@ def test_build_dashboard_with_custom_title(sample_cards, sample_persona, sample_
 
 
 def test_build_dashboard_rejects_wrong_card_count(sample_cards, sample_persona, sample_color_scheme):
-    """Test that builder rejects less than 4 or more than 8 cards."""
+    """Test that builder rejects less than 4 or more than 10 cards."""
     builder = DashboardBuilder()
 
     # Too few cards (3)
-    with pytest.raises(ValueError, match="Expected 4-8 cards"):
+    with pytest.raises(ValueError, match="Expected 4-10 cards"):
         builder.build(sample_cards[:3], persona=sample_persona, color_scheme=sample_color_scheme)
 
-    # Too many cards (9)
-    with pytest.raises(ValueError, match="Expected 4-8 cards"):
+    # Too many cards (11)
+    with pytest.raises(ValueError, match="Expected 4-10 cards"):
         builder.build(sample_cards * 3, persona=sample_persona, color_scheme=sample_color_scheme)  # 12 cards
 
 
@@ -193,18 +207,17 @@ def test_html_contains_color_scheme(sample_cards, sample_persona, sample_color_s
     assert sample_color_scheme.primary in dashboard.metadata["html"]
     assert sample_color_scheme.secondary in dashboard.metadata["html"]
     assert sample_color_scheme.accent in dashboard.metadata["html"]
-    assert sample_color_scheme.background in dashboard.metadata["html"]
+    assert sample_color_scheme.background_theme.color in dashboard.metadata["html"]
     assert sample_color_scheme.foreground in dashboard.metadata["html"]
 
 
 def test_html_responsive_grid(sample_cards, sample_persona, sample_color_scheme):
-    """Test HTML includes responsive grid classes."""
+    """Test HTML includes responsive grid layout."""
     builder = DashboardBuilder()
     dashboard = builder.build(sample_cards, persona=sample_persona, color_scheme=sample_color_scheme)
 
-    # Check for Tailwind grid classes (2-column layout)
-    assert "grid" in dashboard.metadata["html"]
-    assert "md:grid-cols-2" in dashboard.metadata["html"]  # 2-column responsive layout
+    # Check for CSS grid layout (custom CSS, not Tailwind)
+    assert "display: grid" in dashboard.metadata["html"] or "cards-grid" in dashboard.metadata["html"]
 
 
 def test_html_no_fullwidth_cards(sample_cards, sample_persona, sample_color_scheme):
@@ -225,12 +238,12 @@ def test_html_no_fullwidth_cards(sample_cards, sample_persona, sample_color_sche
 
 
 def test_card_size_column_spans(sample_cards, sample_persona, sample_color_scheme):
-    """Test that cards are rendered in 2-column grid layout."""
+    """Test that cards are rendered with proper grid layout."""
     builder = DashboardBuilder()
     dashboard = builder.build(sample_cards, persona=sample_persona, color_scheme=sample_color_scheme)
 
-    # Verify 2-column grid layout exists
-    assert "grid grid-cols-1 md:grid-cols-2" in dashboard.metadata["html"]
+    # Verify grid layout exists (custom CSS)
+    assert "cards-grid" in dashboard.metadata["html"] or "display: grid" in dashboard.metadata["html"]
 
     # Verify all card types are rendered (by checking their titles)
     assert "AI Trends 2025" in dashboard.metadata["html"]  # Large card

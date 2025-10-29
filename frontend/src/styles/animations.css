@@ -1,0 +1,152 @@
+/**
+ * Background Animation Keyframes Library
+ *
+ * Predefined CSS animations that can be selected by Claude AI
+ * for dashboard backgrounds. All animations are subtle and slow
+ * to avoid distraction from content.
+ */
+
+/* Float - Subtle vertical floating motion */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Pulse - Gentle opacity pulse */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* Drift - Slow horizontal drift */
+@keyframes drift {
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(30px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+/* Wave - Wave-like motion */
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  25% {
+    transform: translateY(-10px) translateX(10px);
+  }
+  50% {
+    transform: translateY(0px) translateX(20px);
+  }
+  75% {
+    transform: translateY(10px) translateX(10px);
+  }
+}
+
+/* Rotate Slow - Gentle rotation */
+@keyframes rotate-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Gradient Shift - Animated gradient colors */
+@keyframes gradient-shift {
+  0%, 100% {
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    filter: hue-rotate(30deg);
+  }
+}
+
+/* Glitch - Subtle glitch effect */
+@keyframes glitch {
+  0%, 90%, 100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+}
+
+/* Breathe - Scale pulse (breathing effect) */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Shimmer - Shimmer overlay effect */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Utility classes for applying animations */
+.animate-float {
+  animation: float var(--animation-duration, 20s) var(--animation-timing, ease-in-out) infinite;
+}
+
+.animate-pulse {
+  animation: pulse var(--animation-duration, 20s) var(--animation-timing, ease-in-out) infinite;
+}
+
+.animate-drift {
+  animation: drift var(--animation-duration, 20s) var(--animation-timing, ease-in-out) infinite;
+}
+
+.animate-wave {
+  animation: wave var(--animation-duration, 20s) var(--animation-timing, ease-in-out) infinite;
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow var(--animation-duration, 20s) var(--animation-timing, linear) infinite;
+}
+
+.animate-gradient-shift {
+  animation: gradient-shift var(--animation-duration, 20s) var(--animation-timing, ease-in-out) infinite;
+}
+
+.animate-glitch {
+  animation: glitch var(--animation-duration, 20s) var(--animation-timing, steps(2) infinite;
+}
+
+.animate-breathe {
+  animation: breathe var(--animation-duration, 20s) var(--animation-timing, ease-in-out) infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer var(--animation-duration, 20s) var(--animation-timing, linear) infinite;
+}

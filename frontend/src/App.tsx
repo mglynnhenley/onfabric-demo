@@ -4,7 +4,7 @@
 
 import { useState, useCallback } from 'react';
 import { Landing } from './components/Landing';
-import { BlueprintProgress } from './components/BlueprintProgress';
+import { Progress } from './components/Progress';
 import { Dashboard } from './components/Dashboard';
 import { useWebSocket } from './hooks/useWebSocket';
 import type { AppState, PersonaType, WebSocketMessage, Pattern, ThemeData, CardPreview } from './types';
@@ -18,6 +18,7 @@ function App() {
     currentStep: 'initializing',
     currentMessage: 'Initializing...',
     dashboardHTML: null,
+    dashboardData: null,
     selectedPersona: null,
     intelligence: {
       patterns: [],
@@ -46,7 +47,8 @@ function App() {
         ...prev,
         screen: 'dashboard',
         progress: 100,
-        dashboardHTML: message.html,
+        dashboardHTML: message.html,  // Deprecated, keeping for backward compatibility
+        dashboardData: message.dashboard,  // New JSON format
       }));
       disconnect();
       return;
@@ -114,74 +116,14 @@ function App() {
     }));
   }, []);
 
-  // Mock mode for testing Blueprint Assembly without backend
-  const runMockProgress = useCallback(() => {
-    setState(prev => ({ ...prev, screen: 'generating', progress: 0 }));
-
-    let currentProgress = 0;
-    const interval = setInterval(() => {
-      currentProgress += 1;
-
-      setState(prev => {
-        const newState = { ...prev, progress: currentProgress };
-        const intelligence = { ...prev.intelligence };
-
-        // Simulate data appearing at key moments
-        if (currentProgress === 18) {
-          intelligence.platforms = ['instagram', 'google', 'pinterest'];
-          intelligence.interactions = 2506;
-        }
-
-        if (currentProgress === 50) {
-          intelligence.patterns = [
-            { title: 'Evening content consumer', confidence: 0.87, description: 'Most active 6-10pm' },
-            { title: 'Visual-focused interactions', confidence: 0.92, description: 'Prefers image content' },
-          ];
-        }
-
-        if (currentProgress === 60) {
-          intelligence.theme = {
-            mood: 'focused & minimal',
-            primary: '#DC143C',
-            rationale: 'Derived from interaction patterns',
-          };
-        }
-
-        if (currentProgress === 70) {
-          intelligence.widgets = ['activity-chart', 'pattern-cards', 'insights'];
-          intelligence.cards = [
-            { title: 'Weekly Activity' },
-            { title: 'Content Preferences' },
-            { title: 'Peak Hours' },
-          ];
-        }
-
-        if (currentProgress >= 100) {
-          clearInterval(interval);
-          // Stay on generating screen to show completed state
-          setTimeout(() => {
-            setState(prev => ({
-              ...prev,
-              screen: 'landing',
-              progress: 0,
-            }));
-          }, 2000);
-        }
-
-        return { ...newState, intelligence };
-      });
-    }, 200); // 200ms per percent = 20 second total
-
-    return () => clearInterval(interval);
-  }, []);
-
   const handleGenerate = (persona: PersonaType) => {
     setState({
       screen: 'generating',
       progress: 0,
       currentStep: 'initializing',
-      currentMessage: 'Connecting to server...',
+      currentMessage: 'Connecting to AI pipeline...',
       dashboardHTML: null,
+      dashboardData: null,
       selectedPersona: persona,
       intelligence: {
         patterns: [],
@@ -194,13 +136,8 @@ function App() {
       error: null,
     });
 
-    // Check if we should use mock mode (hold Shift while clicking)
-    // Or if persona is 'demo', always use mock
-    if (persona === 'demo') {
-      runMockProgress();
-    } else {
-      connect(persona, handleMessage, handleError);
-    }
+    // Connect via WebSocket for real AI pipeline with mock OnFabric data
+    connect(persona, handleMessage, handleError);
   };
 
   const handleGenerateNew = () => {
@@ -210,6 +147,7 @@ function App() {
       currentStep: 'initializing',
       currentMessage: 'Initializing...',
       dashboardHTML: null,
+      dashboardData: null,
       selectedPersona: null,
       intelligence: {
         patterns: [],
@@ -230,7 +168,7 @@ function App() {
 
     case 'generating':
       return (
-        <BlueprintProgress
+        <Progress
           progress={state.progress}
           currentStep={state.currentStep}
           currentMessage={state.currentMessage}
@@ -239,12 +177,13 @@ function App() {
       );
 
     case 'dashboard':
-      return (
+      return state.dashboardData ? (
         <Dashboard
-          html={state.dashboardHTML!}
-          persona={state.selectedPersona || 'demo'}
+          dashboardData={state.dashboardData}
           onGenerateNew={handleGenerateNew}
         />
+      ) : (
+        <div>Loading dashboard...</div>
       );
 
     default:

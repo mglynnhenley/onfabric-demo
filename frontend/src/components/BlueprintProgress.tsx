@@ -71,9 +71,6 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
   const showInstagram = progress >= 15;
   const showGoogle = progress >= 23;
   const showPinterest = progress >= 30;
-  const showConstruction = progress >= 40;
-  const showPatterns = progress >= 53;
-  const showColors = progress >= 60;
 
   // Terminal messages - simplified, no API details
   useEffect(() => {
@@ -231,15 +228,14 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
           </div>
         </div>
 
-        {/* CENTER COLUMN: API Orchestration then Dashboard Construction */}
+        {/* CENTER COLUMN: API Orchestration */}
         <div className="flex-1 flex items-center justify-center" style={{ padding: 'var(--spacing-blueprint-lg)' }}>
-          {/* API Orchestration View (before dashboard cards) */}
+          {/* API Orchestration View */}
           <AnimatePresence>
-            {!showConstruction && apiCalls.length > 0 && (
+            {apiCalls.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 style={{ maxWidth: '600px', width: '100%' }}
               >
@@ -313,127 +309,6 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
                     </motion.div>
                   ))}
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Dashboard Construction View */}
-          <AnimatePresence>
-            {showConstruction && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                style={{ maxWidth: '700px', width: '100%' }}
-              >
-                {/* Dashboard Card Grid */}
-                <div className="grid grid-cols-2 gap-6">
-                  {dashboardCards.map((card, i) => (
-                    <motion.div
-                      key={i}
-                      className="relative border-2 flex items-center justify-center"
-                      style={{
-                        borderColor: 'var(--color-terminal-green)',
-                        background: 'var(--color-white)',
-                        minHeight: '120px',
-                        padding: 'var(--spacing-blueprint-md)',
-                      }}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{
-                        delay: 0.3 + i * 0.15,
-                        duration: 0.6,
-                        ease: [0.16, 1, 0.3, 1],
-                      }}
-                    >
-                      {/* Border drawing animation */}
-                      <motion.div
-                        className="absolute inset-0 border-2 pointer-events-none"
-                        style={{ borderColor: 'var(--color-terminal-green)' }}
-                        initial={{ clipPath: 'inset(0 100% 100% 0)' }}
-                        animate={{ clipPath: 'inset(0 0 0 0)' }}
-                        transition={{
-                          delay: 0.3 + i * 0.15,
-                          duration: 0.8,
-                          ease: [0.4, 0.0, 0.2, 1],
-                        }}
-                      />
-
-                      {/* Card label */}
-                      <motion.div
-                        style={{
-                          fontFamily: 'var(--font-family-mono)',
-                          fontSize: '11px',
-                          color: 'var(--color-gray)',
-                          textAlign: 'center',
-                        }}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.6 + i * 0.15, duration: 0.4 }}
-                      >
-                        {card.label}
-                      </motion.div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Pattern labels below grid */}
-                {showPatterns && intelligence.patterns.length > 0 && (
-                  <motion.div
-                    className="mt-6 space-y-1"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.5 }}
-                  >
-                    {intelligence.patterns.slice(0, 2).map((pattern, i) => (
-                      <div
-                        key={i}
-                        style={{
-                          fontFamily: 'var(--font-family-mono)',
-                          fontSize: '11px',
-                          color: 'var(--color-gray)',
-                        }}
-                      >
-                        ▸ {pattern.title}
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-
-                {/* Color swatches below patterns */}
-                {showColors && intelligence.theme && (
-                  <motion.div
-                    className="mt-4 flex gap-3"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7, duration: 0.5 }}
-                  >
-                    {[
-                      { color: 'var(--color-crimson)', label: 'crimson' },
-                      { color: 'var(--color-terminal-green)', label: 'accent' },
-                      { color: 'var(--color-charcoal)', label: 'primary' },
-                    ].map((swatch, i) => (
-                      <div key={i} className="flex items-center gap-2">
-                        <div
-                          className="w-5 h-5 border"
-                          style={{
-                            background: swatch.color,
-                            borderColor: 'var(--color-stroke)',
-                          }}
-                        />
-                        <span
-                          style={{
-                            fontFamily: 'var(--font-family-mono)',
-                            fontSize: '10px',
-                            color: 'var(--color-gray)',
-                          }}
-                        >
-                          {swatch.label}
-                        </span>
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
               </motion.div>
             )}
           </AnimatePresence>

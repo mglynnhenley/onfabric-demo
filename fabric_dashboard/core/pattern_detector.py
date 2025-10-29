@@ -3,7 +3,6 @@
 from typing import Optional
 
 from langchain_anthropic import ChatAnthropic
-from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 from tenacity import retry, stop_after_attempt, wait_exponential
@@ -18,7 +17,8 @@ class PatternDetectionResult(BaseModel):
 
     patterns: list[Pattern] = Field(
         min_length=4,
-        description="4-8 detected behavioral patterns",
+        max_length=5,
+        description="4-5 detected behavioral patterns with concise descriptions",
     )
     persona: PersonaProfile = Field(
         description="Extracted user persona profile",
@@ -48,7 +48,7 @@ class PatternDetector:
                 temperature=1.0,  # Higher temperature for creative pattern detection
                 api_key=config.anthropic_api_key,
                 timeout=60,
-                max_tokens=4096,  # Ensure enough space for complete responses
+                max_tokens=3000,  # Reduced - concise descriptions need less space
                 stop=None,
             )
 
@@ -147,22 +147,21 @@ class PatternDetector:
         logger.info("Detecting patterns with Claude")
 
         try:
-            # Create output parser
-            parser = PydanticOutputParser(pydantic_object=PatternDetectionResult)
-
             # Build prompt
-            prompt = self._build_prompt(parser)
+            prompt = self._build_prompt()
 
             # Prepare user data summary for context
             data_context = self._prepare_data_context(user_data)
 
-            # Create chain
-            chain = prompt | self.llm | parser
+            # Create structured LLM using with_structured_output()
+            structured_llm = self.llm.with_structured_output(PatternDetectionResult)
+
+            # Create chain: prompt -> structured LLM
+            chain = prompt | structured_llm
 
             # Execute
             result = chain.invoke({
                 "data_context": data_context,
-                "format_instructions": parser.get_format_instructions(),
             })
 
             logger.success(f"Detected {len(result.patterns)} patterns")
@@ -174,12 +173,9 @@ class PatternDetector:
             logger.warning("Falling back to mock pattern detection")
             return self._mock_detection(user_data)
 
-    def _build_prompt(self, parser: PydanticOutputParser) -> ChatPromptTemplate:  # noqa: ARG002
+    def _build_prompt(self) -> ChatPromptTemplate:
         """
         Build the prompt template for pattern detection.
-
-        Args:
-            parser: Pydantic output parser for format instructions.
 
         Returns:
             ChatPromptTemplate for pattern detection.
@@ -187,15 +183,20 @@ class PatternDetector:
         system_message = """You are an expert behavioral analyst specializing in digital footprint analysis.
 
 Your task is to analyze user interaction data and:
-1. Identify 4-8 distinct behavioral patterns or interest themes
+1. Identify exactly 4-5 distinct behavioral patterns or interest themes
 2. Extract a detailed persona profile including writing style preferences
+
+## CRITICAL: Keep Descriptions Concise
+- **Each pattern description must be 2-3 sentences maximum (under 80 words)**
+- Focus on the most important insights - what makes this pattern unique and why it matters
+- Be punchy and direct - no rambling explanations
 
 ## Guidelines for Pattern Detection:
 - Look for clusters of related activities, topics, or behaviors
 - Identify patterns that reveal interests, habits, or professional focus
 - Rank patterns by engagement signals (frequency, depth, consistency)
 - Create compelling titles that capture the essence of each pattern
-- Write descriptions that explain WHY this pattern matters
+- Write CONCISE descriptions (2-3 sentences) that explain WHY this pattern matters
 - Assign confidence scores based on evidence strength (0.0-1.0)
 
 ## Guidelines for Persona Extraction:
@@ -209,15 +210,13 @@ Your task is to analyze user interaction data and:
 - Identify key interests and professional context
 - Assess activity level and content depth preferences
 
-Be creative and insightful. Look beyond surface-level observations."""
+Be creative and insightful. Look beyond surface-level observations. But remember: BREVITY IS KEY."""
 
         human_message = """Analyze this user's digital activity:
 
 {data_context}
 
-Detect 4-8 distinct behavioral patterns and extract their persona profile.
-
-{format_instructions}"""
+Detect exactly 4-5 distinct behavioral patterns with CONCISE descriptions (2-3 sentences max) and extract their persona profile."""
 
         return ChatPromptTemplate.from_messages([
             ("system", system_message),

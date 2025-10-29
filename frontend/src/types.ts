@@ -4,7 +4,7 @@
 
 export type AppScreen = 'landing' | 'generating' | 'dashboard';
 
-export type PersonaType = 'fitness-enthusiast' | 'creative-professional' | 'tech-learner' | 'remote-worker' | 'demo';
+export type PersonaType = 'fitness-enthusiast' | 'creative-professional' | 'tech-learner' | 'remote-worker';
 
 // Pattern data from AI analysis
 export interface Pattern {
@@ -43,9 +43,79 @@ export interface ProgressMessage {
   };
 }
 
+// Dashboard JSON types (from backend)
+export interface Widget {
+  id: string;
+  type: string;
+  size: 'small' | 'medium' | 'large';
+  priority: number;
+  data: Record<string, any>;
+}
+
+export interface PersonaProfile {
+  writing_style: string;
+  interests: string[];
+  activity_level: string;
+  professional_context?: string;
+  tone_preference: string;
+  age_range?: string;
+  content_depth_preference: string;
+}
+
+export interface FontScheme {
+  heading: string;
+  body: string;
+  mono: string;
+  heading_url: string;
+  body_url: string;
+  mono_url: string;
+}
+
+export interface BackgroundTheme {
+  type: string;
+  color?: string;
+  gradient?: {
+    type: string;
+    colors: string[];
+    direction?: string;
+  };
+  pattern?: {
+    type: string;
+    color: string;
+    opacity: number;
+    scale: number;
+  };
+  card_background: string;
+  card_backdrop_blur: boolean;
+}
+
+export interface ColorScheme {
+  primary: string;
+  secondary: string;
+  accent: string;
+  foreground: string;
+  muted: string;
+  success: string;
+  warning: string;
+  destructive: string;
+  background_theme: BackgroundTheme;
+  fonts: FontScheme;
+  mood: string;
+  rationale: string;
+}
+
+export interface DashboardJSON {
+  id: string;
+  generated_at: string;
+  widgets: Widget[];
+  theme: ColorScheme;
+  persona: PersonaProfile;
+}
+
 export interface CompleteMessage {
   type: 'complete';
   html: string;
+  dashboard: DashboardJSON;  // New JSON format
   persona: string;
 }
 
@@ -71,7 +141,8 @@ export interface AppState {
   progress: number;
   currentStep: string;
   currentMessage: string;
-  dashboardHTML: string | null;
+  dashboardHTML: string | null;  // Deprecated, keeping for backward compatibility
+  dashboardData: DashboardJSON | null;  // New JSON format
   selectedPersona: PersonaType | null;
   intelligence: IntelligenceData;
   error: string | null;

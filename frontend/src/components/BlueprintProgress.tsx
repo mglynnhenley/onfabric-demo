@@ -48,6 +48,13 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
     { label: 'Recommendations' },
   ];
 
+  // Color constants for animations (Framer Motion can't animate CSS variables)
+  const COLORS = {
+    crimson: '#DC143C',
+    terminalGreen: '#00AA2E',
+    charcoal: '#2B2726',
+  };
+
   // Data sources
   const dataSources: DataSource[] = useMemo(() => [
     {
@@ -66,6 +73,13 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
       interactions: intelligence.platforms.includes('pinterest') ? intelligence.interactions : 456,
     },
   ], [intelligence]);
+
+  // Resolved color values for animations
+  const resolvedColors: { [key: string]: string } = useMemo(() => ({
+    'INSTAGRAM': COLORS.crimson,
+    'GOOGLE': COLORS.terminalGreen,
+    'PINTEREST': COLORS.charcoal,
+  }), []);
 
   // Progress-based visibility
   const showInstagram = progress >= 15;
@@ -344,9 +358,14 @@ export function BlueprintProgress({ progress, intelligence }: BlueprintProgressP
                     {/* Colored border overlay */}
                     <motion.div
                       className="absolute inset-0 border-2 pointer-events-none"
-                      style={{ borderColor: source.color }}
-                      initial={{ clipPath: 'inset(0 100% 100% 0)' }}
-                      animate={{ clipPath: 'inset(0 0 0 0)' }}
+                      initial={{
+                        clipPath: 'inset(0 100% 100% 0)',
+                        borderColor: '#E5E5E5' // --color-stroke
+                      }}
+                      animate={{
+                        clipPath: 'inset(0 0 0 0)',
+                        borderColor: resolvedColors[source.name]
+                      }}
                       transition={{ delay: delay + 0.2, duration: 0.8, ease: [0.4, 0.0, 0.2, 1] }}
                     />
 

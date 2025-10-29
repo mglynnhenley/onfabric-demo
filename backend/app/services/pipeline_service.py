@@ -7,9 +7,17 @@ and streams progress updates via callbacks for WebSocket communication.
 
 import asyncio
 import sys
+import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Callable, Optional, Dict, Any
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    datefmt='%H:%M:%S'
+)
 
 # Add parent directory to path to import fabric_dashboard
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
@@ -20,6 +28,7 @@ from fabric_dashboard.core.theme_generator import ThemeGenerator
 from fabric_dashboard.core.content_writer import ContentWriter
 from fabric_dashboard.core.ui_generator import UIGenerator
 from fabric_dashboard.core.dashboard_builder import DashboardBuilder
+from fabric_dashboard.core.search_enricher import SearchEnricher
 from fabric_dashboard.models.schemas import CardSize
 
 
@@ -50,6 +59,9 @@ class PipelineService:
             RuntimeError: If generation fails
         """
         start_time = datetime.now()
+        logging.info("=" * 80)
+        logging.info(f"🚀 STARTING DASHBOARD GENERATION FOR PERSONA: {persona}")
+        logging.info("=" * 80)
 
         try:
             # Send progress: Starting
@@ -62,16 +74,29 @@ class PipelineService:
             # Step 1: Initialize components
             # DataFetcher stays in mock mode (use fixture data, not OnFabric)
             # AI components use real Claude API for generation
+            logging.info("📦 STEP 1: Initializing pipeline components")
+            logging.info("  • DataFetcher: MOCK mode (using fixture data)")
+            logging.info("  • PatternDetector: REAL Claude AI")
+            logging.info("  • SearchEnricher: REAL Perplexity API + Claude AI")
+            logging.info("  • ThemeGenerator: REAL Claude AI")
+            logging.info("  • ContentWriter: REAL Claude AI")
+            logging.info("  • UIGenerator: REAL Claude AI")
+
             data_fetcher = DataFetcher(mock_mode=True)
             pattern_detector = PatternDetector(mock_mode=False)  # Real AI
+            search_enricher = SearchEnricher(mock_mode=False)    # Real Perplexity + Claude
             theme_generator = ThemeGenerator(mock_mode=False)    # Real AI
             content_writer = ContentWriter(mock_mode=False)      # Real AI
             ui_generator = UIGenerator(mock_mode=False)          # Real AI
             dashboard_builder = DashboardBuilder()
 
+            logging.info("✓ All components initialized")
+
             await asyncio.sleep(0.5)  # Brief pause for UX
 
             # Step 2: Fetch data (mock data for persona)
+            logging.info("")
+            logging.info("📊 STEP 2: Fetching user data")
             await self._send_progress(progress_callback, {
                 "step": "data",
                 "percent": 10,
@@ -94,9 +119,14 @@ class PipelineService:
             interaction_count = user_data.summary.total_interactions
             platforms = user_data.summary.platforms
 
+            logging.info(f"✓ Loaded {interaction_count} interactions from {len(platforms)} platforms")
+            logging.info(f"  Platforms: {', '.join(platforms)}")
+
             await asyncio.sleep(1)
 
             # Step 3: Detect patterns
+            logging.info("")
+            logging.info("🧠 STEP 3: Detecting patterns with Claude AI")
             await self._send_progress(progress_callback, {
                 "step": "patterns",
                 "percent": 30,
@@ -110,6 +140,28 @@ class PipelineService:
             pattern_result = pattern_detector.detect_patterns(user_data)
             patterns = pattern_result.patterns
             persona_profile = pattern_result.persona
+
+            logging.info(f"✓ Detected {len(patterns)} patterns")
+            logging.info("")
+            logging.info("PERSONA PROFILE:")
+            logging.info(f"  Writing Style: {persona_profile.writing_style}")
+            logging.info(f"  Interests: {', '.join(persona_profile.interests[:5])}")
+            logging.info(f"  Activity Level: {persona_profile.activity_level}")
+            logging.info(f"  Tone Preference: {persona_profile.tone_preference}")
+            logging.info(f"  Content Depth: {persona_profile.content_depth_preference}")
+            if persona_profile.professional_context:
+                logging.info(f"  Professional Context: {persona_profile.professional_context}")
+            if persona_profile.age_range:
+                logging.info(f"  Age Range: {persona_profile.age_range}")
+            logging.info("")
+            logging.info("PATTERNS DETECTED:")
+            for i, p in enumerate(patterns, 1):
+                logging.info(f"  Pattern {i}: {p.title}")
+                logging.info(f"    Confidence: {p.confidence:.0%}")
+                logging.info(f"    Description: {p.description[:200]}...")
+                logging.info(f"    Keywords: {', '.join(p.keywords[:5])}")
+                logging.info(f"    Interactions: {p.interaction_count}")
+                logging.info("")
 
             # Send discovered patterns
             await self._send_progress(progress_callback, {
@@ -130,6 +182,8 @@ class PipelineService:
             await asyncio.sleep(1.5)
 
             # Step 4: Generate theme
+            logging.info("")
+            logging.info("🎨 STEP 4: Generating theme with Claude AI")
             await self._send_progress(progress_callback, {
                 "step": "theme",
                 "percent": 50,
@@ -137,6 +191,32 @@ class PipelineService:
             })
 
             color_scheme = theme_generator.generate_theme(persona_profile, patterns)
+
+            logging.info(f"✓ Generated theme: {color_scheme.mood}")
+            logging.info("")
+            logging.info("COLOR SCHEME:")
+            logging.info(f"  Mood: {color_scheme.mood}")
+            logging.info(f"  Primary: {color_scheme.primary}")
+            logging.info(f"  Secondary: {color_scheme.secondary}")
+            logging.info(f"  Accent: {color_scheme.accent}")
+            logging.info(f"  Foreground: {color_scheme.foreground}")
+            logging.info(f"  Muted: {color_scheme.muted}")
+            logging.info(f"  Success: {color_scheme.success}")
+            logging.info(f"  Warning: {color_scheme.warning}")
+            logging.info(f"  Destructive: {color_scheme.destructive}")
+            logging.info(f"  Rationale: {color_scheme.rationale[:200]}...")
+            logging.info("")
+            logging.info("FONTS:")
+            logging.info(f"  Heading: {color_scheme.fonts.heading}")
+            logging.info(f"  Body: {color_scheme.fonts.body}")
+            logging.info(f"  Mono: {color_scheme.fonts.mono}")
+            logging.info("")
+            logging.info("BACKGROUND:")
+            logging.info(f"  Type: {color_scheme.background_theme.type}")
+            if color_scheme.background_theme.gradient:
+                logging.info(f"  Gradient: {color_scheme.background_theme.gradient.type}")
+                logging.info(f"  Colors: {', '.join(color_scheme.background_theme.gradient.colors)}")
+            logging.info("")
 
             # Send theme info
             await self._send_progress(progress_callback, {
@@ -152,18 +232,38 @@ class PipelineService:
 
             await asyncio.sleep(1)
 
-            # Step 5: Generate content cards
+            # Step 5: Enrich patterns with search results
+            logging.info("")
+            logging.info("🔍 STEP 5: Enriching patterns with Perplexity search")
+            await self._send_progress(progress_callback, {
+                "step": "search",
+                "percent": 60,
+                "message": "Researching latest trends and insights...",
+            })
+
+            # Enrich patterns with real Perplexity searches
+            enriched_patterns = await search_enricher.enrich_patterns(patterns, max_queries_per_pattern=2)
+
+            logging.info(f"✓ Enriched {len(enriched_patterns)} patterns with search results")
+            for i, ep in enumerate(enriched_patterns[:3], 1):
+                logging.info(f"  Pattern {i}: {ep.pattern.title}")
+                logging.info(f"    Search results: {len(ep.search_results)}")
+                if ep.search_results:
+                    for j, sr in enumerate(ep.search_results[:2], 1):
+                        logging.info(f"      Query {j}: {sr.query}")
+                        logging.info(f"      Sources: {len(sr.sources)}")
+                logging.info("")
+
+            await asyncio.sleep(1)
+
+            # Step 6: Generate content cards
+            logging.info("")
+            logging.info("✍️  STEP 6: Writing content with Claude AI")
             await self._send_progress(progress_callback, {
                 "step": "content",
                 "percent": 70,
                 "message": "Writing personalized insights...",
             })
-
-            # Create enriched patterns (mock - no actual search in demo)
-            enriched_patterns = [
-                type('EnrichedPattern', (), {'pattern': p, 'search_results': []})()
-                for p in patterns
-            ]
 
             # Generate more cards for generative feel (8-10 cards)
             import random
@@ -180,7 +280,20 @@ class PipelineService:
             )
             card_sizes = [random.choice(size_pool) for _ in range(num_cards)]
 
+            logging.info(f"  Generating {num_cards} cards in parallel...")
             cards = await content_writer.generate_cards(enriched_patterns, persona_profile, card_sizes)
+
+            logging.info(f"✓ Generated {len(cards)} content cards")
+            logging.info("")
+            logging.info("CONTENT CARDS GENERATED:")
+            for i, card in enumerate(cards, 1):
+                logging.info(f"  Card {i}: {card.title}")
+                logging.info(f"    Size: {card.size}")
+                logging.info(f"    Description: {card.description}")
+                logging.info(f"    Word count: {len(card.body.split())} words")
+                logging.info(f"    Reading time: {card.reading_time_minutes} min")
+                logging.info(f"    Preview: {card.body[:150]}...")
+                logging.info("")
 
             # Send card titles
             await self._send_progress(progress_callback, {
@@ -194,7 +307,9 @@ class PipelineService:
 
             await asyncio.sleep(1)
 
-            # Step 6: Generate UI components
+            # Step 7: Generate UI components
+            logging.info("")
+            logging.info("🧩 STEP 7: Generating UI components with Claude AI")
             await self._send_progress(progress_callback, {
                 "step": "widgets",
                 "percent": 85,
@@ -203,6 +318,36 @@ class PipelineService:
 
             ui_result = await ui_generator.generate_components(patterns, persona_profile)
             ui_components = ui_result.components
+
+            logging.info(f"✓ Generated {len(ui_components)} UI components")
+            logging.info("")
+            logging.info("UI COMPONENTS GENERATED:")
+            for i, comp in enumerate(ui_components, 1):
+                logging.info(f"  Component {i}: {comp.component_type}")
+                logging.info(f"    Title: {comp.title}")
+                logging.info(f"    Pattern: {comp.pattern_title}")
+                logging.info(f"    Confidence: {comp.confidence:.0%}")
+
+                # Log component-specific data
+                if comp.component_type == "video-feed" and hasattr(comp, 'videos'):
+                    logging.info(f"    Videos: {len(comp.videos)} videos")
+                    if comp.videos:
+                        logging.info(f"    Query: {comp.search_query}")
+                elif comp.component_type == "event-calendar" and hasattr(comp, 'events'):
+                    logging.info(f"    Events: {len(comp.events)} events")
+                    if comp.events:
+                        logging.info(f"    Query: {comp.search_query}")
+                elif comp.component_type == "map-card" and hasattr(comp, 'markers'):
+                    logging.info(f"    Markers: {len(comp.markers)} locations")
+                    logging.info(f"    Center: ({comp.center_lat:.4f}, {comp.center_lng:.4f})")
+                elif comp.component_type == "task-list" and hasattr(comp, 'tasks'):
+                    logging.info(f"    Tasks: {len(comp.tasks)} items")
+                elif comp.component_type == "info-card" and hasattr(comp, 'location'):
+                    logging.info(f"    Location: {comp.location}")
+                elif comp.component_type == "content-card" and hasattr(comp, 'overview'):
+                    logging.info(f"    Overview: {comp.overview[:100]}...")
+
+                logging.info("")
 
             # Send widget info
             await self._send_progress(progress_callback, {
@@ -216,7 +361,9 @@ class PipelineService:
 
             await asyncio.sleep(0.5)
 
-            # Step 7: Build dashboard (both HTML and JSON)
+            # Step 8: Build dashboard (both HTML and JSON)
+            logging.info("")
+            logging.info("🏗️  STEP 8: Building dashboard")
             await self._send_progress(progress_callback, {
                 "step": "building",
                 "percent": 95,
@@ -243,9 +390,20 @@ class PipelineService:
                 color_scheme=color_scheme,
             )
 
+            logging.info(f"✓ Dashboard assembled")
+            logging.info(f"  - {len(cards)} content cards")
+            logging.info(f"  - {len(ui_components)} widgets")
+            logging.info(f"  - HTML size: {len(html):,} chars")
+
             await asyncio.sleep(0.5)
 
-            # Step 8: Complete
+            # Step 9: Complete
+            total_time = (datetime.now() - start_time).total_seconds()
+            logging.info("")
+            logging.info("=" * 80)
+            logging.info(f"✅ DASHBOARD GENERATION COMPLETE ({total_time:.1f}s)")
+            logging.info("=" * 80)
+
             await self._send_progress(progress_callback, {
                 "step": "complete",
                 "percent": 100,

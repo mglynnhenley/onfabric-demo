@@ -7,7 +7,7 @@ import type { WebSocketMessage, PersonaType } from '../types';
 
 const WS_URL = import.meta.env.PROD
   ? 'wss://your-app.up.railway.app/ws/generate'  // TODO: Update with actual Railway URL
-  : 'ws://localhost:8001/ws/generate';
+  : 'ws://localhost:8000/ws/generate';
 
 export function useWebSocket() {
   const wsRef = useRef<WebSocket | null>(null);
@@ -36,7 +36,7 @@ export function useWebSocket() {
       };
 
       ws.onerror = () => {
-        onError('Connection error. Make sure the backend is running on port 8001.');
+        onError('Connection error. Make sure the backend is running on port 8000.');
       };
 
       ws.onclose = () => {

@@ -140,7 +140,7 @@
 }
 
 .animate-glitch {
-  animation: glitch var(--animation-duration, 20s) var(--animation-timing, steps(2) infinite;
+  animation: glitch var(--animation-duration, 20s) var(--animation-timing, steps(2)) infinite;
 }
 
 .animate-breathe {

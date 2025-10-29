@@ -7,9 +7,15 @@ and streams real progress updates via WebSocket.
 
 import asyncio
 import json
+from pathlib import Path
+from dotenv import load_dotenv
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+
+# Load environment variables from .env file in project root
+env_path = Path(__file__).parent.parent.parent / ".env"
+load_dotenv(env_path)
 
 from app.services.pipeline_service import PipelineService
 from app.test_data import get_mock_ui_components, get_mock_persona, get_mock_color_scheme

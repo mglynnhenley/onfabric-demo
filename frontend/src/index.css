@@ -14,10 +14,25 @@
   --color-soft-peach: #F5E6DA;
   --color-pale-sage: #D9E5D6;
 
+  /* Blueprint/Terminal Color Palette (for Blueprint components) */
+  --color-paper: #FAFAF9;
+  --color-white: #FFFFFF;
+  --color-crimson: #DC143C;
+  --color-terminal-green: #00AA2E;
+  --color-gray: #6B7280;
+  --color-stroke: #E5E5E5;
+
   /* Font Families */
   --font-family-serif: 'EB Garamond', serif;
   --font-family-sans: 'Manrope', system-ui, sans-serif;
   --font-family-mono: 'IBM Plex Mono', monospace;
+
+  /* Spacing System (for Blueprint components) */
+  --spacing-blueprint-xs: 8px;
+  --spacing-blueprint-sm: 16px;
+  --spacing-blueprint-md: 24px;
+  --spacing-blueprint-lg: 48px;
+  --spacing-blueprint-xl: 80px;
 }
 
 @layer base {

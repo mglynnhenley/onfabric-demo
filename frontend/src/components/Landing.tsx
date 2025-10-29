@@ -21,6 +21,14 @@ export function Landing({ onGenerate }: LandingProps) {
 
   const bootText = '> system.initialize()';
 
+  // Color constants for animations (Framer Motion can't animate CSS variables)
+  const COLORS = {
+    crimson: '#DC143C',
+    terminalGreen: '#00AA2E',
+    stroke: '#E5E5E5',
+    charcoal: '#2B2726',
+  };
+
   // Framer Motion scroll animations (keeping for future use)
   const { scrollYProgress } = useScroll();
 
@@ -93,9 +101,9 @@ export function Landing({ onGenerate }: LandingProps) {
               animate={{
                 backgroundColor: isHovering
                   ? i % 2 === 0
-                    ? 'var(--color-crimson)'
-                    : 'var(--color-terminal-green)'
-                  : 'var(--color-stroke)',
+                    ? COLORS.crimson
+                    : COLORS.terminalGreen
+                  : COLORS.stroke,
                 scale: isHovering ? [1, 1.5, 1] : 1,
                 opacity: isHovering ? [0.2, 0.8, 0.3] : 0.2,
               }}
@@ -279,8 +287,8 @@ export function Landing({ onGenerate }: LandingProps) {
                   }}
                   whileHover={{
                     x: 8,
-                    borderColor: 'var(--color-crimson)',
-                    boxShadow: '6px 6px 0px var(--color-crimson)',
+                    borderColor: COLORS.crimson,
+                    boxShadow: `6px 6px 0px ${COLORS.crimson}`,
                   }}
                   transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 >

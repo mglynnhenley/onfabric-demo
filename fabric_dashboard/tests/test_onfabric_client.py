@@ -192,3 +192,45 @@ def test_get_summaries_custom_params():
         )
 
         assert summaries == []
+
+
+@responses.activate
+def test_client_auto_discovers_tapestry_id():
+    """Test client auto-discovers tapestry ID when not in env."""
+    responses.add(
+        responses.GET,
+        "https://api.onfabric.io/api/v1/tapestries",
+        json=[
+            {"id": "discovered_tapestry_123", "fabric_user_id": "user_456"},
+            {"id": "second_tapestry_456", "fabric_user_id": "user_456"}
+        ],
+        status=200
+    )
+
+    with patch.dict(os.environ, {"ONFABRIC_BEARER_TOKEN": "test_token"}, clear=True):
+        client = OnFabricAPIClient()
+
+        # Should auto-discover and use first tapestry
+        assert client.tapestry_id == "discovered_tapestry_123"
+
+
+@responses.activate
+def test_client_auto_discovery_warns_multiple_tapestries():
+    """Test client warns when multiple tapestries found."""
+    responses.add(
+        responses.GET,
+        "https://api.onfabric.io/api/v1/tapestries",
+        json=[
+            {"id": "tapestry_1", "fabric_user_id": "user_456"},
+            {"id": "tapestry_2", "fabric_user_id": "user_456"}
+        ],
+        status=200
+    )
+
+    with patch.dict(os.environ, {"ONFABRIC_BEARER_TOKEN": "test_token"}, clear=True):
+        with patch("fabric_dashboard.utils.logger.warning") as mock_warning:
+            client = OnFabricAPIClient()
+
+            # Should warn about multiple tapestries
+            mock_warning.assert_called()
+            assert "multiple tapestries" in str(mock_warning.call_args).lower()

@@ -21,6 +21,8 @@ class OnFabricAPIClient:
         """
         Initialize client with credentials from .env.
 
+        Auto-discovers tapestry ID if not set in environment.
+
         Raises:
             ValueError: If ONFABRIC_BEARER_TOKEN not found in environment.
         """
@@ -33,7 +35,6 @@ class OnFabricAPIClient:
                 "See docs/plans/2025-10-30-onfabric-api-client-design.md for setup."
             )
 
-        self.tapestry_id = os.getenv("ONFABRIC_TAPESTRY_ID")
         self.base_url = "https://api.onfabric.io/api/v1"
 
         # Setup requests session with auth header
@@ -42,6 +43,24 @@ class OnFabricAPIClient:
             "accept": "application/json",
             "authorization": f"Bearer {self.bearer_token}"
         })
+
+        # Get or auto-discover tapestry ID
+        self.tapestry_id = os.getenv("ONFABRIC_TAPESTRY_ID")
+        if not self.tapestry_id:
+            logger.warning("ONFABRIC_TAPESTRY_ID not set, auto-discovering...")
+            tapestries = self.get_tapestries()
+
+            if not tapestries:
+                raise ValueError("No tapestries found for this account")
+
+            if len(tapestries) > 1:
+                logger.warning(
+                    f"Found multiple tapestries ({len(tapestries)}), using first one. "
+                    "Set ONFABRIC_TAPESTRY_ID in .env to specify."
+                )
+
+            self.tapestry_id = tapestries[0]["id"]
+            logger.info(f"Using tapestry: {self.tapestry_id}")
 
         logger.info("OnFabric API client initialized")
 

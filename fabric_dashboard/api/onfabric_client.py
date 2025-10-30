@@ -65,3 +65,27 @@ class OnFabricAPIClient:
         logger.muted(f"Found {len(tapestries)} tapestry(ies)")
 
         return tapestries
+
+    def get_threads(self, tapestry_id: str) -> list[dict[str, Any]]:
+        """
+        Get threads for a specific tapestry.
+
+        Args:
+            tapestry_id: ID of the tapestry to fetch threads from.
+
+        Returns:
+            List of thread dictionaries.
+
+        Raises:
+            requests.HTTPError: If API request fails.
+        """
+        url = f"{self.base_url}/tapestries/{tapestry_id}/threads"
+
+        logger.muted(f"Fetching threads for tapestry {tapestry_id[:8]}...")
+        response = self.session.get(url)
+        response.raise_for_status()
+
+        threads = response.json()
+        logger.muted(f"Retrieved {len(threads)} thread(s)")
+
+        return threads

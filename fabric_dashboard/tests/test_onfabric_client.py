@@ -75,3 +75,60 @@ def test_get_tapestries_api_error():
 
         with pytest.raises(requests.HTTPError):
             client.get_tapestries()
+
+
+@responses.activate
+def test_get_threads_success():
+    """Test fetching threads from API."""
+    mock_threads = [
+        {
+            "id": "thread_1",
+            "provider": "instagram",
+            "content": "Posted photo",
+            "asat": "2025-10-27T18:37:28"
+        },
+        {
+            "id": "thread_2",
+            "provider": "google",
+            "content": "Searched for AI",
+            "asat": "2025-10-26T12:00:00"
+        }
+    ]
+
+    responses.add(
+        responses.GET,
+        "https://api.onfabric.io/api/v1/tapestries/tapestry_123/threads",
+        json=mock_threads,
+        status=200
+    )
+
+    with patch.dict(os.environ, {
+        "ONFABRIC_BEARER_TOKEN": "test_token",
+        "ONFABRIC_TAPESTRY_ID": "tapestry_123"
+    }):
+        client = OnFabricAPIClient()
+        threads = client.get_threads("tapestry_123")
+
+        assert len(threads) == 2
+        assert threads[0]["id"] == "thread_1"
+        assert threads[1]["provider"] == "google"
+
+
+@responses.activate
+def test_get_threads_not_found():
+    """Test get_threads handles 404 errors."""
+    responses.add(
+        responses.GET,
+        "https://api.onfabric.io/api/v1/tapestries/invalid_id/threads",
+        json={"error": "Tapestry not found"},
+        status=404
+    )
+
+    with patch.dict(os.environ, {
+        "ONFABRIC_BEARER_TOKEN": "test_token",
+        "ONFABRIC_TAPESTRY_ID": "tapestry_123"
+    }):
+        client = OnFabricAPIClient()
+
+        with pytest.raises(requests.HTTPError):
+            client.get_threads("invalid_id")

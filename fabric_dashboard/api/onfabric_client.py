@@ -1,6 +1,7 @@
 """OnFabric API client."""
 
 import os
+from typing import Any
 
 import requests
 from dotenv import load_dotenv
@@ -43,3 +44,24 @@ class OnFabricAPIClient:
         })
 
         logger.info("OnFabric API client initialized")
+
+    def get_tapestries(self) -> list[dict[str, Any]]:
+        """
+        Get list of available tapestries for the authenticated user.
+
+        Returns:
+            List of tapestry dictionaries.
+
+        Raises:
+            requests.HTTPError: If API request fails.
+        """
+        url = f"{self.base_url}/tapestries"
+
+        logger.muted("Fetching tapestries from OnFabric API")
+        response = self.session.get(url)
+        response.raise_for_status()
+
+        tapestries = response.json()
+        logger.muted(f"Found {len(tapestries)} tapestry(ies)")
+
+        return tapestries

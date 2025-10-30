@@ -1,5 +1,7 @@
 """Tests for data fetcher module."""
 
+from unittest.mock import Mock, patch
+
 from fabric_dashboard.core.data_fetcher import DataFetcher
 from fabric_dashboard.models.schemas import UserData
 
@@ -8,14 +10,15 @@ def test_data_fetcher_mock_mode():
     """Test DataFetcher in mock mode."""
     fetcher = DataFetcher(mock_mode=True)
     assert fetcher.mock_mode is True
-    assert fetcher.mcp_client is None
+    assert fetcher.api_client is None
 
 
 def test_data_fetcher_real_mode():
     """Test DataFetcher in real mode."""
-    fetcher = DataFetcher(mock_mode=False)
-    assert fetcher.mock_mode is False
-    assert fetcher.mcp_client is not None
+    with patch("fabric_dashboard.core.data_fetcher.OnFabricAPIClient"):
+        fetcher = DataFetcher(mock_mode=False)
+        assert fetcher.mock_mode is False
+        assert fetcher.api_client is not None
 
 
 def test_fetch_mock_data():
@@ -97,12 +100,52 @@ def test_context_manager():
 
 
 def test_fetch_real_mode_fallback():
-    """Test that real mode falls back to mock data when MCP not implemented."""
-    fetcher = DataFetcher(mock_mode=False)
+    """Test that real mode handles API errors gracefully."""
+    with patch("fabric_dashboard.core.data_fetcher.OnFabricAPIClient") as mock_client_class:
+        mock_client = Mock()
+        mock_client.tapestry_id = "test_tapestry"
+        # Simulate API error
+        mock_client.get_threads.side_effect = Exception("API Error")
+        mock_client_class.return_value = mock_client
 
-    # This should fall back to mock data since MCP raises NotImplementedError
-    user_data = fetcher.fetch_user_data(days_back=30)
+        fetcher = DataFetcher(mock_mode=False)
+        user_data = fetcher.fetch_user_data(days_back=30)
 
-    # Should still return data via fallback
-    assert user_data is not None
-    assert isinstance(user_data, UserData)
+        # Should return None on error
+        assert user_data is None
+
+
+def test_data_fetcher_uses_api_client():
+    """Test DataFetcher initializes with OnFabric API client."""
+    with patch("fabric_dashboard.core.data_fetcher.OnFabricAPIClient") as mock_client:
+        fetcher = DataFetcher(mock_mode=False)
+
+        # Should create API client instead of MCP client
+        mock_client.assert_called_once()
+        assert fetcher.api_client is not None
+        assert not hasattr(fetcher, "mcp_client")
+
+
+def test_fetch_from_api_calls_client():
+    """Test _fetch_from_api method calls API client methods."""
+    with patch("fabric_dashboard.core.data_fetcher.OnFabricAPIClient") as mock_client_class:
+        mock_client = Mock()
+        mock_client.tapestry_id = "test_tapestry_123"
+        mock_client.get_threads.return_value = [
+            {"id": "thread_1", "content": "Test", "asat": "2025-10-27T12:00:00"}
+        ]
+        mock_client.get_summaries.return_value = [
+            {"id": "summary_1", "summary": "Test summary"}
+        ]
+        mock_client_class.return_value = mock_client
+
+        fetcher = DataFetcher(mock_mode=False)
+        user_data = fetcher.fetch_user_data(days_back=30)
+
+        # Should call API client methods
+        mock_client.get_threads.assert_called_once_with("test_tapestry_123")
+        mock_client.get_summaries.assert_called_once_with("test_tapestry_123")
+
+        # Should return UserData
+        assert user_data is not None
+        assert len(user_data.interactions) > 0

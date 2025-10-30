@@ -234,3 +234,18 @@ def test_client_auto_discovery_warns_multiple_tapestries():
             # Should warn about multiple tapestries
             mock_warning.assert_called()
             assert "multiple tapestries" in str(mock_warning.call_args).lower()
+
+
+@responses.activate
+def test_client_auto_discovery_no_tapestries():
+    """Test client raises error when no tapestries found."""
+    responses.add(
+        responses.GET,
+        "https://api.onfabric.io/api/v1/tapestries",
+        json=[],
+        status=200
+    )
+
+    with patch.dict(os.environ, {"ONFABRIC_BEARER_TOKEN": "test_token"}, clear=True):
+        with pytest.raises(ValueError, match="No tapestries found"):
+            OnFabricAPIClient()

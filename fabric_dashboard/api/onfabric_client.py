@@ -1,7 +1,6 @@
 """OnFabric API client."""
 
 import os
-from typing import Any
 
 import requests
 from dotenv import load_dotenv
@@ -11,6 +10,11 @@ from fabric_dashboard.utils import logger
 
 class OnFabricAPIClient:
     """Simple HTTP client for OnFabric API."""
+
+    bearer_token: str
+    tapestry_id: str | None
+    base_url: str
+    session: requests.Session
 
     def __init__(self):
         """

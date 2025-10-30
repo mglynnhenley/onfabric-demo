@@ -132,3 +132,63 @@ def test_get_threads_not_found():
 
         with pytest.raises(requests.HTTPError):
             client.get_threads("invalid_id")
+
+
+@responses.activate
+def test_get_summaries_success():
+    """Test fetching summaries from API."""
+    mock_summaries = [
+        {
+            "id": "summary_1",
+            "provider": "instagram",
+            "summary": "Posted 5 photos this week",
+            "week_start": "2025-10-21"
+        }
+    ]
+
+    responses.add(
+        responses.GET,
+        "https://api.onfabric.io/api/v1/tapestries/tapestry_123/summaries?page_size=10&direction=desc&provider=instagram",
+        json=mock_summaries,
+        status=200
+    )
+
+    with patch.dict(os.environ, {
+        "ONFABRIC_BEARER_TOKEN": "test_token",
+        "ONFABRIC_TAPESTRY_ID": "tapestry_123"
+    }):
+        client = OnFabricAPIClient()
+        summaries = client.get_summaries(
+            "tapestry_123",
+            provider="instagram",
+            page_size=10,
+            direction="desc"
+        )
+
+        assert len(summaries) == 1
+        assert summaries[0]["provider"] == "instagram"
+
+
+@responses.activate
+def test_get_summaries_custom_params():
+    """Test get_summaries with custom parameters."""
+    responses.add(
+        responses.GET,
+        "https://api.onfabric.io/api/v1/tapestries/tapestry_123/summaries?page_size=20&direction=asc&provider=google",
+        json=[],
+        status=200
+    )
+
+    with patch.dict(os.environ, {
+        "ONFABRIC_BEARER_TOKEN": "test_token",
+        "ONFABRIC_TAPESTRY_ID": "tapestry_123"
+    }):
+        client = OnFabricAPIClient()
+        summaries = client.get_summaries(
+            "tapestry_123",
+            provider="google",
+            page_size=20,
+            direction="asc"
+        )
+
+        assert summaries == []

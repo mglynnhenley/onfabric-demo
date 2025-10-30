@@ -89,3 +89,41 @@ class OnFabricAPIClient:
         logger.muted(f"Retrieved {len(threads)} thread(s)")
 
         return threads
+
+    def get_summaries(
+        self,
+        tapestry_id: str,
+        provider: str = "instagram",
+        page_size: int = 10,
+        direction: str = "desc"
+    ) -> list[dict[str, Any]]:
+        """
+        Get weekly summaries for a specific tapestry and provider.
+
+        Args:
+            tapestry_id: ID of the tapestry.
+            provider: Provider name (e.g., "instagram", "google").
+            page_size: Number of summaries to retrieve.
+            direction: Sort direction ("asc" or "desc").
+
+        Returns:
+            List of summary dictionaries.
+
+        Raises:
+            requests.HTTPError: If API request fails.
+        """
+        url = f"{self.base_url}/tapestries/{tapestry_id}/summaries"
+        params = {
+            "page_size": page_size,
+            "direction": direction,
+            "provider": provider
+        }
+
+        logger.muted(f"Fetching {provider} summaries for tapestry {tapestry_id[:8]}...")
+        response = self.session.get(url, params=params)
+        response.raise_for_status()
+
+        summaries = response.json()
+        logger.muted(f"Retrieved {len(summaries)} summary(ies)")
+
+        return summaries

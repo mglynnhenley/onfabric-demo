@@ -1,0 +1,41 @@
+"""OnFabric API client."""
+
+import os
+from typing import Any
+
+import requests
+from dotenv import load_dotenv
+
+from fabric_dashboard.utils import logger
+
+
+class OnFabricAPIClient:
+    """Simple HTTP client for OnFabric API."""
+
+    def __init__(self):
+        """
+        Initialize client with credentials from .env.
+
+        Raises:
+            ValueError: If ONFABRIC_BEARER_TOKEN not found in environment.
+        """
+        load_dotenv()
+
+        self.bearer_token = os.getenv("ONFABRIC_BEARER_TOKEN")
+        if not self.bearer_token:
+            raise ValueError(
+                "ONFABRIC_BEARER_TOKEN not found in .env. "
+                "See docs/plans/2025-10-30-onfabric-api-client-design.md for setup."
+            )
+
+        self.tapestry_id = os.getenv("ONFABRIC_TAPESTRY_ID")
+        self.base_url = "https://api.onfabric.io/api/v1"
+
+        # Setup requests session with auth header
+        self.session = requests.Session()
+        self.session.headers.update({
+            "accept": "application/json",
+            "authorization": f"Bearer {self.bearer_token}"
+        })
+
+        logger.info("OnFabric API client initialized")

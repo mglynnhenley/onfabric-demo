@@ -155,6 +155,13 @@ class DataFetcher:
             logger.error(f"Failed to fetch data from OnFabric API: {e}")
             return None
 
+    def _parse_thread_date(self, date_str: str) -> datetime:
+        """Parse thread date string and ensure timezone-aware."""
+        dt = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt
+
     def _transform_api_data(self, raw_data: dict[str, Any], days_back: int) -> Optional[UserData]:
         """
         Transform raw API response into UserData model.
@@ -169,38 +176,24 @@ class DataFetcher:
         try:
             threads = raw_data.get("threads", [])
 
-            # Filter threads by date
+            # Filter threads by date and collect dates in a single pass
             cutoff_date = datetime.now(timezone.utc) - timedelta(days=days_back)
             filtered_threads = []
+            dates = []
 
             for thread in threads:
                 thread_date_str = thread.get("asat")
                 if thread_date_str:
-                    # Parse date and make timezone-aware if needed
-                    thread_date = datetime.fromisoformat(thread_date_str.replace("Z", "+00:00"))
-                    if thread_date.tzinfo is None:
-                        thread_date = thread_date.replace(tzinfo=timezone.utc)
+                    thread_date = self._parse_thread_date(thread_date_str)
                     if thread_date >= cutoff_date:
                         filtered_threads.append(thread)
+                        dates.append(thread_date)
 
-            # Extract date range from filtered threads
-            if filtered_threads:
-                dates = []
-                for t in filtered_threads:
-                    if t.get("asat"):
-                        dt = datetime.fromisoformat(t["asat"].replace("Z", "+00:00"))
-                        if dt.tzinfo is None:
-                            dt = dt.replace(tzinfo=timezone.utc)
-                        dates.append(dt)
-
-                if dates:
-                    date_range_start = min(dates)
-                    date_range_end = max(dates)
-                    days_analyzed = (date_range_end - date_range_start).days + 1
-                else:
-                    date_range_start = datetime.now(timezone.utc)
-                    date_range_end = datetime.now(timezone.utc)
-                    days_analyzed = 1
+            # Extract date range from collected dates
+            if dates:
+                date_range_start = min(dates)
+                date_range_end = max(dates)
+                days_analyzed = (date_range_end - date_range_start).days + 1
             else:
                 date_range_start = datetime.now(timezone.utc)
                 date_range_end = datetime.now(timezone.utc)

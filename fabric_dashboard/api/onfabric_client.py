@@ -104,7 +104,8 @@ class OnFabricAPIClient:
         response = self.session.get(url)
         response.raise_for_status()
 
-        threads = response.json()
+        data = response.json()
+        threads = data.get("items", [])
         logger.muted(f"Retrieved {len(threads)} thread(s)")
 
         return threads
@@ -142,7 +143,8 @@ class OnFabricAPIClient:
         response = self.session.get(url, params=params)
         response.raise_for_status()
 
-        summaries = response.json()
+        data = response.json()
+        summaries = data.get("items", [])
         logger.muted(f"Retrieved {len(summaries)} summary(ies)")
 
         return summaries

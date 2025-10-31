@@ -124,6 +124,6 @@ def test_demo_content_cards_valid():
 
     cards = [CardContent(**c) for c in data["content_cards"]]
 
-    assert len(cards) == 2
+    assert len(cards) == 4
     assert all(card.reading_time_minutes > 0 for card in cards)
     assert all(len(card.body) > 100 for card in cards)

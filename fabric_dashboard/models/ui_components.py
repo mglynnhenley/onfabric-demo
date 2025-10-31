@@ -94,6 +94,9 @@ class InfoCard(UIComponent):
         max_length=10,
         description="List of key topics or areas",
     )
+    enriched_data: Optional[dict] = Field(
+        default=None, description="Optional enriched data (e.g. weather info)"
+    )
 
 
 class MapMarker(BaseModel):

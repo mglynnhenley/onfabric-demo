@@ -29,7 +29,9 @@ from fabric_dashboard.core.content_writer import ContentWriter
 from fabric_dashboard.core.ui_generator import UIGenerator
 from fabric_dashboard.core.dashboard_builder import DashboardBuilder
 from fabric_dashboard.core.search_enricher import SearchEnricher
-from fabric_dashboard.models.schemas import CardSize
+from fabric_dashboard.models.schemas import (
+    CardSize, Pattern, PersonaProfile, ColorScheme, ContentCard
+)
 
 
 class PipelineService:
@@ -38,6 +40,28 @@ class PipelineService:
     def __init__(self):
         """Initialize pipeline service."""
         self.persona_fixtures_dir = Path(__file__).parent.parent.parent.parent / "fabric_dashboard" / "tests" / "fixtures" / "personas"
+
+    def _load_demo_fixture(self) -> dict:
+        """
+        Load pre-crafted demo persona fixture.
+
+        Returns:
+            Dict with patterns, persona, theme, ui_components, content_cards.
+
+        Raises:
+            FileNotFoundError: If demo.json doesn't exist.
+        """
+        demo_fixture = self.persona_fixtures_dir / "demo.json"
+
+        if not demo_fixture.exists():
+            raise FileNotFoundError(
+                f"Demo fixture not found at {demo_fixture}. "
+                "Run fixture generation first."
+            )
+
+        import json
+        with open(demo_fixture) as f:
+            return json.load(f)
 
     async def generate_dashboard(
         self,

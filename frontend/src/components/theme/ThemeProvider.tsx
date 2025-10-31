@@ -128,8 +128,19 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
       const { type, colors, direction } = bg.gradient;
       if (type === 'linear') {
         const dir = direction || 'to-br';
-        const cssDir = dir.replace('to-', '').replace('-', ' ');
-        backgroundStyle = `linear-gradient(to ${cssDir}, ${colors.join(', ')})`;
+        // Convert abbreviated directions to full CSS syntax
+        const directionMap: Record<string, string> = {
+          'to-br': 'to bottom right',
+          'to-bl': 'to bottom left',
+          'to-tr': 'to top right',
+          'to-tl': 'to top left',
+          'to-b': 'to bottom',
+          'to-t': 'to top',
+          'to-l': 'to left',
+          'to-r': 'to right',
+        };
+        const cssDir = directionMap[dir] || dir;
+        backgroundStyle = `linear-gradient(${cssDir}, ${colors.join(', ')})`;
       } else if (type === 'radial') {
         backgroundStyle = `radial-gradient(circle, ${colors.join(', ')})`;
       } else if (type === 'mesh') {

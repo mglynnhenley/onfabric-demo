@@ -78,41 +78,42 @@
     "content_depth_preference": "deep_dives"
   },
   "theme": {
-    "mood": "bold and electric",
-    "primary": "#FF0080",
-    "secondary": "#00FF94",
-    "accent": "#FFFF00",
-    "background": "#0D0221",
-    "foreground": "#FFFFFF",
-    "muted": "#A0A0C0",
-    "success": "#00FF94",
-    "warning": "#FFAA00",
-    "destructive": "#FF0055",
-    "rationale": "Bold cyberpunk aesthetic with neon hot pink, electric lime, and bright yellow creating maximum visual impact. Deep purple-black background ensures readability while vibrant gradients and funky typography make the interface unforgettable.",
+    "mood": "retro terminal nostalgia",
+    "primary": "#FFB000",
+    "secondary": "#33FF33",
+    "accent": "#00FFFF",
+    "background": "#000000",
+    "foreground": "#FFB000",
+    "muted": "#664400",
+    "success": "#33FF33",
+    "warning": "#FFB000",
+    "destructive": "#FF0000",
+    "rationale": "1980s CRT terminal aesthetic with warm amber phosphor as primary, green terminal accents, and cyan data streams. Pure black background with scanline effects creates authentic retro computing nostalgia.",
     "fonts": {
-      "heading": "Bungee",
-      "body": "Space Grotesk",
-      "mono": "Fira Code",
-      "heading_url": "https://fonts.googleapis.com/css2?family=Bungee&display=swap",
-      "body_url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-      "mono_url": "https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap"
+      "heading": "IBM Plex Mono",
+      "body": "IBM Plex Mono",
+      "mono": "IBM Plex Mono",
+      "heading_url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap",
+      "body_url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap",
+      "mono_url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
     },
     "background_theme": {
-      "type": "gradient",
-      "color": null,
-      "gradient": {
-        "type": "linear",
-        "colors": ["#0D0221", "#1A0B2E", "#FF008040", "#00FF9420", "#FFFF0010"],
-        "direction": "to-br"
+      "type": "pattern",
+      "color": "#000000",
+      "gradient": null,
+      "pattern": {
+        "type": "grid",
+        "color": "#FFB000",
+        "opacity": 0.15,
+        "scale": 1.5
       },
-      "pattern": null,
       "animation": {
-        "name": "gradient-shift",
-        "duration": "15s",
+        "name": "pulse",
+        "duration": "3s",
         "timing": "ease-in-out"
       },
-      "card_background": "rgba(13, 2, 33, 0.85)",
-      "card_backdrop_blur": true
+      "card_background": "rgba(0, 0, 0, 0.9)",
+      "card_backdrop_blur": false
     }
   },
   "ui_components": [
@@ -121,39 +122,33 @@
       "title": "Tagazhout Surf Spots",
       "pattern_title": "Surf & Travel Enthusiast",
       "confidence": 0.89,
-      "center_lat": 30.5447,
-      "center_lng": -9.7143,
-      "zoom_level": 13,
+      "center_lat": 30.5400,
+      "center_lng": -9.7200,
+      "zoom": 14,
       "markers": [
         {
           "title": "Anchor Point",
-          "lat": 30.5380,
-          "lng": -9.7215,
-          "description": "Right point break, works best on big NW swells"
-        },
-        {
-          "title": "Hash Point",
-          "lat": 30.5420,
-          "lng": -9.7190,
-          "description": "Powerful right-hander, intermediate to advanced"
+          "lat": 30.5481,
+          "lng": -9.7232,
+          "description": "Morocco's most famous right point break, works 200+ days/year"
         },
         {
           "title": "Killer Point",
-          "lat": 30.5445,
-          "lng": -9.7165,
-          "description": "Long right point, multiple sections"
+          "lat": 30.5565,
+          "lng": -9.7378,
+          "description": "Long right point with multiple sections, can ride for 300m+"
         },
         {
-          "title": "La Source",
-          "lat": 30.5520,
-          "lng": -9.7100,
-          "description": "Beach break, good for beginners"
+          "title": "Panoramas",
+          "lat": 30.5386,
+          "lng": -9.7136,
+          "description": "Fast right point with incredible views, works on smaller swells"
         },
         {
-          "title": "Boilers",
-          "lat": 30.5350,
-          "lng": -9.7250,
-          "description": "Heavy reef break, experts only"
+          "title": "Devil's Rock",
+          "lat": 30.5143,
+          "lng": -9.7044,
+          "description": "Challenging reef break, known for powerful waves and expert-only conditions"
         }
       ]
     },
@@ -163,19 +158,33 @@
       "pattern_title": "Tech Startup Navigator",
       "confidence": 0.85,
       "search_query": "London tech startup and club events 2025",
-      "events": [
+      "enriched_events": [
         {
-          "title": "TechCrunch Disrupt London",
-          "date": "2025-11-15",
-          "location": "ExCeL London",
-          "url": "https://techcrunch.com/events",
+          "title": "London Tech Week Kickoff",
+          "date": "2025-11-01",
+          "location": "Old Truman Brewery",
+          "url": "https://londontechweek.com",
           "type": "startup"
         },
         {
-          "title": "Fabric: Four Tet All Night",
-          "date": "2025-11-16",
-          "location": "Fabric, Farringdon",
-          "url": "https://fabriclondon.com",
+          "title": "Warehouse Project: Tale of Us",
+          "date": "2025-11-01",
+          "location": "Depot Mayfield, Manchester",
+          "url": "https://thewarehouseproject.com",
+          "type": "club"
+        },
+        {
+          "title": "Y Combinator Startup School",
+          "date": "2025-11-03",
+          "location": "Online & London Hub",
+          "url": "https://startupschool.org",
+          "type": "startup"
+        },
+        {
+          "title": "FOLD: Amelie Lens",
+          "date": "2025-11-05",
+          "location": "FOLD London",
+          "url": "https://foldlondon.com",
           "type": "club"
         },
         {
@@ -193,6 +202,55 @@
           "type": "club"
         },
         {
+          "title": "Web Summit Satellite: AI Track",
+          "date": "2025-11-12",
+          "location": "Level39, Canary Wharf",
+          "url": "https://websummit.com",
+          "type": "startup"
+        },
+        {
+          "title": "Drumsheds: Eric Prydz HOLO",
+          "date": "2025-11-14",
+          "location": "Drumsheds, Tottenham",
+          "url": "https://drumsheds.com",
+          "type": "club"
+        },
+        {
+          "title": "TechCrunch Disrupt London",
+          "date": "2025-11-15",
+          "location": "ExCeL London",
+          "url": "https://techcrunch.com/events",
+          "type": "startup"
+        },
+        {
+          "title": "Fabric: Four Tet All Night",
+          "date": "2025-11-16",
+          "location": "Fabric, Farringdon",
+          "url": "https://fabriclondon.com",
+          "type": "club"
+        },
+        {
+          "title": "AI Founders Dinner",
+          "date": "2025-11-18",
+          "location": "Sketch, Mayfair",
+          "url": "https://aifounders.co.uk",
+          "type": "startup"
+        },
+        {
+          "title": "E1: Nina Kraviz",
+          "date": "2025-11-19",
+          "location": "E1 London",
+          "url": "https://e1-london.com",
+          "type": "club"
+        },
+        {
+          "title": "Index Ventures Portfolio Day",
+          "date": "2025-11-20",
+          "location": "Shoreditch House",
+          "url": "https://indexventures.com",
+          "type": "startup"
+        },
+        {
           "title": "Founders Forum",
           "date": "2025-11-22",
           "location": "The Shard",
@@ -204,6 +262,20 @@
           "date": "2025-11-23",
           "location": "Ministry of Sound, Elephant & Castle",
           "url": "https://ministryofsound.com",
+          "type": "club"
+        },
+        {
+          "title": "Slush London Satellite",
+          "date": "2025-11-26",
+          "location": "King's Cross",
+          "url": "https://slush.org",
+          "type": "startup"
+        },
+        {
+          "title": "Phonox: Ben UFO",
+          "date": "2025-11-28",
+          "location": "Phonox, Brixton",
+          "url": "https://phonox.co.uk",
           "type": "club"
         },
         {
@@ -221,6 +293,20 @@
           "type": "club"
         },
         {
+          "title": "DeepMind Research Showcase",
+          "date": "2025-12-03",
+          "location": "Google Campus, King's Cross",
+          "url": "https://deepmind.google",
+          "type": "startup"
+        },
+        {
+          "title": "XOYO: Peggy Gou",
+          "date": "2025-12-04",
+          "location": "XOYO, Shoreditch",
+          "url": "https://xoyo.co.uk",
+          "type": "club"
+        },
+        {
           "title": "Pitch@Palace",
           "date": "2025-12-06",
           "location": "St James's Palace",
@@ -233,6 +319,55 @@
           "location": "Shoreditch",
           "url": "https://villageunderground.co.uk",
           "type": "club"
+        },
+        {
+          "title": "London FinTech Week",
+          "date": "2025-12-10",
+          "location": "Canary Wharf",
+          "url": "https://fintechweek.com",
+          "type": "startup"
+        },
+        {
+          "title": "Tobacco Dock: Solomun +1",
+          "date": "2025-12-12",
+          "location": "Tobacco Dock, Wapping",
+          "url": "https://tobaccodocklondon.com",
+          "type": "club"
+        },
+        {
+          "title": "Entrepreneur First Demo Day",
+          "date": "2025-12-13",
+          "location": "Google for Startups Campus",
+          "url": "https://joinef.com",
+          "type": "startup"
+        },
+        {
+          "title": "Oval Space: Bicep",
+          "date": "2025-12-14",
+          "location": "Oval Space, Hackney",
+          "url": "https://ovalspace.co.uk",
+          "type": "club"
+        },
+        {
+          "title": "AWS re:Invent London",
+          "date": "2025-12-17",
+          "location": "ExCeL London",
+          "url": "https://reinvent.awsevents.com",
+          "type": "startup"
+        },
+        {
+          "title": "Printworks: Tale of Us NYE Warmup",
+          "date": "2025-12-28",
+          "location": "Printworks London",
+          "url": "https://printworkslondon.co.uk",
+          "type": "club"
+        },
+        {
+          "title": "New Year Tech Review Panel",
+          "date": "2025-12-30",
+          "location": "TechCrunch Office, Shoreditch",
+          "url": "https://techcrunch.com",
+          "type": "startup"
         }
       ]
     },
@@ -377,28 +512,59 @@
           "category": "Fitness"
         }
       ]
+    },
+    {
+      "component_type": "map-card",
+      "title": "London Tech Hubs",
+      "pattern_title": "Tech Startup Navigator",
+      "confidence": 0.85,
+      "center_lat": 51.5285,
+      "center_lng": -0.1037,
+      "zoom": 12,
+      "markers": [
+        {
+          "title": "DeepMind (King's Cross)",
+          "lat": 51.5352,
+          "lng": -0.1243,
+          "description": "AI research lab, pioneering safe AGI development"
+        },
+        {
+          "title": "Shoreditch Tech Hub",
+          "lat": 51.5254,
+          "lng": -0.0829,
+          "description": "Epicenter of London's startup scene, home to hundreds of tech companies"
+        },
+        {
+          "title": "Level39 (Canary Wharf)",
+          "lat": 51.5049,
+          "lng": -0.0197,
+          "description": "Europe's largest fintech accelerator space"
+        },
+        {
+          "title": "Google Campus (Silicon Roundabout)",
+          "lat": 51.5258,
+          "lng": -0.0872,
+          "description": "Startup campus and coworking space at Old Street roundabout"
+        },
+        {
+          "title": "The Shard Tech Offices",
+          "lat": 51.5045,
+          "lng": -0.0865,
+          "description": "High-rise offices hosting major VCs and tech companies"
+        }
+      ]
     }
   ],
   "content_cards": [
     {
       "title": "The Magic Hour at Anchor Point",
       "description": "Why Morocco's legendary right-hander deserves a spot on every surfer's bucket list",
-      "body": "There's a moment just after dawn at Anchor Point when the offshore wind picks up and the first set of the day peels down the point in perfect, glassy sections. You're not just riding a wave here—you're riding geography itself, a rocky finger jutting into the Atlantic that's been sculpting perfect rights for millennia.\n\nThe locals will tell you that Anchor Point isn't Morocco's best wave. Hash Point is more powerful, Killer Point is longer, Boilers is more challenging. But what makes Anchor so special is its consistency. While other spots need that perfect combination of swell, wind, and tide, Anchor works 200+ days a year. It's the wave that turned Tagazhout from a sleepy fishing village into one of Africa's premier surf destinations.\n\nWhat surprised me most wasn't the waves—I'd seen the videos, read the guides. It was the community. Dawn patrol sessions with Moroccan rippers who grew up on these breaks. Sunset tagines at local cafes where everyone dissects the day's conditions. The Dutch couple who'd been \"visiting for two weeks\" three years ago and never left.\n\nIf you're planning a trip: November through March for the biggest swells, but September-October offers warmer water and smaller crowds. Book accommodation in Tagazhout village, not Agadir—you want to be able to check the surf from your window. And bring a 5/3mm wetsuit; the Atlantic here is colder than you think.",
-      "reading_time_minutes": 3,
+      "body": "There's a moment just after dawn at Anchor Point when the offshore wind picks up and the first set of the day peels down the point in perfect, glassy sections. You're not just riding a wave here—you're riding geography itself, a rocky finger jutting into the Atlantic that's been sculpting perfect rights for millennia.\n\nThe consistency is what sets Anchor apart. While other spots need that perfect combination of swell, wind, and tide, Anchor works 200+ days a year. It's the wave that turned Tagazhout from a sleepy fishing village into one of Africa's premier surf destinations. The locals will tell you Hash Point is more powerful and Killer Point is longer, but Anchor is the one that delivers day after day.",
+      "reading_time_minutes": 1,
       "sources": [],
-      "size": "medium",
+      "size": "compact",
       "confidence": 0.89,
       "pattern_title": "Surf & Travel Enthusiast"
-    },
-    {
-      "title": "London's Quiet AI Revolution",
-      "description": "How the city became Europe's unexpected AI safety capital",
-      "body": "Walk down Tottenham Court Road on a Wednesday evening and you'll stumble upon something remarkable: 200+ people crammed into a basement discussing mesa-optimization and reward hacking. This is the London AI Safety Hub's weekly meetup, and it's just one node in an ecosystem that's quietly making London the center of European AI safety research.\n\nThe math is compelling. DeepMind's headquarters in King's Cross. Anthropic's expanding London office. The UK AI Safety Institute at the Frontier AI Taskforce. Oxford and Cambridge churning out technical safety researchers. Government taking AI risk seriously after the 2023 Bletchley Summit. Add a timezone that bridges US West Coast and Asia, and you have a perfect storm.\n\nBut what makes London special isn't the institutions—it's the culture. Unlike SF's \"move fast and break things,\" London's AI scene carries a distinctly cautious flavor. Maybe it's the proximity to government. Maybe it's European sensibility about existential risk. Whatever it is, you can feel it in the conversations at Founders Forum, in the pitch decks at Seedcamp, in the due diligence questions from VCs on Sand Hill Row.\n\nThe technical talent density is extraordinary. Walk into any cafe in Shoreditch and you might overhear conversations about inverse reinforcement learning or debate the merits of different interpretability techniques. These aren't abstract academic discussions—they're practical concerns for teams building the next generation of AI systems. The city has quietly assembled one of the world's deepest benches of alignment researchers, many of whom previously worked at the frontier labs they're now trying to make safer.\n\nThe funding landscape reflects this maturity. London's AI safety investors don't just write checks—they understand the technical nuances. They can distinguish between genuine safety innovation and security theater. They know that solving alignment isn't about adding a safety layer; it's about fundamentally rethinking how we build AI systems. This sophistication attracts the most serious founders, creating a virtuous cycle.\n\nThe next wave is already forming. Every week brings new safety-focused startups: companies building interpretability tools, alignment testing frameworks, governance infrastructure. They're not asking \"can we build AGI?\"—they're asking \"when we do, how do we make sure it goes well?\"\n\nThe revolution won't be televised. But it might be livestreamed from a King's Cross conference room.",
-      "reading_time_minutes": 3,
-      "sources": [],
-      "size": "large",
-      "confidence": 0.85,
-      "pattern_title": "Tech Startup Navigator"
     },
     {
       "title": "The Alignment Tax Nobody Talks About",
@@ -413,8 +579,8 @@
     {
       "title": "Why Technique Beats Recipes",
       "description": "What celebrity chefs understand that cookbooks miss",
-      "body": "Watch Gordon Ramsay teach someone to make scrambled eggs and you'll notice something: he barely mentions measurements. Instead, it's all about technique. The constant stirring. Taking the pan off heat just before the eggs look done. The residual heat cooking them to perfection. This is what separates celebrity chef content from recipe blogs—they're teaching you how to think about cooking, not just what to do.\n\nJacques Pépin demonstrating knife skills isn't really about cutting vegetables. It's about understanding leverage, blade angles, and the relationship between your cutting board and your ingredients. Once you understand the principles, you can apply them to any ingredient, any cuisine, any situation.\n\nThis is why Gordon Ramsay's \"perfect steak\" video has 50 million views. People aren't watching for the recipe—it's steak, salt, and heat. They're watching because he's revealing the mental model: why you baste with butter, why you rest the meat, why timing matters more than temperature readings. The recipe is simple; the technique is everything.\n\nMatty Matheson's legendary burger tutorial works the same way. Sure, he gives you ingredients, but what you're really learning is how to think about texture, fat content, and the science of the Maillard reaction. He's not teaching you to make his burger—he's teaching you to understand what makes any burger work.",
-      "reading_time_minutes": 2,
+      "body": "Watch Gordon Ramsay teach someone to make scrambled eggs and you'll notice something: he barely mentions measurements. Instead, it's all about technique. The constant stirring. Taking the pan off heat just before the eggs look done. The residual heat cooking them to perfection. This is what separates celebrity chef content from recipe blogs—they're teaching you how to think about cooking, not just what to do.\n\nThis is why Gordon Ramsay's \"perfect steak\" video has 50 million views. People aren't watching for the recipe—it's steak, salt, and heat. They're watching because he's revealing the mental model: why you baste with butter, why you rest the meat, why timing matters more than temperature readings. The recipe is simple; the technique is everything.",
+      "reading_time_minutes": 1,
       "sources": [],
       "size": "small",
       "confidence": 0.78,

@@ -1,0 +1,507 @@
+{
+  "patterns": [
+    {
+      "title": "London House Hunter",
+      "description": "Actively researching London neighborhoods for relocation from Paris. Comparing areas based on creative industry proximity, cultural amenities, and lifestyle fit. Saves property listings, neighborhood guides, and local recommendations.",
+      "confidence": 0.91,
+      "keywords": ["London neighborhoods", "Notting Hill", "Shoreditch", "Marylebone", "property", "relocation", "creative hubs", "Primrose Hill", "King's Cross"],
+      "interaction_count": 58,
+      "time_range": {
+        "start": "2025-09-01T00:00:00Z",
+        "end": "2025-10-31T00:00:00Z"
+      },
+      "top_interactions": []
+    },
+    {
+      "title": "Fashion Week Follower",
+      "description": "Tracks global fashion weeks and designer collections. Passionate enthusiast following runway shows, designer profiles, and fashion trends across Paris, Milan, London, New York. Not industry insider, but deeply engaged consumer.",
+      "confidence": 0.88,
+      "keywords": ["fashion week", "runway", "designers", "collections", "haute couture", "Paris Fashion Week", "street style", "Milan", "London Fashion Week"],
+      "interaction_count": 47,
+      "time_range": {
+        "start": "2025-09-01T00:00:00Z",
+        "end": "2025-10-31T00:00:00Z"
+      },
+      "top_interactions": []
+    },
+    {
+      "title": "Art & Gallery Circuit",
+      "description": "Regular museum visitor and gallery-goer in Paris. Follows contemporary art, exhibitions, and gallery openings. Interested in both established institutions and emerging spaces. Cultural event enthusiast.",
+      "confidence": 0.85,
+      "keywords": ["exhibitions", "contemporary art", "galleries", "Louvre", "Musée d'Orsay", "vernissage", "art openings", "Palais de Tokyo", "Centre Pompidou"],
+      "interaction_count": 42,
+      "time_range": {
+        "start": "2025-09-01T00:00:00Z",
+        "end": "2025-10-31T00:00:00Z"
+      },
+      "top_interactions": []
+    },
+    {
+      "title": "Horror Film Devotee",
+      "description": "Dedicated horror genre fan with sophisticated taste. Watches critically acclaimed horror films, follows horror directors like Ari Aster and Jordan Peele, explores psychological thrillers and atmospheric horror. More A24/auteur horror than mainstream slasher.",
+      "confidence": 0.82,
+      "keywords": ["horror films", "A24", "psychological thriller", "Ari Aster", "Jordan Peele", "atmospheric horror", "Hereditary", "Midsommar", "auteur horror"],
+      "interaction_count": 39,
+      "time_range": {
+        "start": "2025-09-01T00:00:00Z",
+        "end": "2025-10-31T00:00:00Z"
+      },
+      "top_interactions": []
+    },
+    {
+      "title": "Culinary Explorer",
+      "description": "Appreciates fine dining and food culture. Researches Michelin restaurants, wine pairings, and culinary experiences in Paris. Exploring London's dining scene in preparation for move.",
+      "confidence": 0.79,
+      "keywords": ["Michelin", "restaurants", "wine", "gastronomy", "chef", "tasting menu", "food culture", "fine dining"],
+      "interaction_count": 34,
+      "time_range": {
+        "start": "2025-09-01T00:00:00Z",
+        "end": "2025-10-31T00:00:00Z"
+      },
+      "top_interactions": []
+    },
+    {
+      "title": "Wellness & Movement",
+      "description": "Maintains wellness routine through Pilates and mindful practices. Balances creative work intensity with movement and self-care. Exploring studios in potential London neighborhoods.",
+      "confidence": 0.76,
+      "keywords": ["Pilates", "wellness", "movement", "studios", "mindfulness", "self-care", "yoga", "fitness"],
+      "interaction_count": 28,
+      "time_range": {
+        "start": "2025-09-01T00:00:00Z",
+        "end": "2025-10-31T00:00:00Z"
+      },
+      "top_interactions": []
+    }
+  ],
+  "persona": {
+    "writing_style": "refined and observational, balances aesthetic appreciation with practical consideration",
+    "interests": [
+      "Fashion weeks and designer collections",
+      "Contemporary art and gallery openings",
+      "Horror cinema (auteur and psychological)",
+      "Fine dining and culinary experiences",
+      "Wellness practices and movement",
+      "London neighborhood research and relocation"
+    ],
+    "activity_level": "high",
+    "professional_context": "Film producer based in Paris, relocating to London for expanded opportunities. Mid-30s, values creative culture and sophisticated lifestyle.",
+    "tone_preference": "elegant and considered with keen aesthetic sensibility",
+    "age_range": "30-35",
+    "content_depth_preference": "balanced"
+  },
+  "theme": {
+    "mood": "Haute couture editorial - soft power, elegant restraint, devastating impact",
+    "primary": "#8B4513",
+    "secondary": "#CD5C5C",
+    "accent": "#FF6B6B",
+    "background": "#FFFAF0",
+    "foreground": "#2C1810",
+    "muted": "#A0826D",
+    "success": "#8B4513",
+    "warning": "#CD5C5C",
+    "destructive": "#DC143C",
+    "rationale": "Inspired by the soft power of fashion editorials - the way a Celine campaign whispers rather than shouts. Warm ivory evokes premium magazine stock, while saddle brown and dusty coral create sophisticated tension. The blush-to-cream gradient is barely there, like morning light on raw silk. Didot's crisp serifs echo luxury fashion houses, while cards float with glass-like luminosity.",
+    "fonts": {
+      "heading": "Didot",
+      "body": "Crimson Pro",
+      "mono": "IBM Plex Mono",
+      "heading_url": "https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap",
+      "body_url": "https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;500;600;700&display=swap",
+      "mono_url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    },
+    "background_theme": {
+      "type": "gradient",
+      "color": null,
+      "gradient": {
+        "type": "linear",
+        "colors": ["#FFB6D9", "#FFD700", "#FFC0CB"],
+        "direction": "to-br"
+      },
+      "pattern": null,
+      "animation": {
+        "name": "none",
+        "duration": "0s",
+        "timing": "linear"
+      },
+      "card_background": "rgba(255, 255, 255, 0.85)",
+      "card_backdrop_blur": true
+    }
+  },
+  "ui_components": [
+    {
+      "component_type": "map-card",
+      "title": "London Neighborhoods to Explore",
+      "pattern_title": "London House Hunter",
+      "confidence": 0.91,
+      "center_lat": 51.5244,
+      "center_lng": -0.0786,
+      "zoom": 12,
+      "markers": [
+        {
+          "title": "Notting Hill",
+          "lat": 51.5074,
+          "lng": -0.1958,
+          "description": "Pastel townhouses, Portobello Market, creative-meets-classic. Film industry hub (Working Title nearby). Elegant but lived-in."
+        },
+        {
+          "title": "Shoreditch",
+          "lat": 51.5244,
+          "lng": -0.0786,
+          "description": "East London creative heart. Tech startups meet art studios. Gritty-chic aesthetic, gallery openings, young energy."
+        },
+        {
+          "title": "Marylebone",
+          "lat": 51.5175,
+          "lng": -0.1545,
+          "description": "Refined central village. Chiltern Firehouse, indie boutiques, Regency architecture. Close to West End production companies."
+        },
+        {
+          "title": "Primrose Hill",
+          "lat": 51.5418,
+          "lng": -0.1631,
+          "description": "Village charm, literary history, park views. Media and creative professionals. Quieter elegance, neighborhood feel."
+        },
+        {
+          "title": "King's Cross",
+          "lat": 51.5301,
+          "lng": -0.1232,
+          "description": "Transformed industrial district. Coal Drops Yard, Central Saint Martins, film studios nearby. Raw-to-refined aesthetic."
+        }
+      ]
+    },
+    {
+      "component_type": "map-card",
+      "title": "Paris Fashion & Art District",
+      "pattern_title": "Fashion Week Follower",
+      "confidence": 0.85,
+      "center_lat": 48.8578,
+      "center_lng": 2.3617,
+      "zoom": 13,
+      "markers": [
+        {
+          "title": "Le Marais",
+          "lat": 48.8578,
+          "lng": 2.3617,
+          "description": "Historic quarter turned fashion haven. Concept stores, vintage treasures, Place des Vosges elegance."
+        },
+        {
+          "title": "Palais de Tokyo",
+          "lat": 48.8639,
+          "lng": 2.2975,
+          "description": "Contemporary art institution. Experimental exhibitions, late-night openings, cutting-edge installations."
+        },
+        {
+          "title": "Centre Pompidou",
+          "lat": 48.8606,
+          "lng": 2.3522,
+          "description": "Brutalist icon housing modern art. Renzo Piano architecture, rooftop views, avant-garde programming."
+        },
+        {
+          "title": "Saint-Germain Ateliers",
+          "lat": 48.8530,
+          "lng": 2.3324,
+          "description": "Historic fashion workshops. Where haute couture is hand-crafted. Hermès, Dior heritage locations."
+        },
+        {
+          "title": "Galeries Lafayette",
+          "lat": 48.8738,
+          "lng": 2.3320,
+          "description": "Art Nouveau dome, fashion floors, rooftop terrace. Department store as cultural institution."
+        }
+      ]
+    },
+    {
+      "component_type": "event-calendar",
+      "title": "Fashion & Culture Calendar",
+      "pattern_title": "Fashion Week Follower",
+      "confidence": 0.85,
+      "search_query": "fashion week art exhibitions Paris London 2025",
+      "events": [
+        {
+          "title": "Paris Fashion Week FW25",
+          "date": "2025-11-03",
+          "location": "Grand Palais, Paris",
+          "url": "https://fhcm.paris/en/paris-fashion-week",
+          "type": "fashion"
+        },
+        {
+          "title": "Frieze London Art Fair",
+          "date": "2025-11-05",
+          "location": "Regent's Park, London",
+          "url": "https://www.frieze.com/fairs/frieze-london",
+          "type": "art"
+        },
+        {
+          "title": "BFI London Film Festival: Horror Strand",
+          "date": "2025-11-08",
+          "location": "BFI Southbank, London",
+          "url": "https://www.bfi.org.uk/london-film-festival",
+          "type": "film"
+        },
+        {
+          "title": "Palais de Tokyo: New Contemporary Exhibition",
+          "date": "2025-11-10",
+          "location": "Palais de Tokyo, Paris",
+          "url": "https://palaisdetokyo.com",
+          "type": "art"
+        },
+        {
+          "title": "London Fashion Week FW25",
+          "date": "2025-11-15",
+          "location": "180 The Strand, London",
+          "url": "https://londonfashionweek.co.uk",
+          "type": "fashion"
+        },
+        {
+          "title": "Chiltern Firehouse Dining Reservation",
+          "date": "2025-11-17",
+          "location": "Marylebone, London",
+          "url": "https://www.chilternfirehouse.com",
+          "type": "personal"
+        },
+        {
+          "title": "Paris Photo International Art Fair",
+          "date": "2025-11-20",
+          "location": "Grand Palais Éphémère, Paris",
+          "url": "https://www.parisphoto.com",
+          "type": "art"
+        },
+        {
+          "title": "Milan Fashion Week FW25",
+          "date": "2025-11-22",
+          "location": "Milan, Italy",
+          "url": "https://www.cameramoda.it",
+          "type": "fashion"
+        },
+        {
+          "title": "Pilates Studio Tour: Shoreditch",
+          "date": "2025-11-24",
+          "location": "Shoreditch, London",
+          "url": "",
+          "type": "personal"
+        },
+        {
+          "title": "Tate Modern New Wing Opening",
+          "date": "2025-11-27",
+          "location": "Tate Modern, London",
+          "url": "https://www.tate.org.uk/visit/tate-modern",
+          "type": "art"
+        },
+        {
+          "title": "Copenhagen Fashion Week FW25",
+          "date": "2025-12-01",
+          "location": "Copenhagen, Denmark",
+          "url": "https://copenhagenfashionweek.com",
+          "type": "fashion"
+        },
+        {
+          "title": "Fondation Louis Vuitton Exhibition",
+          "date": "2025-12-05",
+          "location": "Bois de Boulogne, Paris",
+          "url": "https://www.fondationlouisvuitton.fr",
+          "type": "art"
+        },
+        {
+          "title": "Notting Hill Property Viewings",
+          "date": "2025-12-08",
+          "location": "Notting Hill, London",
+          "url": "",
+          "type": "personal"
+        },
+        {
+          "title": "New York Fashion Week FW25",
+          "date": "2025-12-10",
+          "location": "New York, USA",
+          "url": "https://nyfw.com",
+          "type": "fashion"
+        },
+        {
+          "title": "Rochelle Canteen Dinner",
+          "date": "2025-12-12",
+          "location": "Shoreditch, London",
+          "url": "https://www.arnoldandhenderson.com",
+          "type": "personal"
+        }
+      ]
+    },
+    {
+      "component_type": "video-feed",
+      "title": "Horror Cinema Essentials",
+      "pattern_title": "Horror Film Devotee",
+      "confidence": 0.82,
+      "search_query": "A24 horror film analysis psychological thriller",
+      "videos": [
+        {
+          "title": "Hereditary - The Anatomy of a Horror Masterpiece",
+          "channel": "Spikima Movies",
+          "thumbnail_url": "https://i.ytimg.com/vi/RYTAVu4V-k8/maxresdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=RYTAVu4V-k8",
+          "duration": "22:14"
+        },
+        {
+          "title": "The Evolution of A24 Horror",
+          "channel": "The Take",
+          "thumbnail_url": "https://i.ytimg.com/vi/QdCCplNu8o4/maxresdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=QdCCplNu8o4",
+          "duration": "15:42"
+        },
+        {
+          "title": "Midsommar: Horror in Broad Daylight",
+          "channel": "Ryan Hollinger",
+          "thumbnail_url": "https://i.ytimg.com/vi/4NBQY0mNyMY/maxresdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=4NBQY0mNyMY",
+          "duration": "18:35"
+        },
+        {
+          "title": "Why Psychological Horror Works: A Video Essay",
+          "channel": "Lessons from the Screenplay",
+          "thumbnail_url": "https://i.ytimg.com/vi/rDuetklFtDQ/maxresdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=rDuetklFtDQ",
+          "duration": "12:28"
+        }
+      ]
+    },
+    {
+      "component_type": "video-feed",
+      "title": "Fashion Film & Runway",
+      "pattern_title": "Fashion Week Follower",
+      "confidence": 0.88,
+      "search_query": "Paris Fashion Week runway haute couture",
+      "videos": [
+        {
+          "title": "Paris Fashion Week: The Best Runway Moments",
+          "channel": "Vogue",
+          "thumbnail_url": "https://i.ytimg.com/vi/w_MhU8YFjO4/maxresdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=w_MhU8YFjO4",
+          "duration": "10:24"
+        },
+        {
+          "title": "Inside the Dior Atelier: Haute Couture Craftsmanship",
+          "channel": "Dior",
+          "thumbnail_url": "https://i.ytimg.com/vi/BQ4Y2pBPL80/maxresdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=BQ4Y2pBPL80",
+          "duration": "8:17"
+        },
+        {
+          "title": "The Art of Fashion Film",
+          "channel": "Harper's BAZAAR",
+          "thumbnail_url": "https://i.ytimg.com/vi/4vKUjdXXVjI/maxresdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=4vKUjdXXVjI",
+          "duration": "6:52"
+        },
+        {
+          "title": "Street Style: Paris vs London Fashion Capitals",
+          "channel": "Fashion Week Online",
+          "thumbnail_url": "https://i.ytimg.com/vi/QT3DWES_kSE/maxresdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=QT3DWES_kSE",
+          "duration": "11:39"
+        }
+      ]
+    },
+    {
+      "component_type": "info-card",
+      "title": "Paris Weather",
+      "pattern_title": "Art & Gallery Circuit",
+      "confidence": 0.85,
+      "location": "Paris, France",
+      "info_type": "weather",
+      "units": "metric",
+      "show_forecast": true
+    },
+    {
+      "component_type": "info-card",
+      "title": "London Weather",
+      "pattern_title": "London House Hunter",
+      "confidence": 0.91,
+      "location": "London, UK",
+      "info_type": "weather",
+      "units": "metric",
+      "show_forecast": true
+    },
+    {
+      "component_type": "task-list",
+      "title": "London Move Planning",
+      "pattern_title": "London House Hunter",
+      "confidence": 0.91,
+      "tasks": [
+        {
+          "text": "Schedule viewings in Notting Hill and Marylebone",
+          "completed": false,
+          "category": "Housing"
+        },
+        {
+          "text": "Research film production companies in London",
+          "completed": true,
+          "category": "Work"
+        },
+        {
+          "text": "Book dinner at Chiltern Firehouse",
+          "completed": false,
+          "category": "Culinary"
+        },
+        {
+          "text": "Visit Pilates studios in Shoreditch",
+          "completed": false,
+          "category": "Wellness"
+        },
+        {
+          "text": "Explore Tate Modern and Whitechapel Gallery",
+          "completed": false,
+          "category": "Culture"
+        },
+        {
+          "text": "Attend London Fashion Week preview events",
+          "completed": true,
+          "category": "Fashion"
+        },
+        {
+          "text": "Connect with London-based film producers",
+          "completed": false,
+          "category": "Work"
+        }
+      ]
+    }
+  ],
+  "content_cards": [
+    {
+      "title": "Why Notting Hill Still Holds Its Creative Soul",
+      "description": "How this iconic neighborhood balances heritage charm with contemporary creative energy",
+      "body": "Walk down Portobello Road on a weekday morning and you'll see it: the antique dealers opening their shops alongside third-wave coffee roasters, the pastel Georgian townhouses now housing small production companies and design studios. Notting Hill has somehow managed to retain its bohemian spirit even as property prices have climbed into the stratosphere.\n\nThe neighborhood's creative credentials run deep. Working Title Films, the production company behind Love Actually, Shaun of the Dead, and countless British cinema landmarks, still maintains offices here. Small independent galleries dot the side streets. The Portobello Film Festival, now in its third decade, continues to showcase emerging filmmakers.\n\nWhat makes Notting Hill work for creatives isn't just the aesthetics—though the colorful facades photograph beautifully. It's the walkability, the mix of independent businesses, the proximity to central London without the intensity of Soho. You can live here and still feel like you're in a village, while being twenty minutes from a West End screening room.\n\nFor someone relocating from Paris, the parallels to Le Marais or Saint-Germain are obvious: historic architecture, creative industries, a neighborhood identity that predates its current popularity. The energy feels lived-in rather than manufactured.",
+      "reading_time_minutes": 2,
+      "sources": [],
+      "size": "small",
+      "confidence": 0.91,
+      "pattern_title": "London House Hunter"
+    },
+    {
+      "title": "The New Wave of Elevated Horror",
+      "description": "How A24 and auteur directors are redefining what horror cinema can achieve",
+      "body": "Something shifted in horror cinema around 2014 when It Follows premiered at Cannes. Suddenly, art house film festivals were programming genre films, and critics who'd never taken horror seriously were writing think pieces about dread and metaphor. A24 didn't invent elevated horror—smart, artful scary movies have always existed—but they cracked the code on marketing them to audiences who thought they were 'above' horror.\n\nAri Aster's Hereditary and Midsommar became cultural touchstones not despite being horror films, but because they used the genre's tools—sustained dread, visceral imagery, primal fear—to explore grief, trauma, and toxic relationships with an honesty that straight drama often can't access. Jordan Peele's Get Out did the same for racial anxiety. These aren't horror films with subtext; they're films where the horror is the text.\n\nWhat's remarkable is how this wave has influenced the entire industry. Major studios are giving first-time directors seven-figure budgets to make weird, personal horror films. Cinematographers are treating genre work as seriously as prestige drama. The production design in something like The Witch or The Lighthouse rivals period pieces with ten times the budget.\n\nFor film lovers coming from other genres, this is the golden age to dive in. Horror is where the most interesting formal experimentation is happening right now.",
+      "reading_time_minutes": 2,
+      "sources": [],
+      "size": "small",
+      "confidence": 0.82,
+      "pattern_title": "Horror Film Devotee"
+    },
+    {
+      "title": "From Paris to London: The Creative Producer's Journey",
+      "description": "What changes (and what stays the same) when you relocate between Europe's film capitals",
+      "body": "The decision to move from Paris to London as a film producer isn't just about geography—it's about shifting your position in the European film ecosystem. Paris offers French cinema's auteur tradition, generous film subsidies, and that intangible cultural capital that comes from working in a city that takes cinema as seriously as literature. London offers scale: bigger budgets, English-language productions, closer ties to Hollywood, and a film industry that's massive by European standards.\n\nThe practical differences matter. The UK's film tax relief is more generous than France's crédit d'impôt. London has more post-production facilities. The British industry is more comfortable with genre films and commercial projects, while French production skews toward arthouse. But you lose something too: the café culture where development deals happen over two-hour lunches, the assumption that art and commerce can coexist without apologizing.\n\nWhat surprised me most in researching this move is how many producers maintain a foot in both cities. The Eurostar makes it feasible to keep Paris relationships alive while building a London base. European co-productions are the norm now, and bilingual producers who understand both systems have leverage.\n\nThe question isn't really Paris versus London—it's which city gives you the platform for the films you want to make.",
+      "reading_time_minutes": 2,
+      "sources": [],
+      "size": "small",
+      "confidence": 0.91,
+      "pattern_title": "London House Hunter"
+    },
+    {
+      "title": "Fashion Week Through a Producer's Eye",
+      "description": "What film production can learn from the choreography of runway shows",
+      "body": "Watching a major fashion show is watching controlled chaos masquerading as effortless elegance. Models hit their marks with military precision. Lighting shifts moment to moment. Music builds tension like a thriller score. As a film producer, it's impossible not to see the production machinery underneath.\n\nThe best runway presentations are short films. They tell a story in eight minutes with no dialogue, only visual language: silhouette, color, movement, mood. Dior's Spring 2024 show felt like a period drama. Rick Owens gives you dystopian sci-fi.\n\nWhat strikes me is how fashion has embraced the language of cinema while film often ignores the lessons of fashion. The economy of storytelling in a runway show—building an entire mood and narrative in minutes—is something screenwriters should study. The bold aesthetic commitments, the willingness to be divisive, the understanding that coherent vision matters more than universal appeal.",
+      "reading_time_minutes": 1,
+      "sources": [],
+      "size": "compact",
+      "confidence": 0.88,
+      "pattern_title": "Fashion Week Follower"
+    }
+  ]
+}

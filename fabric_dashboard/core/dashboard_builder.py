@@ -976,6 +976,8 @@ class DashboardBuilder:
         # Dispatch to appropriate renderer
         if component_type == "info-card":
             return self._render_info_card(component, idx)
+        elif component_type == "weather-card":
+            return self._render_weather_card(component, idx)
         elif component_type == "map-card":
             return self._render_map_card(component, idx)
         elif component_type == "video-feed":
@@ -1054,6 +1056,43 @@ class DashboardBuilder:
         {self._render_weather_forecast_with_data(component_id, component) if component.show_forecast else ''}
 
         <!-- Hidden data for JavaScript -->
+        <script type="application/json" id="{component_id}-data">
+            {self._component_to_json(component)}
+        </script>
+    </div>'''
+
+    def _render_weather_card(self, component, idx: int) -> str:
+        """
+        Render weather card with current conditions and forecast.
+
+        Args:
+            component: InfoCard component.
+            idx: Component index.
+
+        Returns:
+            HTML for weather widget.
+        """
+        component_id = f"weather-{idx}"
+
+        return f'''<div class="widget weather-card" id="{component_id}">
+        <div class="widget-header">
+            <h3>{component.title}</h3>
+            <span class="widget-badge">{component.location}</span>
+        </div>
+        <div class="widget-content">
+            <div class="weather-current">
+                <div class="weather-temp">{component.current_temp}°</div>
+                <div class="weather-condition">{component.condition}</div>
+                <div class="weather-details">
+                    <span>Feels like: {component.feels_like}°</span>
+                    <span>Humidity: {component.humidity}%</span>
+                    <span>Wind: {component.wind_speed} {component.wind_direction}</span>
+                </div>
+            </div>
+            <div class="weather-forecast">
+                {''.join([f'<div class="forecast-day"><span>{day.day}</span><span>{day.high}°/{day.low}°</span><span>{day.condition}</span></div>' for day in component.forecast])}
+            </div>
+        </div>
         <script type="application/json" id="{component_id}-data">
             {self._component_to_json(component)}
         </script>

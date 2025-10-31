@@ -29,7 +29,9 @@ from fabric_dashboard.core.content_writer import ContentWriter
 from fabric_dashboard.core.ui_generator import UIGenerator
 from fabric_dashboard.core.dashboard_builder import DashboardBuilder
 from fabric_dashboard.core.search_enricher import SearchEnricher
-from fabric_dashboard.models.schemas import CardSize
+from fabric_dashboard.models.schemas import (
+    CardSize, Pattern, PersonaProfile, ColorScheme, CardContent
+)
 
 
 class PipelineService:
@@ -44,6 +46,28 @@ class PipelineService:
         """
         self.mock_mode = mock_mode
         self.persona_fixtures_dir = Path(__file__).parent.parent.parent.parent / "fabric_dashboard" / "tests" / "fixtures" / "personas"
+
+    def _load_demo_fixture(self) -> dict:
+        """
+        Load pre-crafted demo persona fixture.
+
+        Returns:
+            Dict with patterns, persona, theme, ui_components, content_cards.
+
+        Raises:
+            FileNotFoundError: If demo.json doesn't exist.
+        """
+        demo_fixture = self.persona_fixtures_dir / "demo.json"
+
+        if not demo_fixture.exists():
+            raise FileNotFoundError(
+                f"Demo fixture not found at {demo_fixture}. "
+                "Run fixture generation first."
+            )
+
+        import json
+        with open(demo_fixture) as f:
+            return json.load(f)
 
     async def generate_dashboard(
         self,
@@ -70,6 +94,11 @@ class PipelineService:
         logging.info("=" * 80)
 
         try:
+            # Check if this is the demo persona
+            if persona == "demo":
+                logging.info("🎭 DEMO MODE: Loading pre-crafted demo persona")
+                return await self._generate_demo_dashboard(progress_callback, start_time)
+
             # Send progress: Starting
             await self._send_progress(progress_callback, {
                 "step": "initializing",
@@ -444,6 +473,145 @@ class PipelineService:
                     "message": f"Generation failed: {str(e)}"
                 })
             raise RuntimeError(f"Pipeline failed: {e}")
+
+    async def _generate_demo_dashboard(
+        self,
+        progress_callback: Optional[Callable[[Dict[str, Any]], None]],
+        start_time: datetime,
+    ) -> tuple[str, Any]:
+        """
+        Generate dashboard from pre-crafted demo fixture (no LLM calls).
+
+        Args:
+            progress_callback: Async function to call with progress updates.
+            start_time: When generation started (for timing).
+
+        Returns:
+            Tuple of (HTML string, DashboardJSON object).
+        """
+        from fabric_dashboard.models.ui_components import (
+            MapCard, EventCalendar, VideoFeed, TaskList, InfoCard
+        )
+        from fabric_dashboard.core.dashboard_builder import DashboardBuilder
+
+        # Load fixture
+        await self._send_progress(progress_callback, {
+            "step": "initializing",
+            "percent": 0,
+            "message": "Loading demo data...",
+        })
+
+        demo_data = self._load_demo_fixture()
+
+        # Parse patterns
+        await self._send_progress(progress_callback, {
+            "step": "patterns",
+            "percent": 30,
+            "message": "Loading patterns...",
+        })
+        patterns = [Pattern(**p) for p in demo_data["patterns"]]
+
+        logging.info(f"✓ Loaded {len(patterns)} patterns from demo fixture")
+
+        # Parse persona
+        persona_profile = PersonaProfile(**demo_data["persona"])
+
+        # Parse theme
+        await self._send_progress(progress_callback, {
+            "step": "theme",
+            "percent": 50,
+            "message": "Loading theme...",
+        })
+        color_scheme = ColorScheme(**demo_data["theme"])
+
+        logging.info(f"✓ Loaded theme: {color_scheme.mood}")
+
+        # Parse UI components
+        await self._send_progress(progress_callback, {
+            "step": "widgets",
+            "percent": 70,
+            "message": "Loading widgets...",
+        })
+
+        ui_components = []
+        for comp_data in demo_data["ui_components"]:
+            comp_type = comp_data["component_type"]
+            if comp_type == "map-card":
+                ui_components.append(MapCard(**comp_data))
+            elif comp_type == "event-calendar":
+                ui_components.append(EventCalendar(**comp_data))
+            elif comp_type == "video-feed":
+                ui_components.append(VideoFeed(**comp_data))
+            elif comp_type == "task-list":
+                ui_components.append(TaskList(**comp_data))
+            elif comp_type == "info-card":
+                ui_components.append(InfoCard(**comp_data))
+            else:
+                logging.warning(f"Unknown component type: {comp_type}")
+
+        logging.info(f"✓ Loaded {len(ui_components)} UI components")
+
+        # Enrich UI components with real API data
+        await self._send_progress(progress_callback, {
+            "step": "enriching",
+            "percent": 75,
+            "message": "Enriching widgets with live data...",
+        })
+
+        ui_generator = UIGenerator(mock_mode=False)
+        ui_components = await ui_generator._enrich_components(ui_components)
+
+        logging.info(f"✓ Enriched UI components with live API data")
+
+        # Parse content cards
+        await self._send_progress(progress_callback, {
+            "step": "content",
+            "percent": 85,
+            "message": "Loading content...",
+        })
+        cards = [CardContent(**c) for c in demo_data["content_cards"]]
+
+        logging.info(f"✓ Loaded {len(cards)} content cards")
+
+        # Build dashboard
+        await self._send_progress(progress_callback, {
+            "step": "building",
+            "percent": 95,
+            "message": "Assembling dashboard...",
+        })
+
+        dashboard_builder = DashboardBuilder()
+
+        # Build HTML
+        dashboard = dashboard_builder.build(
+            cards=cards,
+            ui_components=ui_components,
+            persona=persona_profile,
+            color_scheme=color_scheme,
+            user_name="Demo User",
+            generation_time_seconds=(datetime.now() - start_time).total_seconds(),
+        )
+
+        html = dashboard.metadata["html"]
+
+        # Build JSON
+        dashboard_json = dashboard_builder.build_json(
+            cards=cards,
+            ui_components=ui_components,
+            persona=persona_profile,
+            color_scheme=color_scheme,
+        )
+
+        total_time = (datetime.now() - start_time).total_seconds()
+        logging.info(f"✅ DEMO DASHBOARD COMPLETE ({total_time:.1f}s)")
+
+        await self._send_progress(progress_callback, {
+            "step": "complete",
+            "percent": 100,
+            "message": "Demo ready!",
+        })
+
+        return html, dashboard_json
 
     async def _send_progress(
         self,

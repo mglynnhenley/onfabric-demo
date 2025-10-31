@@ -6,7 +6,9 @@ from pathlib import Path
 import pytest
 
 from fabric_dashboard.models.schemas import (
-    Pattern, PersonaProfile, ColorScheme, ContentCard,
+    Pattern, PersonaProfile, ColorScheme, CardContent
+)
+from fabric_dashboard.models.ui_components import (
     MapCard, EventCalendar, VideoFeed, WeatherCard, TaskList, InfoCard
 )
 
@@ -114,13 +116,13 @@ def test_demo_ui_components_valid():
 
 
 def test_demo_content_cards_valid():
-    """Demo content cards match ContentCard schema."""
+    """Demo content cards match CardContent schema."""
     fixture_path = Path(__file__).parent / "fixtures" / "personas" / "demo.json"
 
     with open(fixture_path) as f:
         data = json.load(f)
 
-    cards = [ContentCard(**c) for c in data["content_cards"]]
+    cards = [CardContent(**c) for c in data["content_cards"]]
 
     assert len(cards) == 2
     assert all(card.reading_time_minutes > 0 for card in cards)

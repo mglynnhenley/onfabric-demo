@@ -71,11 +71,11 @@
       "Celebrity chef cooking techniques",
       "Electronic music and nightlife"
     ],
-    "activity_level": "highly engaged",
+    "activity_level": "high",
     "professional_context": "Tech founder or researcher in AI safety space, likely early 30s, values both work and lifestyle balance",
     "tone_preference": "thoughtful and observational with occasional playfulness",
     "age_range": "28-35",
-    "content_depth_preference": "substantive with personal narrative - prefers 'why it matters' over surface-level facts"
+    "content_depth_preference": "deep_dives"
   },
   "theme": {
     "mood": "energetic and curious",
@@ -92,16 +92,27 @@
     "fonts": {
       "heading": "Archivo Black",
       "body": "Work Sans",
-      "mono": "JetBrains Mono"
+      "mono": "JetBrains Mono",
+      "heading_url": "https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap",
+      "body_url": "https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap",
+      "mono_url": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap"
     },
     "background_theme": {
-      "type": "gradient-mesh",
+      "type": "gradient",
+      "color": null,
       "gradient": {
         "type": "radial-mesh",
         "colors": ["#0A0E27", "#1A1F3A", "#00D9FF15"],
-        "angle": 135,
-        "stops": [0, 50, 100]
-      }
+        "direction": "to-br"
+      },
+      "pattern": null,
+      "animation": {
+        "name": "gradient-shift",
+        "duration": "20s",
+        "timing": "ease-in-out"
+      },
+      "card_background": "rgba(10, 14, 39, 0.7)",
+      "card_backdrop_blur": true
     }
   },
   "ui_components": [
@@ -418,15 +429,19 @@
       "description": "Why Morocco's legendary right-hander deserves a spot on every surfer's bucket list",
       "body": "There's a moment just after dawn at Anchor Point when the offshore wind picks up and the first set of the day peels down the point in perfect, glassy sections. You're not just riding a wave here—you're riding geography itself, a rocky finger jutting into the Atlantic that's been sculpting perfect rights for millennia.\n\nThe locals will tell you that Anchor Point isn't Morocco's best wave. Hash Point is more powerful, Killer Point is longer, Boilers is more challenging. But what makes Anchor so special is its consistency. While other spots need that perfect combination of swell, wind, and tide, Anchor works 200+ days a year. It's the wave that turned Tagazhout from a sleepy fishing village into one of Africa's premier surf destinations.\n\nWhat surprised me most wasn't the waves—I'd seen the videos, read the guides. It was the community. Dawn patrol sessions with Moroccan rippers who grew up on these breaks. Sunset tagines at local cafes where everyone dissects the day's conditions. The Dutch couple who'd been \"visiting for two weeks\" three years ago and never left.\n\nIf you're planning a trip: November through March for the biggest swells, but September-October offers warmer water and smaller crowds. Book accommodation in Tagazhout village, not Agadir—you want to be able to check the surf from your window. And bring a 5/3mm wetsuit; the Atlantic here is colder than you think.",
       "reading_time_minutes": 3,
-      "size": "MEDIUM",
+      "sources": [],
+      "size": "medium",
+      "confidence": 0.89,
       "pattern_title": "Surf & Travel Enthusiast"
     },
     {
       "title": "London's Quiet AI Revolution",
       "description": "How the city became Europe's unexpected AI safety capital",
-      "body": "Walk down Tottenham Court Road on a Wednesday evening and you'll stumble upon something remarkable: 200+ people crammed into a basement discussing mesa-optimization and reward hacking. This is the London AI Safety Hub's weekly meetup, and it's just one node in an ecosystem that's quietly making London the center of European AI safety research.\n\nThe math is compelling. DeepMind's headquarters in King's Cross. Anthropic's expanding London office. The UK AI Safety Institute at the Frontier AI Taskforce. Oxford and Cambridge churning out technical safety researchers. Government taking AI risk seriously after the 2023 Bletchley Summit. Add a timezone that bridges US West Coast and Asia, and you have a perfect storm.\n\nBut what makes London special isn't the institutions—it's the culture. Unlike SF's \"move fast and break things,\" London's AI scene carries a distinctly cautious flavor. Maybe it's the proximity to government. Maybe it's European sensibility about existential risk. Whatever it is, you can feel it in the conversations at Founders Forum, in the pitch decks at Seedcamp, in the due diligence questions from VCs on Sand Hill Row.\n\nThe next wave is already forming. Every week brings new safety-focused startups: companies building interpretability tools, alignment testing frameworks, governance infrastructure. They're not asking \"can we build AGI?\"—they're asking \"when we do, how do we make sure it goes well?\"\n\nThe revolution won't be televised. But it might be livestreamed from a King's Cross conference room.",
+      "body": "Walk down Tottenham Court Road on a Wednesday evening and you'll stumble upon something remarkable: 200+ people crammed into a basement discussing mesa-optimization and reward hacking. This is the London AI Safety Hub's weekly meetup, and it's just one node in an ecosystem that's quietly making London the center of European AI safety research.\n\nThe math is compelling. DeepMind's headquarters in King's Cross. Anthropic's expanding London office. The UK AI Safety Institute at the Frontier AI Taskforce. Oxford and Cambridge churning out technical safety researchers. Government taking AI risk seriously after the 2023 Bletchley Summit. Add a timezone that bridges US West Coast and Asia, and you have a perfect storm.\n\nBut what makes London special isn't the institutions—it's the culture. Unlike SF's \"move fast and break things,\" London's AI scene carries a distinctly cautious flavor. Maybe it's the proximity to government. Maybe it's European sensibility about existential risk. Whatever it is, you can feel it in the conversations at Founders Forum, in the pitch decks at Seedcamp, in the due diligence questions from VCs on Sand Hill Row.\n\nThe technical talent density is extraordinary. Walk into any cafe in Shoreditch and you might overhear conversations about inverse reinforcement learning or debate the merits of different interpretability techniques. These aren't abstract academic discussions—they're practical concerns for teams building the next generation of AI systems. The city has quietly assembled one of the world's deepest benches of alignment researchers, many of whom previously worked at the frontier labs they're now trying to make safer.\n\nThe funding landscape reflects this maturity. London's AI safety investors don't just write checks—they understand the technical nuances. They can distinguish between genuine safety innovation and security theater. They know that solving alignment isn't about adding a safety layer; it's about fundamentally rethinking how we build AI systems. This sophistication attracts the most serious founders, creating a virtuous cycle.\n\nThe next wave is already forming. Every week brings new safety-focused startups: companies building interpretability tools, alignment testing frameworks, governance infrastructure. They're not asking \"can we build AGI?\"—they're asking \"when we do, how do we make sure it goes well?\"\n\nThe revolution won't be televised. But it might be livestreamed from a King's Cross conference room.",
       "reading_time_minutes": 3,
-      "size": "LARGE",
+      "sources": [],
+      "size": "large",
+      "confidence": 0.85,
       "pattern_title": "Tech Startup Navigator"
     }
   ]

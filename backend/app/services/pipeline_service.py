@@ -30,7 +30,7 @@ from fabric_dashboard.core.ui_generator import UIGenerator
 from fabric_dashboard.core.dashboard_builder import DashboardBuilder
 from fabric_dashboard.core.search_enricher import SearchEnricher
 from fabric_dashboard.models.schemas import (
-    CardSize, Pattern, PersonaProfile, ColorScheme, ContentCard
+    CardSize, Pattern, PersonaProfile, ColorScheme, CardContent
 )
 
 
@@ -465,7 +465,7 @@ class PipelineService:
         Returns:
             Tuple of (HTML string, DashboardJSON object).
         """
-        from fabric_dashboard.models.schemas import (
+        from fabric_dashboard.models.ui_components import (
             MapCard, EventCalendar, VideoFeed, WeatherCard, TaskList, InfoCard
         )
         from fabric_dashboard.core.dashboard_builder import DashboardBuilder
@@ -535,7 +535,7 @@ class PipelineService:
             "percent": 85,
             "message": "Loading content...",
         })
-        cards = [ContentCard(**c) for c in demo_data["content_cards"]]
+        cards = [CardContent(**c) for c in demo_data["content_cards"]]
 
         logging.info(f"✓ Loaded {len(cards)} content cards")
 

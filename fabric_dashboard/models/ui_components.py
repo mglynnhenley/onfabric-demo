@@ -38,38 +38,70 @@ class UIComponent(BaseModel):
 # ============================================================================
 
 
-class InfoCard(UIComponent):
-    """Weather or location-based information card.
+class Forecast(BaseModel):
+    """Forecast day for weather card."""
+
+    day: str = Field(description="Day label (e.g., 'Today', 'Tomorrow', 'Monday')")
+    high: int = Field(description="High temperature")
+    low: int = Field(description="Low temperature")
+    condition: str = Field(description="Weather condition")
+
+
+class WeatherCard(UIComponent):
+    """Weather information card with current conditions and forecast.
 
     Uses OpenWeatherMap API to show current weather and forecast.
+    """
+
+    component_type: Literal["weather-card"] = "weather-card"
+    location: str = Field(
+        min_length=1,
+        max_length=100,
+        description="City name or location (e.g., 'San Francisco, CA')",
+    )
+    lat: float = Field(ge=-90, le=90, description="Latitude")
+    lng: float = Field(ge=-180, le=180, description="Longitude")
+    current_temp: int = Field(description="Current temperature")
+    feels_like: int = Field(description="Feels like temperature")
+    condition: str = Field(description="Current weather condition")
+    wind_speed: int = Field(description="Wind speed")
+    wind_direction: str = Field(description="Wind direction (e.g., 'NW', 'SE')")
+    humidity: int = Field(ge=0, le=100, description="Humidity percentage")
+    forecast: list[Forecast] = Field(
+        min_length=1, max_length=7, description="Weather forecast"
+    )
+
+
+class InfoCard(UIComponent):
+    """General information card with overview and key topics.
+
+    Used for displaying topic summaries, research areas, etc.
     """
 
     component_type: Literal["info-card"] = "info-card"
     location: str = Field(
         min_length=1,
         max_length=100,
-        description="City name or location (e.g., 'San Francisco, CA')",
+        description="Location or context for the info",
     )
-    info_type: Literal["weather"] = Field(
-        default="weather", description="Type of info (currently only weather)"
+    overview: str = Field(
+        min_length=1,
+        max_length=500,
+        description="Overview text describing the topic",
     )
-    units: Literal["metric", "imperial"] = Field(
-        default="metric", description="Temperature units"
-    )
-    show_forecast: bool = Field(
-        default=True, description="Whether to show 3-day forecast"
-    )
-    enriched_data: Optional[dict] = Field(
-        default=None, description="Enriched weather data from API"
+    key_topics: list[str] = Field(
+        min_length=1,
+        max_length=10,
+        description="List of key topics or areas",
     )
 
 
 class MapMarker(BaseModel):
     """Marker for map component."""
 
+    name: str = Field(min_length=1, max_length=100, description="Marker name")
     lat: float = Field(ge=-90, le=90, description="Latitude")
     lng: float = Field(ge=-180, le=180, description="Longitude")
-    title: str = Field(min_length=1, max_length=100, description="Marker title")
     description: Optional[str] = Field(
         None, max_length=300, description="Optional marker description"
     )
@@ -93,6 +125,16 @@ class MapCard(UIComponent):
     )
 
 
+class Video(BaseModel):
+    """Video details for video feed component."""
+
+    title: str = Field(min_length=1, max_length=200, description="Video title")
+    channel: str = Field(min_length=1, max_length=100, description="Channel name")
+    thumbnail_url: str = Field(description="Video thumbnail URL")
+    url: str = Field(description="Video URL")
+    duration: str = Field(description="Video duration (e.g., '8:42', '1:23:45')")
+
+
 class VideoFeed(UIComponent):
     """YouTube video recommendations feed.
 
@@ -112,6 +154,9 @@ class VideoFeed(UIComponent):
     order_by: Literal["relevance", "date", "viewCount"] = Field(
         default="relevance", description="Sort order for results"
     )
+    videos: Optional[list[Video]] = Field(
+        default=None, description="Direct video data (for demo/mock data)"
+    )
     enriched_videos: Optional[list[dict]] = Field(
         default=None, description="Enriched video data from YouTube API"
     )
@@ -120,7 +165,7 @@ class VideoFeed(UIComponent):
 class Event(BaseModel):
     """Event details for calendar component."""
 
-    name: str = Field(min_length=1, max_length=200, description="Event name")
+    title: str = Field(min_length=1, max_length=200, description="Event title")
     date: str = Field(
         description="Event date/time (ISO 8601 format or relative like '2024-10-20T19:00:00Z')"
     )
@@ -128,6 +173,7 @@ class Event(BaseModel):
         None, max_length=200, description="Event location"
     )
     url: Optional[str] = Field(None, description="Event URL for more info")
+    type: Optional[str] = Field(None, description="Event type (e.g., 'startup', 'club', 'conference')")
     is_virtual: bool = Field(default=False, description="Whether event is online")
 
 
@@ -155,6 +201,9 @@ class EventCalendar(UIComponent):
     include_online: bool = Field(
         default=True, description="Include online/virtual events"
     )
+    events: Optional[list[Event]] = Field(
+        default=None, description="Direct event data (for demo/mock data)"
+    )
     enriched_events: Optional[list[dict]] = Field(
         default=None, description="Enriched event data from Ticketmaster API"
     )
@@ -165,6 +214,9 @@ class TaskItem(BaseModel):
 
     text: str = Field(min_length=1, max_length=200, description="Task text")
     completed: bool = Field(default=False, description="Task completion status")
+    category: Optional[str] = Field(
+        None, max_length=100, description="Task category (e.g., 'AI Safety', 'Fitness')"
+    )
     priority: Literal["low", "medium", "high"] = Field(
         default="medium", description="Task priority"
     )
@@ -222,6 +274,7 @@ class ContentCard(UIComponent):
 
 UIComponentType = Union[
     InfoCard,
+    WeatherCard,
     MapCard,
     VideoFeed,
     EventCalendar,

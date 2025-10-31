@@ -52,7 +52,7 @@ class DataFetcher:
         """
         logger.info("Loading mock user data from fixtures")
 
-        fixture_path = Path(__file__).parent.parent / "tests" / "fixtures" / "mock_user_data.json"
+        fixture_path = Path(__file__).parent.parent / "tests" / "fixtures" / "raw_data" / "user_interactions_mixed.json"
 
         if not fixture_path.exists():
             logger.error(f"Mock data file not found: {fixture_path}")

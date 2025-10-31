@@ -94,6 +94,11 @@ def get_config_from_env() -> Optional[Config]:
             perplexity_api_key=perplexity_key,
             days_back=int(os.getenv("DAYS_BACK", "30")),
             debug=os.getenv("DEBUG", "false").lower() == "true",
+            # External API keys for UI enrichment
+            openweathermap_api_key=os.getenv("OPENWEATHERMAP_API_KEY") or None,
+            youtube_api_key=os.getenv("YOUTUBE_API_KEY") or None,
+            ticketmaster_api_key=os.getenv("TICKETMASTER_API_KEY") or None,
+            mapbox_api_key=os.getenv("MAPBOX_API_KEY") or None,
         )
         return config
     except (ValidationError, ValueError):

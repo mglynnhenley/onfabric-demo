@@ -332,15 +332,32 @@ class UIGenerator:
             # Execute
             result = await chain.ainvoke({"context": context})
 
+            # Log what LLM generated
+            logger.info(f"LLM generated {len(result.components)} components")
+            for idx, comp in enumerate(result.components, 1):
+                logger.info(f"  {idx}. {comp.__class__.__name__}: {comp.title}")
+
             # Deduplicate components before enrichment (saves API calls)
             unique_components = self._deduplicate_components(result.components)
 
             # Enrich components with real data from APIs
             enriched_components = await self._enrich_components(unique_components)
 
-            logger.success(f"Generated {len(enriched_components)} UI components")
+            # Filter out event calendars with no events
+            filtered_components = []
+            for comp in enriched_components:
+                if comp.component_type == "event-calendar":
+                    # Check if enriched_events exists and has events
+                    if hasattr(comp, 'enriched_events') and comp.enriched_events and len(comp.enriched_events) > 0:
+                        filtered_components.append(comp)
+                    else:
+                        logger.info(f"Skipping event calendar '{comp.title}' - no events found")
+                else:
+                    filtered_components.append(comp)
+
+            logger.success(f"Generated {len(filtered_components)} UI components ({len(enriched_components) - len(filtered_components)} filtered out)")
             return UIGenerationResult(
-                components=enriched_components,
+                components=filtered_components,
                 total_patterns_analyzed=len(patterns),
             )
 
@@ -420,22 +437,33 @@ Your task is to select and configure 3-6 interactive UI components based on user
 ✓ Search queries use actual keywords from patterns
 ✓ Total: 3-6 components (not more, not less)
 
-## CRITICAL: NO DUPLICATE COMPONENTS
+## CRITICAL: ABSOLUTELY NO DUPLICATE COMPONENTS
 
-**IMPORTANT**: You MUST generate diverse, non-duplicate components:
-- Each component must have a UNIQUE title
-- Do NOT create multiple components for the same pattern/topic
-- If a pattern deserves multiple widgets, make them meaningfully different
-  (e.g., "AI Research Papers" vs "AI Safety Events", NOT two identical "AI Events")
-- Aim for 3-6 varied widgets covering different aspects of the persona
+🚨 **STRICT RULE - NEVER VIOLATE**: Each component MUST be completely unique!
 
-**Examples of what NOT to do:**
-❌ "AI Safety Events" + "AI Safety Events" (exact duplicate)
-❌ "AI Events" + "AI Tech Events" (essentially the same)
+**Before returning your response, CHECK:**
+1. Count how many components you generated
+2. Verify EVERY title is different from all others
+3. If you find ANY duplicates, remove them immediately
+
+**NEVER duplicate:**
+- ❌ Same component type + same title (e.g., two "map-card" with "Oxford Cultural Hotspots")
+- ❌ Same component type + similar title (e.g., "AI Events" and "AI Tech Events")
+- ❌ Multiple map-cards for the same location
+- ❌ Multiple video-feeds with the same query
+
+**If a pattern is interesting, choose ONE representation:**
+- For "Cultural Interests in Oxford" → ONE map-card OR ONE event-calendar, NOT both
+- For "AI Learning" → ONE video-feed OR ONE article feed, NOT multiple videos
+
+**Examples of BANNED duplicates:**
+❌ "Oxford Cultural Hotspots" + "Oxford Cultural Hotspots" (EXACT DUPLICATE - FORBIDDEN!)
+❌ "AI Events" + "AI Tech Events" (SIMILAR - FORBIDDEN!)
+❌ Three map-cards all showing Oxford (REDUNDANT - FORBIDDEN!)
 
 **Examples of good diversity:**
-✅ "AI Research Papers" + "Tech Industry Events" + "Philosophy Lectures"
-✅ "Machine Learning Videos" + "AI Safety Conferences" + "Tech News Map"
+✅ "AI Research Videos" + "Luxury Fashion Trends Map" + "Tech News Feed"
+✅ "Machine Learning Tutorials" + "Theater Events Calendar" + "Design Inspiration Map"
 
 Your response will be automatically validated against a Pydantic schema."""
 
@@ -586,7 +614,7 @@ Choose 3-6 diverse, relevant components with complete configuration."""
             # Step 2: Fetch current weather
             current = await self.weather.get_current_weather(
                 lat=coords["lat"],
-                lon=coords["lon"],
+                lon=coords["lng"],
                 units=component.units,
             )
 
@@ -595,7 +623,7 @@ Choose 3-6 diverse, relevant components with complete configuration."""
             if component.show_forecast:
                 forecast = await self.weather.get_forecast(
                     lat=coords["lat"],
-                    lon=coords["lon"],
+                    lon=coords["lng"],
                     days=3,
                     units=component.units,
                 )
@@ -656,7 +684,7 @@ Choose 3-6 diverse, relevant components with complete configuration."""
             lat, lon = None, None
             if component.location:
                 coords = await self.geocoding.geocode(component.location)
-                lat, lon = coords["lat"], coords["lon"]
+                lat, lon = coords["lat"], coords["lng"]
 
             # Search for events
             events = await self.events.search_events(

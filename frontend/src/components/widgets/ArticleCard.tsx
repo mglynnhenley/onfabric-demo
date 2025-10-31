@@ -9,7 +9,6 @@ import { motion } from 'framer-motion';
 import { Clock, ExternalLink } from 'lucide-react';
 import { registerWidget } from './WidgetRegistry';
 import type { WidgetProps } from './WidgetTypes';
-import { useState } from 'react';
 
 interface Source {
   title: string;
@@ -27,10 +26,6 @@ interface ArticleCardData {
 function ArticleCard({ id, data, size }: WidgetProps) {
   const articleData = data as ArticleCardData;
   const { title, excerpt, content, readingTime, sources } = articleData;
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  // Convert size to max lines for excerpt
-  const maxLines = size === 'small' ? 3 : size === 'medium' ? 4 : 6;
 
   return (
     <motion.div
@@ -39,20 +34,20 @@ function ArticleCard({ id, data, size }: WidgetProps) {
       transition={{ duration: 0.5 }}
       className="h-full"
     >
-      <div className="card-background rounded-xl p-6 h-full flex flex-col shadow-lg border border-border/50 hover:border-primary/50 transition-colors">
+      <div className="card-background rounded-lg p-3 h-full flex flex-col shadow-lg border border-border/50 hover:border-primary/50 transition-colors">
         {/* Header */}
-        <div className="mb-4">
+        <div className="mb-3">
           <motion.h2
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1, duration: 0.5 }}
-            className="text-2xl font-heading font-bold text-foreground mb-2 leading-tight"
+            className="text-sm font-heading font-bold text-foreground mb-1 leading-tight"
           >
             {title}
           </motion.h2>
 
-          <div className="flex items-center gap-2 text-sm text-muted">
-            <Clock className="w-4 h-4" />
+          <div className="flex items-center gap-1 text-xs text-muted">
+            <Clock className="w-3 h-3" />
             <span>{readingTime}</span>
           </div>
         </div>
@@ -62,52 +57,24 @@ function ArticleCard({ id, data, size }: WidgetProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-base text-foreground/90 mb-4 leading-relaxed"
-          style={{
-            display: '-webkit-box',
-            WebkitLineClamp: isExpanded ? 'unset' : maxLines,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-          }}
+          className="text-[10px] text-foreground/90 mb-2 leading-relaxed break-words whitespace-normal overflow-wrap-anywhere line-clamp-2"
         >
           {excerpt}
         </motion.p>
 
-        {/* Content preview (first few lines of markdown) */}
-        {!isExpanded && size !== 'small' && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-sm text-muted leading-relaxed mb-4 line-clamp-3"
-          >
-            {content.substring(0, 150)}...
-          </motion.div>
-        )}
-
-        {/* Expand/Collapse button */}
-        {size !== 'small' && (
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="text-sm font-medium text-primary hover:text-primary/80 transition-colors mb-4 text-left"
-          >
-            {isExpanded ? 'Show less' : 'Read more'} →
-          </button>
-        )}
-
-        {/* Expanded content */}
-        {isExpanded && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="prose prose-sm mb-4 text-foreground"
-          >
-            {/* Simple markdown rendering - in production, use a proper markdown library */}
-            <div className="whitespace-pre-wrap">{content}</div>
-          </motion.div>
-        )}
+        {/* Content preview or full content */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="text-xs leading-relaxed mb-2 break-words whitespace-normal flex-1"
+          style={{
+            color: 'var(--color-foreground)',
+            opacity: 0.9,
+          }}
+        >
+          <div className="whitespace-pre-wrap" style={{ color: 'var(--color-foreground)' }}>{content}</div>
+        </motion.div>
 
         {/* Sources */}
         {sources && sources.length > 0 && (

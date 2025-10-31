@@ -54,7 +54,7 @@ function TaskCard({ id, data, size }: WidgetProps) {
       transition={{ duration: 0.5 }}
       className="h-full"
     >
-      <div className="card-background rounded-xl p-6 h-full flex flex-col shadow-lg border border-border/50">
+      <div className="card-background rounded-lg p-6 h-full flex flex-col shadow-lg border border-border/50">
         {/* Header */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
@@ -79,7 +79,7 @@ function TaskCard({ id, data, size }: WidgetProps) {
         </div>
 
         {/* Task List */}
-        <div className="flex-1 space-y-2 overflow-y-auto">
+        <div className="flex-1 space-y-2">
           {tasks.map((task, index) => {
             const isCompleted = completedTasks.has(index);
 

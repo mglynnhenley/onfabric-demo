@@ -43,13 +43,13 @@ function ContentCard({ id, data, size }: WidgetProps) {
       transition={{ duration: 0.5 }}
       className="h-full"
     >
-      <div className="card-background rounded-xl p-6 h-full flex flex-col shadow-lg border border-border/50">
+      <div className="card-background rounded-lg p-3 h-full flex flex-col shadow-lg border border-border/50">
         {/* Header Badge */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="flex items-center gap-2 mb-4"
+          className="flex items-center gap-2 mb-3"
         >
           <div className="flex items-center gap-1.5 text-xs text-muted px-2 py-1 rounded-full bg-accent/10">
             <BookOpen className="w-3 h-3 text-accent" />
@@ -58,13 +58,13 @@ function ContentCard({ id, data, size }: WidgetProps) {
         </motion.div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col gap-4">
+        <div className="flex-1 flex flex-col gap-3">
           {/* Title */}
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-base font-bold text-foreground leading-tight line-clamp-2"
+            className="text-xs font-bold text-foreground leading-tight break-words whitespace-normal"
           >
             {title}
           </motion.h3>
@@ -74,7 +74,7 @@ function ContentCard({ id, data, size }: WidgetProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-xs text-muted-foreground leading-relaxed flex-1 line-clamp-5"
+            className="text-[10px] text-muted-foreground leading-relaxed flex-1 break-words whitespace-normal overflow-wrap-anywhere"
           >
             {overview}
           </motion.p>

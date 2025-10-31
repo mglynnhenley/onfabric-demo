@@ -33,16 +33,13 @@ function VideoCard({ id, data, size }: WidgetProps) {
       transition={{ duration: 0.5 }}
       className="h-full"
     >
-      <div className="card-background rounded-xl p-6 h-full flex flex-col shadow-lg border border-border/50">
+      <div className="card-background rounded-lg p-6 h-full flex flex-col shadow-lg border border-border/50">
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-            <Youtube className="w-5 h-5 text-red-500" />
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-heading font-bold text-foreground flex items-center gap-1.5">
+            <Youtube className="w-4 h-4 text-red-500" />
             {title}
           </h3>
-          <span className="text-xs text-muted px-2 py-1 rounded-full bg-red-500/10">
-            {videos.length} videos
-          </span>
         </div>
 
         {/* Search Query Badge */}
@@ -60,9 +57,9 @@ function VideoCard({ id, data, size }: WidgetProps) {
           </motion.div>
         )}
 
-        {/* Video Feed */}
-        <div className="flex-1 space-y-3 overflow-y-auto">
-          {videos.map((video, index) => (
+        {/* Single Video (show only first one) */}
+        <div className="flex-1 overflow-hidden">
+          {videos.slice(0, 1).map((video, index) => (
             <motion.a
               key={index}
               href={video.url}
@@ -74,9 +71,9 @@ function VideoCard({ id, data, size }: WidgetProps) {
               whileHover={{ scale: 1.02 }}
               className="group block"
             >
-              <div className="flex gap-3 p-2 rounded-lg hover:bg-muted/20 transition-colors">
+              <div className="flex flex-col gap-2 rounded-lg hover:bg-muted/10 transition-colors">
                 {/* Thumbnail */}
-                <div className="relative w-32 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-red-500/20 to-pink-500/20">
+                <div className="relative w-full aspect-video flex-shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-red-500/20 to-pink-500/20">
                   {video.thumbnail ? (
                     <img
                       src={video.thumbnail}
@@ -99,15 +96,10 @@ function VideoCard({ id, data, size }: WidgetProps) {
                 </div>
 
                 {/* Video Info */}
-                <div className="flex-1 min-w-0 flex flex-col justify-center">
-                  <h4 className="text-sm font-medium text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors">
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-xs font-body font-medium text-foreground line-clamp-2 group-hover:text-primary transition-colors">
                     {video.title}
                   </h4>
-                  <div className="flex items-center gap-1 text-xs text-muted">
-                    <Youtube className="w-3 h-3" />
-                    <span>Watch on YouTube</span>
-                    <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
                 </div>
               </div>
             </motion.a>
@@ -125,25 +117,6 @@ function VideoCard({ id, data, size }: WidgetProps) {
           )}
         </div>
 
-        {/* Footer */}
-        {videos.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="mt-4 pt-4 border-t border-border/30"
-          >
-            <a
-              href={`https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-primary hover:underline flex items-center gap-1"
-            >
-              <span>View more on YouTube</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
-          </motion.div>
-        )}
       </div>
     </motion.div>
   );

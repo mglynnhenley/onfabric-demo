@@ -171,7 +171,7 @@ export function Dashboard({ dashboardData, onGenerateNew }: DashboardProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="py-8"
+          className="py-12"
         >
           <PinBoardLayout widgets={dashboardData.widgets} />
         </motion.div>

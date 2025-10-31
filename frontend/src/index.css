@@ -276,4 +276,12 @@
   .border-border {
     border-color: var(--color-border);
   }
+
+  /* React Grid Layout placeholder styling - remove red highlight */
+  .react-grid-placeholder {
+    background: var(--color-border) !important;
+    opacity: 0.2 !important;
+    border-radius: 0.5rem;
+    border: 2px dashed var(--color-primary) !important;
+  }
 }

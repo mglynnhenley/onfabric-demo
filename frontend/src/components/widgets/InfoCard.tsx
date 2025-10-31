@@ -62,7 +62,7 @@ function InfoCard({ id, data, size }: WidgetProps) {
       transition={{ duration: 0.5 }}
       className="h-full"
     >
-      <div className="card-background rounded-xl p-6 h-full flex flex-col justify-between shadow-lg border border-border/50 overflow-hidden relative">
+      <div className="card-background rounded-lg p-6 h-full flex flex-col justify-between shadow-lg border border-border/50 overflow-hidden relative">
         {/* Gradient background overlay */}
         <motion.div
           initial={{ opacity: 0 }}

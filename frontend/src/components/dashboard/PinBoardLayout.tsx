@@ -27,23 +27,42 @@ interface PinBoardLayoutProps {
   widgets: Widget[];
 }
 
-// Convert widget size to grid units
-function sizeToGridUnits(size: string): { w: number; h: number } {
-  switch (size) {
-    case 'small':
-      return { w: 4, h: 4 };  // Article content needs height
-    case 'medium':
-      return { w: 5, h: 6 };  // More height for article content
-    case 'large':
-      return { w: 6, h: 8 };  // Much more height for long articles
-    default:
-      return { w: 5, h: 6 };
-  }
+// Convert widget size to grid units with better proportions
+function sizeToGridUnits(size: string, type: string): { w: number; h: number } {
+  // Smaller base sizes for "zoomed out" generative interface look
+  const baseSizes = {
+    small: { w: 3, h: 3 },
+    medium: { w: 4, h: 4 },
+    large: { w: 5, h: 5 },
+  };
+
+  // Type-specific width adjustments (content-heavy cards need more horizontal space)
+  const widthMultipliers: Record<string, number> = {
+    'content-card': 2.5,  // Much wider for long text content
+    'article-card': 2.0,  // Wider for article content
+  };
+
+  // Type-specific adjustments for content that needs more height
+  const heightMultipliers: Record<string, number> = {
+    'article-card': 1.5,  // Taller to fit more article content
+    'content-card': 1.5,  // Taller to fit more overview text
+    'video-card': 1.0,
+    'event-calendar': 1.0,
+  };
+
+  const base = baseSizes[size as keyof typeof baseSizes] || baseSizes.medium;
+  const widthMultiplier = widthMultipliers[type] || 1;
+  const heightMultiplier = heightMultipliers[type] || 1;
+
+  return {
+    w: Math.round(base.w * widthMultiplier),
+    h: Math.round(base.h * heightMultiplier),
+  };
 }
 
 // Generate scattered layout positions
 function generateScatteredLayout(widgets: Widget[]): Layout[] {
-  const cols = 12;
+  const cols = 16;
   const layout: Layout[] = [];
   let currentY = 0;
   let currentX = 0;
@@ -53,7 +72,7 @@ function generateScatteredLayout(widgets: Widget[]): Layout[] {
   const sortedWidgets = [...widgets].sort((a, b) => a.priority - b.priority);
 
   sortedWidgets.forEach((widget, idx) => {
-    const { w, h } = sizeToGridUnits(widget.size);
+    const { w, h } = sizeToGridUnits(widget.size, widget.type);
 
     // Check if widget fits in current row
     if (currentX + w > cols) {
@@ -149,7 +168,7 @@ export function PinBoardLayout({ widgets }: PinBoardLayoutProps) {
   };
 
   if (containerWidth === 0) {
-    return <div className="w-full max-w-7xl mx-auto px-4 py-8">Loading...</div>;
+    return <div className="w-full max-w-[1600px] mx-auto px-8 py-12">Loading...</div>;
   }
 
   return (
@@ -158,12 +177,12 @@ export function PinBoardLayout({ widgets }: PinBoardLayoutProps) {
       variants={containerVariants}
       initial="hidden"
       animate={mounted ? 'visible' : 'hidden'}
-      className="w-full max-w-7xl mx-auto px-4 py-8"
+      className="w-full max-w-[1600px] mx-auto px-8 py-12"
     >
       <GridLayout
         className="layout"
         layout={layout}
-        cols={12}
+        cols={16}
         rowHeight={80}
         width={containerWidth}
         onLayoutChange={onLayoutChange}

@@ -37,12 +37,22 @@
 
 @layer base {
   body {
-    @apply bg-cream text-charcoal antialiased;
+    @apply text-charcoal antialiased;
     font-family: var(--font-family-sans);
+  }
+
+  /* Landing/Progress screens get the humanist tech background */
+  body[data-screen="landing"],
+  body[data-screen="generating"] {
     background:
       radial-gradient(circle at 20% 20%, rgba(245, 230, 218, 0.4) 0%, transparent 50%),
       radial-gradient(circle at 80% 80%, rgba(217, 229, 214, 0.3) 0%, transparent 50%),
       #FAF7F2;
+  }
+
+  /* Dashboard screen uses AI-generated theme (applied by ThemeProvider) */
+  body[data-screen="dashboard"] {
+    /* No default background - ThemeProvider will inject it */
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -92,6 +102,22 @@
     }
   }
 
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
   @keyframes slide-in-right {
     from {
       opacity: 0;
@@ -129,16 +155,24 @@
     animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
   }
 
+  .animate-fade-in {
+    animation: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .animate-blink {
+    animation: blink 1s steps(1) infinite;
+  }
+
   .animate-slide-in-right {
     animation: slide-in-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
   .animate-pulse-glow {
-    animation: pulse-glow 2.5s ease-in-out infinite;
+    animation: pulse-glow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
   .animate-float-gentle {
-    animation: float-gentle 4s ease-in-out infinite;
+    animation: float-gentle 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
   /* Warm gradient text */
@@ -272,9 +306,55 @@
     color: var(--color-destructive);
   }
 
+  /* Background color utilities using theme colors */
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
+
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+
+  .bg-muted {
+    background-color: var(--color-muted);
+  }
+
+  .bg-success {
+    background-color: var(--color-success);
+  }
+
+  .bg-warning {
+    background-color: var(--color-warning);
+  }
+
+  .bg-destructive {
+    background-color: var(--color-destructive);
+  }
+
   /* Border color utilities using theme colors */
   .border-border {
     border-color: var(--color-border);
+  }
+
+  .border-primary {
+    border-color: var(--color-primary);
+  }
+
+  .border-secondary {
+    border-color: var(--color-secondary);
+  }
+
+  /* Hover utilities for theme colors */
+  .hover\:text-primary:hover {
+    color: var(--color-primary);
+  }
+
+  .hover\:border-primary:hover {
+    border-color: var(--color-primary);
   }
 
   /* React Grid Layout placeholder styling - remove red highlight */

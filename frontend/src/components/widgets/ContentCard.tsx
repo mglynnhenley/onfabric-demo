@@ -43,88 +43,36 @@ function ContentCard({ id, data, size }: WidgetProps) {
       transition={{ duration: 0.5 }}
       className="h-full"
     >
-      <div className="card-background rounded-lg p-3 h-full flex flex-col shadow-lg border border-border/50">
-        {/* Header Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex items-center gap-2 mb-3"
-        >
-          <div className="flex items-center gap-1.5 text-xs text-muted px-2 py-1 rounded-full bg-accent/10">
-            <BookOpen className="w-3 h-3 text-accent" />
-            <span>Deep Dive</span>
+      <motion.a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        whileHover={{ scale: 1.02, y: -1 }}
+        whileTap={{ scale: 0.98 }}
+        className="h-full rounded-lg px-2 py-1.5 flex flex-col justify-between shadow-sm border transition-all cursor-pointer group card-background hover:border-primary/50 font-body"
+        style={{
+          borderColor: 'var(--color-border)',
+        }}
+      >
+        {/* Badge + Title */}
+        <div className="flex flex-col gap-0.5">
+          <div className="flex items-center gap-1">
+            <BookOpen className="w-2.5 h-2.5 text-primary" />
+            <span className="text-[7px] font-medium uppercase tracking-wide text-primary">
+              Deep Dive
+            </span>
           </div>
-        </motion.div>
 
-        {/* Content */}
-        <div className="flex-1 flex flex-col gap-3">
-          {/* Title */}
-          <motion.h3
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-xs font-bold text-foreground leading-tight break-words whitespace-normal"
-          >
+          <h3 className="text-[10px] font-bold leading-tight break-words whitespace-normal overflow-hidden line-clamp-2 text-foreground font-heading">
             {title}
-          </motion.h3>
-
-          {/* Overview */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-[10px] text-muted-foreground leading-relaxed flex-1 break-words whitespace-normal overflow-wrap-anywhere"
-          >
-            {overview}
-          </motion.p>
-
-          {/* Metadata */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="space-y-2"
-          >
-            {/* Source */}
-            {sourceName && (
-              <div className="flex items-center gap-2 text-xs text-muted">
-                <Newspaper className="w-3 h-3" />
-                <span className="font-medium">{sourceName}</span>
-              </div>
-            )}
-
-            {/* Published Date */}
-            {publishedDate && (
-              <div className="flex items-center gap-2 text-xs text-muted">
-                <Calendar className="w-3 h-3" />
-                <span>{formatDate(publishedDate)}</span>
-              </div>
-            )}
-          </motion.div>
-
-          {/* Read More Button */}
-          <motion.a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="group flex items-center justify-between gap-3 px-4 py-3 rounded-lg font-semibold text-sm transition-all shadow-md border"
-            style={{
-              backgroundColor: 'var(--color-primary)',
-              color: 'white',
-              borderColor: 'var(--color-primary)',
-            }}
-          >
-            <span>Read Full Article</span>
-            <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </motion.a>
+          </h3>
         </div>
-      </div>
+
+        {/* Arrow indicator */}
+        <div className="flex items-center justify-end mt-1">
+          <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-primary" />
+        </div>
+      </motion.a>
     </motion.div>
   );
 }

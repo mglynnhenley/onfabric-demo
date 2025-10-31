@@ -2,7 +2,7 @@
  * Main App component - orchestrates all screens with real pipeline data.
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Landing } from './components/Landing';
 import { Progress } from './components/Progress';
 import { Dashboard } from './components/Dashboard';
@@ -31,6 +31,12 @@ function App() {
     error: null,
   });
 
+  // Set data-screen attribute on body for conditional CSS styling
+  useEffect(() => {
+    document.body.setAttribute('data-screen', state.screen);
+    console.log(`📍 Body data-screen attribute set to: ${state.screen}`);
+  }, [state.screen]);
+
   const handleMessage = useCallback((message: WebSocketMessage) => {
     if (message.type === 'error') {
       alert(`Error: ${message.message}`);
@@ -43,6 +49,16 @@ function App() {
     }
 
     if (message.type === 'complete') {
+      // LAYER 4: Verify WebSocket received theme
+      console.log('🔍 LAYER 4: WEBSOCKET RECEIVED');
+      console.log('  Message:', message);
+      console.log('  Has dashboard:', !!message.dashboard);
+      console.log('  Has theme:', !!message.dashboard?.theme);
+      if (message.dashboard?.theme) {
+        console.log('  Theme primary:', message.dashboard.theme.primary);
+        console.log('  Theme bg:', message.dashboard.theme.background_theme);
+      }
+
       setState(prev => ({
         ...prev,
         screen: 'dashboard',

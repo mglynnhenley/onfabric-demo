@@ -364,7 +364,9 @@ class DashboardBuilder:
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="{color_scheme.fonts.heading_url}" rel="stylesheet">
+    <link href="{color_scheme.fonts.body_url}" rel="stylesheet">
+    <link href="{color_scheme.fonts.mono_url}" rel="stylesheet">
 
     <!-- Mapbox GL JS for interactive maps -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js'></script>
@@ -380,7 +382,7 @@ class DashboardBuilder:
         }}
 
         body {{
-            font-family: 'Inter', sans-serif;
+            font-family: '{color_scheme.fonts.body}', sans-serif;
             background: var(--background);
             color: var(--foreground);
             line-height: 1.6;
@@ -394,8 +396,16 @@ class DashboardBuilder:
         }}
 
         .content-text {{
-            font-family: 'Geist', sans-serif;
+            font-family: '{color_scheme.fonts.body}', sans-serif;
             line-height: 1.75;
+        }}
+
+        h1, h2, h3, h4, h5, h6 {{
+            font-family: '{color_scheme.fonts.heading}', sans-serif;
+        }}
+
+        code, pre {{
+            font-family: '{color_scheme.fonts.mono}', monospace;
         }}
 
         /* Card hover effects */
@@ -587,17 +597,25 @@ class DashboardBuilder:
 
     def _generate_css_variables(self, color_scheme: ColorScheme) -> str:
         """Generate CSS custom properties from color scheme."""
-        # Extract background color from background_theme
-        bg_color = color_scheme.background_theme.color or "#ffffff"
-        card_color = color_scheme.background_theme.card_background
+        bg_theme = color_scheme.background_theme
+
+        # Generate background CSS based on type
+        background_css = self._generate_background_css(bg_theme)
+
+        # Generate pattern CSS if specified
+        pattern_css = self._generate_pattern_css(bg_theme) if bg_theme.pattern else ""
+
+        # Generate animation CSS if specified
+        animation_css = self._generate_animation_css(bg_theme) if bg_theme.animation else ""
+
+        # Backdrop blur CSS
+        backdrop_blur_css = "backdrop-filter: blur(12px);" if bg_theme.card_backdrop_blur else ""
 
         return f"""
         :root {{
             --primary: {color_scheme.primary};
             --secondary: {color_scheme.secondary};
             --accent: {color_scheme.accent};
-            --background: {bg_color};
-            --card: {card_color};
             --foreground: {color_scheme.foreground};
             --muted: {color_scheme.muted};
             --success: {color_scheme.success};
@@ -605,7 +623,188 @@ class DashboardBuilder:
             --destructive: {color_scheme.destructive};
             --border: {self._adjust_color_opacity(color_scheme.foreground, 0.2)};
         }}
+
+        body {{
+            {background_css}
+        }}
+
+        .dashboard-card, .ui-component {{
+            background: {bg_theme.card_background};
+            {backdrop_blur_css}
+        }}
+
+        {pattern_css}
+        {animation_css}
         """
+
+    def _generate_background_css(self, bg_theme) -> str:
+        """Generate background CSS based on theme type."""
+        if bg_theme.type == "gradient" and bg_theme.gradient:
+            grad = bg_theme.gradient
+            colors_str = ", ".join(grad.colors)
+
+            if grad.type == "linear":
+                direction = grad.direction or "to-br"
+                # Convert Tailwind direction to CSS
+                direction_map = {
+                    "to-br": "135deg",
+                    "to-r": "90deg",
+                    "to-l": "270deg",
+                    "to-t": "0deg",
+                    "to-b": "180deg",
+                    "to-tr": "45deg",
+                    "to-tl": "315deg",
+                    "to-bl": "225deg",
+                }
+                css_direction = direction_map.get(direction, "135deg")
+                return f"background: linear-gradient({css_direction}, {colors_str});"
+
+            elif grad.type == "radial":
+                return f"background: radial-gradient(circle, {colors_str});"
+
+            elif grad.type == "mesh":
+                # Mesh gradient approximation using linear gradient
+                return f"background: linear-gradient(135deg, {colors_str});"
+
+        # Solid color fallback
+        return f"background: {bg_theme.color or '#ffffff'};"
+
+    def _generate_pattern_css(self, bg_theme) -> str:
+        """Generate CSS for background patterns."""
+        if not bg_theme.pattern:
+            return ""
+
+        pattern = bg_theme.pattern
+        opacity = pattern.opacity
+        color = pattern.color
+        scale = pattern.scale
+
+        # Convert hex to rgba for pattern
+        rgba_color = self._adjust_color_opacity(color, opacity)
+
+        if pattern.type == "dots":
+            size = int(20 * scale)
+            return f"""
+        body::before {{
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, {rgba_color} 1px, transparent 1px);
+            background-size: {size}px {size}px;
+            pointer-events: none;
+            z-index: 0;
+        }}
+        body > * {{
+            position: relative;
+            z-index: 1;
+        }}
+            """
+
+        elif pattern.type == "grid":
+            size = int(30 * scale)
+            return f"""
+        body::before {{
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient({rgba_color} 1px, transparent 1px),
+                linear-gradient(90deg, {rgba_color} 1px, transparent 1px);
+            background-size: {size}px {size}px;
+            pointer-events: none;
+            z-index: 0;
+        }}
+        body > * {{
+            position: relative;
+            z-index: 1;
+        }}
+            """
+
+        elif pattern.type == "noise":
+            return f"""
+        body::before {{
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='{opacity}' /%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }}
+        body > * {{
+            position: relative;
+            z-index: 1;
+        }}
+            """
+
+        return ""
+
+    def _generate_animation_css(self, bg_theme) -> str:
+        """Generate CSS animations for backgrounds."""
+        if not bg_theme.animation or bg_theme.animation.name == "none":
+            return ""
+
+        anim = bg_theme.animation
+        duration = anim.duration
+        timing = anim.timing
+
+        # Define keyframes based on animation name
+        keyframes_map = {
+            "float": """
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+            """,
+            "pulse": """
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+            """,
+            "gradient-shift": """
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+            """,
+            "drift": """
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-10px, -10px); }
+            50% { transform: translate(-20px, 10px); }
+            75% { transform: translate(10px, -10px); }
+            100% { transform: translate(0, 0); }
+        }
+            """,
+            "breathe": """
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+            """,
+        }
+
+        keyframes_css = keyframes_map.get(anim.name, "")
+
+        if keyframes_css:
+            return f"""
+        {keyframes_css}
+        body {{
+            animation: {anim.name} {duration} {timing} infinite;
+        }}
+            """
+
+        return ""
 
     def _adjust_color_opacity(self, hex_color: str, opacity: float) -> str:
         """
@@ -719,7 +918,7 @@ class DashboardBuilder:
             {card.reading_time_minutes} min
         </span>"""
 
-        return f"""<div class="dashboard-card" style="border-radius: 0.375rem; border: 1px solid #e5e7eb; background: #ffffff; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); overflow: hidden;" draggable="true" data-card-index="{idx}">
+        return f"""<div class="dashboard-card" style="border-radius: 0.375rem; border: 1px solid #e5e7eb; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); overflow: hidden;" draggable="true" data-card-index="{idx}">
         <!-- Drag Handle -->
         <div class="drag-handle" title="Drag to reorder">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -822,7 +1021,7 @@ class DashboardBuilder:
             wind_display = "-- km/h"
             location_display = component.location
 
-        return f'''<div class="ui-component weather-widget rounded-lg border border-[var(--border)] bg-white shadow-sm overflow-hidden p-6" id="{component_id}">
+        return f'''<div class="ui-component weather-widget rounded-lg border border-[var(--border)] shadow-sm overflow-hidden p-6" id="{component_id}">
         <h3 class="text-lg font-semibold text-[var(--foreground)] mb-4">{component.title}</h3>
 
         <!-- Current Weather -->
@@ -874,7 +1073,7 @@ class DashboardBuilder:
         component_id = f"map-{idx}"
 
         # Map spans full width (col-span-2)
-        return f'''<div class="ui-component rounded-lg border border-[var(--border)] bg-white shadow-sm overflow-hidden md:col-span-2" id="{component_id}-container">
+        return f'''<div class="ui-component rounded-lg border border-[var(--border)] shadow-sm overflow-hidden md:col-span-2" id="{component_id}-container">
         <div class="p-4 border-b border-[var(--border)]">
             <h3 class="text-lg font-semibold text-[var(--foreground)]">{component.title}</h3>
             <p class="text-sm text-[var(--foreground)] opacity-70">{len(component.markers)} location{'s' if len(component.markers) != 1 else ''}</p>
@@ -929,7 +1128,7 @@ class DashboardBuilder:
             for video in videos
         ])
 
-        return f'''<div class="ui-component rounded-lg border border-[var(--border)] bg-white shadow-sm overflow-hidden p-6" id="{component_id}">
+        return f'''<div class="ui-component rounded-lg border border-[var(--border)] shadow-sm overflow-hidden p-6" id="{component_id}">
         <h3 class="text-lg font-semibold text-[var(--foreground)] mb-4">{component.title}</h3>
         <div class="video-grid">
             {videos_html}
@@ -1057,7 +1256,7 @@ class DashboardBuilder:
             </div>'''
             events_html.append(event_html)
 
-        return f'''<div class="ui-component rounded-lg border border-[var(--border)] bg-white shadow-sm overflow-hidden p-6" id="{component_id}">
+        return f'''<div class="ui-component rounded-lg border border-[var(--border)] shadow-sm overflow-hidden p-6" id="{component_id}">
         <div class="mb-4">
             <h3 class="text-lg font-semibold text-[var(--foreground)]">{component.title}</h3>
             <p class="text-sm text-[var(--foreground)] opacity-60 mt-1">Upcoming events in your area</p>
@@ -1127,7 +1326,7 @@ class DashboardBuilder:
         }
         description = list_type_descriptions.get(component.list_type, 'Task list')
 
-        return f'''<div class="ui-component rounded-lg border border-[var(--border)] bg-white shadow-sm overflow-hidden p-6" id="{component_id}">
+        return f'''<div class="ui-component rounded-lg border border-[var(--border)] shadow-sm overflow-hidden p-6" id="{component_id}">
         <div class="mb-4">
             <h3 class="text-lg font-semibold text-[var(--foreground)]">{component.title}</h3>
             <p class="text-sm text-[var(--foreground)] opacity-60 mt-1">{description}</p>
@@ -1183,7 +1382,7 @@ class DashboardBuilder:
                 <span>{component.published_date}</span>
             </div>'''
 
-        return f'''<div class="ui-component rounded-lg border border-[var(--border)] bg-white shadow-sm overflow-hidden p-6" id="{component_id}">
+        return f'''<div class="ui-component rounded-lg border border-[var(--border)] shadow-sm overflow-hidden p-6" id="{component_id}">
         <div class="mb-4">
             <h3 class="text-lg font-semibold text-[var(--foreground)] mb-2">{component.title}</h3>
             <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--muted)] text-[var(--foreground)]">

@@ -38,14 +38,14 @@ function sizeToGridUnits(size: string, type: string): { w: number; h: number } {
 
   // Type-specific width adjustments (content-heavy cards need more horizontal space)
   const widthMultipliers: Record<string, number> = {
-    'content-card': 2.5,  // Much wider for long text content
+    'content-card': 0.8,  // Very compact button
     'article-card': 2.0,  // Wider for article content
   };
 
   // Type-specific adjustments for content that needs more height
   const heightMultipliers: Record<string, number> = {
     'article-card': 1.5,  // Taller to fit more article content
-    'content-card': 1.5,  // Taller to fit more overview text
+    'content-card': 0.6,  // Very compact button height
     'video-card': 1.0,
     'event-calendar': 1.0,
   };
@@ -112,6 +112,20 @@ export function PinBoardLayout({ widgets }: PinBoardLayoutProps) {
   const [containerWidth, setContainerWidth] = useState(1200);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // De-duplicate widgets by ID (in case backend sends duplicates)
+  const uniqueWidgets = useMemo(() => {
+    const seen = new Set<string>();
+    const unique = widgets.filter(widget => {
+      if (seen.has(widget.id)) {
+        console.warn(`Duplicate widget ID detected and removed: ${widget.id}`);
+        return false;
+      }
+      seen.add(widget.id);
+      return true;
+    });
+    return unique;
+  }, [widgets]);
+
   // Measure container width
   useEffect(() => {
     if (!containerRef.current) return;
@@ -131,11 +145,11 @@ export function PinBoardLayout({ widgets }: PinBoardLayoutProps) {
 
   // Generate initial layout
   useEffect(() => {
-    const initialLayout = generateScatteredLayout(widgets);
+    const initialLayout = generateScatteredLayout(uniqueWidgets);
     console.log('Initial layout generated with', initialLayout.length, 'widgets');
     setLayout(initialLayout);
     setTimeout(() => setMounted(true), 100);
-  }, [widgets]);
+  }, [uniqueWidgets]);
 
   // Handle layout changes (drag-and-drop)
   const onLayoutChange = (newLayout: Layout[]) => {
@@ -192,7 +206,7 @@ export function PinBoardLayout({ widgets }: PinBoardLayoutProps) {
         preventCollision={true}
         margin={[16, 16]}
       >
-        {widgets.map((widget, idx) => {
+        {uniqueWidgets.map((widget, idx) => {
           const WidgetComponent = getWidget(widget.type);
 
           if (!WidgetComponent) {

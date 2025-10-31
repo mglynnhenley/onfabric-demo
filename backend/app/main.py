@@ -131,7 +131,8 @@ async def websocket_generate_dashboard(websocket: WebSocket, persona: str):
     print(f"✓ WebSocket connected for {persona}")
 
     try:
-        pipeline = PipelineService()
+        # Use mock mode for faster generation without real API calls
+        pipeline = PipelineService(mock_mode=True)
 
         # Define progress callback to send updates via WebSocket
         async def send_progress(data: dict):
@@ -147,6 +148,21 @@ async def websocket_generate_dashboard(websocket: WebSocket, persona: str):
 
         # Convert DashboardJSON to dict for JSON serialization
         dashboard_dict = dashboard_json.model_dump(mode='json')
+
+        # LAYER 3: Verify theme in WebSocket message
+        print("")
+        print("🔍 LAYER 3: THEME IN WEBSOCKET MESSAGE")
+        print(f"  Has 'theme' key: {'theme' in dashboard_dict}")
+        if 'theme' in dashboard_dict:
+            theme = dashboard_dict['theme']
+            print(f"  Theme primary: {theme.get('primary')}")
+            print(f"  Theme bg type: {theme.get('background_theme', {}).get('type')}")
+            bg_theme = theme.get('background_theme', {})
+            if bg_theme.get('gradient'):
+                print(f"  Gradient colors: {bg_theme['gradient'].get('colors')}")
+            elif bg_theme.get('color'):
+                print(f"  BG color: {bg_theme.get('color')}")
+        print("")
 
         # Send complete message with dashboard data
         await websocket.send_text(json.dumps({

@@ -186,18 +186,57 @@ Your task is to analyze user interaction data and:
 1. Identify exactly 4-5 distinct behavioral patterns or interest themes
 2. Extract a detailed persona profile including writing style preferences
 
+## CRITICAL: Content-First Analysis
+- **PRIORITIZE patterns about WHAT the user engages with (topics, interests, content themes)**
+- **DE-PRIORITIZE generic browsing/usage patterns (frequency, timing, platform habits)**
+- Focus on substantive interests, not surface-level behaviors
+- Examples:
+  ✓ GOOD: "Deep interest in sustainable architecture and eco-friendly design"
+  ✗ BAD: "Frequent Instagram user with sporadic engagement"
+  ✓ GOOD: "Active researcher of AI ethics and responsible technology"
+  ✗ BAD: "Searches multiple times per day with iterative queries"
+
 ## CRITICAL: Keep Descriptions Concise
 - **Each pattern description must be 2-3 sentences maximum (under 80 words)**
 - Focus on the most important insights - what makes this pattern unique and why it matters
 - Be punchy and direct - no rambling explanations
 
+## CRITICAL: Pattern Diversity for Dashboards
+Each pattern must be DISTINCTLY DIFFERENT across multiple dimensions:
+
+**Mix Pattern Types:**
+- Topical interest (e.g., "AI Ethics Research")
+- Behavioral habit (e.g., "Weekend Deep-Dive Researcher")
+- Community/social (e.g., "Design Community Curator")
+- Goal-oriented (e.g., "Active Job Seeker in Tech")
+- Creative/personal (e.g., "Amateur Photography Enthusiast")
+- Location-based (e.g., "SF Bay Area Tech Scene Navigator")
+- Temporal (e.g., "Late-Night Productivity Hacker")
+
+**Optimize for Dashboard Widgets:**
+Each pattern should inspire different widget types:
+- Patterns with **visual elements** → Maps, image galleries, video feeds
+- Patterns with **events/time** → Calendars, timelines, countdowns
+- Patterns with **tasks/goals** → Checklists, progress trackers
+- Patterns with **metrics/data** → Charts, stats, comparisons
+- Patterns with **content/media** → Article feeds, playlists, recommendations
+- Patterns with **social connections** → Network graphs, community feeds
+- Patterns with **locations** → Maps, local recommendations
+
+**Variety is Essential:**
+- If pattern #1 is about work/career → make pattern #2 about hobbies/personal
+- If pattern #1 is abstract/conceptual → make pattern #2 concrete/actionable
+- If pattern #1 is serious/professional → make pattern #3 playful/creative
+- Each pattern should unlock DIFFERENT types of dashboard content and widgets
+
 ## Guidelines for Pattern Detection:
-- Look for clusters of related activities, topics, or behaviors
-- Identify patterns that reveal interests, habits, or professional focus
-- Rank patterns by engagement signals (frequency, depth, consistency)
-- Create compelling titles that capture the essence of each pattern
+- Look for clusters of related CONTENT TOPICS, interests, or substantive themes
+- Identify patterns that reveal what the user cares about, not just how they browse
+- Rank patterns by content depth and topic significance
+- Create compelling titles that capture substantive interests
 - Write CONCISE descriptions (2-3 sentences) that explain WHY this pattern matters
 - Assign confidence scores based on evidence strength (0.0-1.0)
+- **THINK: "What kind of widget would bring this pattern to life?"**
 
 ## Guidelines for Persona Extraction:
 - Generate a natural, descriptive writing_style (NOT just keywords)
@@ -207,10 +246,10 @@ Your task is to analyze user interaction data and:
   * "provocative and contrarian, challenging conventional wisdom"
   * "accessible and educational, breaking down complex topics"
 - Generate a natural tone_preference description
-- Identify key interests and professional context
+- Identify key interests and professional context based on CONTENT, not usage
 - Assess activity level and content depth preferences
 
-Be creative and insightful. Look beyond surface-level observations. But remember: BREVITY IS KEY."""
+Be creative and insightful. Look beyond surface-level observations. Focus on substance over form. PRIORITIZE DIVERSITY. BREVITY IS KEY."""
 
         human_message = """Analyze this user's digital activity:
 

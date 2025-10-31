@@ -108,9 +108,9 @@ export function Landing({ onGenerate }: LandingProps) {
                 opacity: isHovering ? [0.2, 0.8, 0.3] : 0.2,
               }}
               transition={{
-                duration: 1.5,
+                duration: 1.8,
                 delay: waveDelay,
-                ease: 'easeOut',
+                ease: [0.16, 1, 0.3, 1], // Custom cubic bezier for smoother easing
               }}
             />
           );
@@ -162,7 +162,7 @@ export function Landing({ onGenerate }: LandingProps) {
           border: '1px solid var(--color-stroke)',
           opacity: 0.3,
           transform: `translate(${-mousePos.x * 0.5}px, ${-mousePos.y * 0.5}px) rotate(${mousePos.x}deg)`,
-          transition: 'transform 0.3s ease-out',
+          transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       />
 
@@ -176,7 +176,7 @@ export function Landing({ onGenerate }: LandingProps) {
           background: 'var(--color-crimson)',
           opacity: 0.2,
           transform: `translate(${mousePos.x * 0.3}px, ${mousePos.y * 0.3}px)`,
-          transition: 'transform 0.2s ease-out',
+          transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       />
 
@@ -184,7 +184,7 @@ export function Landing({ onGenerate }: LandingProps) {
       <div className="relative z-10 min-h-screen px-12 md:px-32 py-24 flex items-center">
         <div className="w-full">
           {/* Boot text - minimal */}
-          <div
+          <motion.div
             className="mb-20 border-l-2 pl-6"
             style={{
               fontFamily: 'var(--font-family-mono)',
@@ -193,13 +193,19 @@ export function Landing({ onGenerate }: LandingProps) {
               fontWeight: 300,
               borderColor: 'var(--color-terminal-green)',
             }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1]
+            }}
           >
             <div className="flex items-center gap-3">
               <span style={{ color: 'var(--color-terminal-green)' }}>▸</span>
               <span>{displayedText}</span>
               {!showContent && <span className="animate-blink">_</span>}
             </div>
-          </div>
+          </motion.div>
 
         {/* Main content - only show after boot */}
         {showContent && (
@@ -290,7 +296,12 @@ export function Landing({ onGenerate }: LandingProps) {
                     borderColor: COLORS.crimson,
                     boxShadow: `6px 6px 0px ${COLORS.crimson}`,
                   }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 300,
+                    damping: 25,
+                    mass: 0.8
+                  }}
                 >
                   <span className="flex items-center gap-4">
                     <span>generate( )</span>
@@ -298,6 +309,11 @@ export function Landing({ onGenerate }: LandingProps) {
                       style={{ color: 'var(--color-crimson)', fontSize: '18px' }}
                       initial={{ x: 0 }}
                       whileHover={{ x: 4 }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 300,
+                        damping: 20
+                      }}
                     >
                       →
                     </motion.span>

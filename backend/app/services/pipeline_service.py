@@ -35,8 +35,14 @@ from fabric_dashboard.models.schemas import CardSize
 class PipelineService:
     """Service for running the dashboard generation pipeline with progress streaming."""
 
-    def __init__(self):
-        """Initialize pipeline service."""
+    def __init__(self, mock_mode: bool = False):
+        """
+        Initialize pipeline service.
+
+        Args:
+            mock_mode: If True, use mock data and AI instead of real API calls.
+        """
+        self.mock_mode = mock_mode
         self.persona_fixtures_dir = Path(__file__).parent.parent.parent.parent / "fabric_dashboard" / "tests" / "fixtures" / "personas"
 
     async def generate_dashboard(
@@ -72,27 +78,27 @@ class PipelineService:
             })
 
             # Step 1: Initialize components
-            # DataFetcher stays in mock mode (use fixture data, not OnFabric)
-            # AI components use real Claude API for generation
+            mode_str = "MOCK" if self.mock_mode else "REAL"
             logging.info("📦 STEP 1: Initializing pipeline components")
-            logging.info("  • DataFetcher: MOCK mode (using fixture data)")
-            logging.info("  • PatternDetector: REAL Claude AI")
-            logging.info("  • SearchEnricher: REAL Perplexity API + Claude AI")
-            logging.info("  • ThemeGenerator: REAL Claude AI")
-            logging.info("  • ContentWriter: REAL Claude AI")
-            logging.info("  • UIGenerator: REAL Claude AI")
+            logging.info(f"  • Mode: {mode_str}")
+            logging.info(f"  • DataFetcher: {mode_str} data")
+            logging.info(f"  • PatternDetector: {mode_str} AI")
+            logging.info(f"  • SearchEnricher: {mode_str} API")
+            logging.info(f"  • ThemeGenerator: {mode_str} AI")
+            logging.info(f"  • ContentWriter: {mode_str} AI")
+            logging.info(f"  • UIGenerator: {mode_str} AI")
 
-            data_fetcher = DataFetcher(mock_mode=True)
-            pattern_detector = PatternDetector(mock_mode=False)  # Real AI
-            search_enricher = SearchEnricher(mock_mode=False)    # Real Perplexity + Claude
-            theme_generator = ThemeGenerator(mock_mode=False)    # Real AI
-            content_writer = ContentWriter(mock_mode=False)      # Real AI
-            ui_generator = UIGenerator(mock_mode=False)          # Real AI
+            data_fetcher = DataFetcher(mock_mode=self.mock_mode)
+            pattern_detector = PatternDetector(mock_mode=self.mock_mode)
+            search_enricher = SearchEnricher(mock_mode=self.mock_mode)
+            theme_generator = ThemeGenerator(mock_mode=self.mock_mode)
+            content_writer = ContentWriter(mock_mode=self.mock_mode)
+            ui_generator = UIGenerator(mock_mode=self.mock_mode)
             dashboard_builder = DashboardBuilder()
 
             logging.info("✓ All components initialized")
 
-            await asyncio.sleep(0.5)  # Brief pause for UX
+            await asyncio.sleep(0.1)  # Brief pause for UX
 
             # Step 2: Fetch data (mock data for persona)
             logging.info("")
@@ -106,12 +112,12 @@ class PipelineService:
             # Load persona-specific fixture if available, else use default
             persona_fixture = self.persona_fixtures_dir / f"{persona}.json"
             if not persona_fixture.exists():
-                # Fallback to default mock data
-                user_data = data_fetcher.fetch_user_data(days_back=30)
+                # Fallback to default mock data - fetch last 3 months for deeper history
+                user_data = data_fetcher.fetch_user_data(days_back=90)
             else:
                 # TODO: Load persona-specific data
-                # For now, use default
-                user_data = data_fetcher.fetch_user_data(days_back=30)
+                # For now, use default - fetch last 3 months for deeper history
+                user_data = data_fetcher.fetch_user_data(days_back=90)
 
             if not user_data:
                 raise RuntimeError("Failed to load user data")
@@ -122,7 +128,7 @@ class PipelineService:
             logging.info(f"✓ Loaded {interaction_count} interactions from {len(platforms)} platforms")
             logging.info(f"  Platforms: {', '.join(platforms)}")
 
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.1)
 
             # Step 3: Detect patterns
             logging.info("")
@@ -179,7 +185,7 @@ class PipelineService:
                 }
             })
 
-            await asyncio.sleep(1.5)
+            await asyncio.sleep(0.1)
 
             # Step 4: Generate theme
             logging.info("")
@@ -194,6 +200,7 @@ class PipelineService:
 
             logging.info(f"✓ Generated theme: {color_scheme.mood}")
             logging.info("")
+            logging.info("🔍 LAYER 1: THEME GENERATED (Backend)")
             logging.info("COLOR SCHEME:")
             logging.info(f"  Mood: {color_scheme.mood}")
             logging.info(f"  Primary: {color_scheme.primary}")
@@ -216,6 +223,10 @@ class PipelineService:
             if color_scheme.background_theme.gradient:
                 logging.info(f"  Gradient: {color_scheme.background_theme.gradient.type}")
                 logging.info(f"  Colors: {', '.join(color_scheme.background_theme.gradient.colors)}")
+            elif color_scheme.background_theme.color:
+                logging.info(f"  Color: {color_scheme.background_theme.color}")
+            logging.info(f"  Card BG: {color_scheme.background_theme.card_background}")
+            logging.info(f"  Backdrop Blur: {color_scheme.background_theme.card_backdrop_blur}")
             logging.info("")
 
             # Send theme info
@@ -230,7 +241,7 @@ class PipelineService:
                 }
             })
 
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.1)
 
             # Step 5: Enrich patterns with search results
             logging.info("")
@@ -254,7 +265,7 @@ class PipelineService:
                         logging.info(f"      Sources: {len(sr.sources)}")
                 logging.info("")
 
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.1)
 
             # Step 6: Generate content cards
             logging.info("")
@@ -305,7 +316,7 @@ class PipelineService:
                 }
             })
 
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.1)
 
             # Step 7: Generate UI components
             logging.info("")
@@ -359,7 +370,7 @@ class PipelineService:
                 }
             })
 
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.1)
 
             # Step 8: Build dashboard (both HTML and JSON)
             logging.info("")
@@ -395,7 +406,20 @@ class PipelineService:
             logging.info(f"  - {len(ui_components)} widgets")
             logging.info(f"  - HTML size: {len(html):,} chars")
 
-            await asyncio.sleep(0.5)
+            # LAYER 2: Verify theme in dashboard JSON
+            logging.info("")
+            logging.info("🔍 LAYER 2: THEME IN DASHBOARD JSON")
+            logging.info(f"  Has theme: {hasattr(dashboard_json, 'theme')}")
+            if hasattr(dashboard_json, 'theme'):
+                logging.info(f"  Theme primary: {dashboard_json.theme.primary}")
+                logging.info(f"  Theme bg type: {dashboard_json.theme.background_theme.type}")
+                if dashboard_json.theme.background_theme.gradient:
+                    logging.info(f"  Gradient colors: {dashboard_json.theme.background_theme.gradient.colors}")
+                elif dashboard_json.theme.background_theme.color:
+                    logging.info(f"  BG color: {dashboard_json.theme.background_theme.color}")
+            logging.info("")
+
+            await asyncio.sleep(0.1)
 
             # Step 9: Complete
             total_time = (datetime.now() - start_time).total_seconds()

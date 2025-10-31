@@ -72,8 +72,18 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({ theme, children }: ThemeProviderProps) {
   useEffect(() => {
+    console.log('🔍 LAYER 6: THEMEPROVIDER RECEIVED THEME');
+    console.log('  Theme object:', theme);
+    console.log('  Primary:', theme.primary);
+    console.log('  Background theme:', theme.background_theme);
+
     // 1. Inject CSS color variables
     const root = document.documentElement;
+    const body = document.body;
+
+    console.log('🔍 LAYER 7: DOM MANIPULATION STARTING');
+    console.log('  Body exists:', !!body);
+    console.log('  Body current bg:', body.style.background);
 
     root.style.setProperty('--color-primary', theme.primary);
     root.style.setProperty('--color-secondary', theme.secondary);
@@ -84,6 +94,11 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     root.style.setProperty('--color-warning', theme.warning);
     root.style.setProperty('--color-destructive', theme.destructive);
     root.style.setProperty('--color-border', theme.muted + '40'); // 25% opacity
+
+    console.log('✅ CSS variables set:', {
+      primary: getComputedStyle(root).getPropertyValue('--color-primary'),
+      cardBg: getComputedStyle(root).getPropertyValue('--card-background'),
+    });
 
     // 2. Load Google Fonts
     const loadFont = (url: string) => {
@@ -103,7 +118,7 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     root.style.setProperty('--font-body', theme.fonts.body);
     root.style.setProperty('--font-mono', theme.fonts.mono);
 
-    // 3. Apply background theme
+    // 3. Apply background theme directly to body
     const bg = theme.background_theme;
     let backgroundStyle = '';
 
@@ -133,8 +148,24 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
       backgroundStyle = bg.color || '#ffffff';
     }
 
+    // Set CSS variables
     root.style.setProperty('--background', backgroundStyle);
     root.style.setProperty('--card-background', bg.card_background);
+
+    // Apply background and text colors directly to body element
+    // No conflicts now - data-screen="dashboard" clears the CSS layer background
+    body.style.background = backgroundStyle;
+    body.style.fontFamily = 'var(--font-body)';
+    body.style.color = theme.foreground;
+
+    console.log('🔍 LAYER 7: DOM MANIPULATION COMPLETE');
+    console.log('  Background style:', backgroundStyle);
+    console.log('  Body.style.background:', body.style.background);
+    console.log('  Body.style.color:', body.style.color);
+    console.log('  Body.style.fontFamily:', body.style.fontFamily);
+    console.log('  BG type:', bg.type);
+    console.log('  Card background:', bg.card_background);
+    console.log('  Backdrop blur:', bg.card_backdrop_blur);
 
     // Apply backdrop blur if enabled
     if (bg.card_backdrop_blur) {
@@ -148,20 +179,15 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
       document.head.removeChild(headingLink);
       document.head.removeChild(bodyLink);
       document.head.removeChild(monoLink);
+
+      // Reset body styles to defaults
+      body.style.background = '';
+      body.style.fontFamily = '';
+      body.style.color = '';
     };
   }, [theme]);
 
-  return (
-    <div
-      className="theme-wrapper min-h-screen"
-      style={{
-        background: 'var(--background)',
-        fontFamily: 'var(--font-body)',
-      }}
-    >
-      {children}
-    </div>
-  );
+  return <>{children}</>;
 }
 
 export default ThemeProvider;

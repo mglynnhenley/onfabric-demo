@@ -85,12 +85,21 @@ class OnFabricAPIClient:
 
         return tapestries
 
-    def get_threads(self, tapestry_id: str) -> list[dict[str, Any]]:
+    def get_threads(
+        self,
+        tapestry_id: str,
+        provider: str | None = None,
+        page_size: int = 50,
+        direction: str = "desc"
+    ) -> list[dict[str, Any]]:
         """
         Get threads for a specific tapestry.
 
         Args:
             tapestry_id: ID of the tapestry to fetch threads from.
+            provider: Provider name (e.g., "instagram", "google", "pinterest"). If None, gets all providers.
+            page_size: Number of threads to retrieve.
+            direction: Sort direction ("asc" or "desc").
 
         Returns:
             List of thread dictionaries.
@@ -99,9 +108,18 @@ class OnFabricAPIClient:
             requests.HTTPError: If API request fails.
         """
         url = f"{self.base_url}/tapestries/{tapestry_id}/threads"
+        params = {
+            "page_size": page_size,
+            "direction": direction,
+        }
 
-        logger.muted(f"Fetching threads for tapestry {tapestry_id[:8]}...")
-        response = self.session.get(url)
+        # Only include provider filter if specified
+        if provider:
+            params["provider"] = provider
+
+        provider_text = provider if provider else "all providers"
+        logger.muted(f"Fetching {provider_text} threads for tapestry {tapestry_id[:8]}...")
+        response = self.session.get(url, params=params)
         response.raise_for_status()
 
         data = response.json()
@@ -113,16 +131,16 @@ class OnFabricAPIClient:
     def get_summaries(
         self,
         tapestry_id: str,
-        provider: str = "instagram",
+        provider: str | None = None,
         page_size: int = 10,
         direction: str = "desc"
     ) -> list[dict[str, Any]]:
         """
-        Get weekly summaries for a specific tapestry and provider.
+        Get weekly summaries for a specific tapestry.
 
         Args:
             tapestry_id: ID of the tapestry.
-            provider: Provider name (e.g., "instagram", "google").
+            provider: Provider name (e.g., "instagram", "google"). If None, gets all providers.
             page_size: Number of summaries to retrieve.
             direction: Sort direction ("asc" or "desc").
 
@@ -136,10 +154,14 @@ class OnFabricAPIClient:
         params = {
             "page_size": page_size,
             "direction": direction,
-            "provider": provider
         }
 
-        logger.muted(f"Fetching {provider} summaries for tapestry {tapestry_id[:8]}...")
+        # Only include provider filter if specified
+        if provider:
+            params["provider"] = provider
+
+        provider_text = provider if provider else "all providers"
+        logger.muted(f"Fetching {provider_text} summaries for tapestry {tapestry_id[:8]}...")
         response = self.session.get(url, params=params)
         response.raise_for_status()
 

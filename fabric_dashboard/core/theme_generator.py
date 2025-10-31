@@ -67,44 +67,48 @@ class ThemeGenerator:
 
     def _default_theme(self) -> ColorScheme:
         """
-        Return a default neutral theme as fallback.
+        Return a funky cyberpunk/vaporwave theme for demos.
 
         Returns:
-            ColorScheme with neutral, professional colors.
+            ColorScheme with bold, vibrant colors and glass morphism.
         """
-        logger.info("Using default theme")
+        logger.info("Using funky demo theme (Neon Sunset)")
 
         return ColorScheme(
-            # Primary palette - neutral blues
-            primary="#3b82f6",  # Blue
-            secondary="#8b5cf6",  # Purple
-            accent="#06b6d4",  # Cyan
-            # Text
-            foreground="#0f172a",  # Dark slate
-            muted="#64748b",  # Muted slate
+            # Primary palette - vibrant neons
+            primary="#ff6ec7",  # Neon pink
+            secondary="#00f5ff",  # Cyan neon
+            accent="#b759ff",  # Purple neon
+            # Text - light for dark background
+            foreground="#f8fafc",  # Almost white
+            muted="#cbd5e1",  # Light gray
             # Semantic colors
-            success="#22c55e",  # Green
-            warning="#f59e0b",  # Amber
-            destructive="#ef4444",  # Red
-            # Background theming
+            success="#00ff9f",  # Neon green
+            warning="#ffb800",  # Golden yellow
+            destructive="#ff2e63",  # Hot pink red
+            # Background theming - dark gradient with glass cards
             background_theme=BackgroundTheme(
-                type="solid",
-                color="#ffffff",  # White
-                card_background="#f8fafc",  # Light gray
-                card_backdrop_blur=False,
+                type="gradient",
+                gradient=GradientConfig(
+                    type="mesh",
+                    colors=["#0f0f23", "#1a0b2e", "#2d1b69", "#1e3a8a"],
+                    direction="to-br",
+                ),
+                card_background="rgba(15, 15, 35, 0.7)",  # Dark glass
+                card_backdrop_blur=True,
             ),
-            # Typography
+            # Typography - distinctive cyberpunk fonts
             fonts=FontScheme(
-                heading="Inter",
-                body="Inter",
-                mono="Fira Code",
-                heading_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap",
-                body_url="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap",
-                mono_url="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap",
+                heading="Orbitron",
+                body="Rajdhani",
+                mono="JetBrains Mono",
+                heading_url="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap",
+                body_url="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600&display=swap",
+                mono_url="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap",
             ),
             # Metadata
-            mood="professional and balanced",
-            rationale="Default neutral color scheme suitable for all personas",
+            mood="Neon Sunset",
+            rationale="Vibrant cyberpunk aesthetic with neon colors, dark gradient mesh background, and glass morphism cards for a futuristic, eye-catching demo experience",
         )
 
     @retry(

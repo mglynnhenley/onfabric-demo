@@ -100,6 +100,14 @@ interface DashboardProps {
 export function Dashboard({ dashboardData, onGenerateNew }: DashboardProps) {
   const [isReady, setIsReady] = useState(true);
 
+  // DEBUG: Log theme data on mount
+  console.log('🔍 Dashboard component received:', {
+    hasData: !!dashboardData,
+    hasTheme: !!dashboardData?.theme,
+    theme: dashboardData?.theme,
+    widgets: dashboardData?.widgets?.length,
+  });
+
   const handleDownload = () => {
     // Convert dashboard data to JSON and download
     const json = JSON.stringify(dashboardData, null, 2);
@@ -121,34 +129,7 @@ export function Dashboard({ dashboardData, onGenerateNew }: DashboardProps) {
     window.open(url, '_blank', 'width=550,height=420');
   };
 
-  // Build background style from AI-generated theme
-  const buildBackgroundStyle = () => {
-    const theme = dashboardData.theme.background_theme;
-    const styles: React.CSSProperties = {};
-
-    // Base gradient (always present)
-    if (theme.gradient) {
-      const { colors, direction = 'to-br' } = theme.gradient;
-      styles.background = `linear-gradient(${direction}, ${colors.join(', ')})`;
-    } else if (theme.color) {
-      styles.backgroundColor = theme.color;
-    }
-
-    // Pattern overlay (optional)
-    if (theme.pattern) {
-      // TODO: Implement CSS pattern generation
-      // For now, we'll use a simple overlay
-    }
-
-    // Animation (optional)
-    if (theme.animation && theme.animation.name !== 'none') {
-      styles.setProperty?.('--animation-duration', theme.animation.duration);
-      styles.setProperty?.('--animation-timing', theme.animation.timing);
-    }
-
-    return styles;
-  };
-
+  // Animation class from theme (ThemeProvider handles background)
   const animationClass = dashboardData.theme.background_theme.animation?.name &&
     dashboardData.theme.background_theme.animation.name !== 'none'
     ? `animate-${dashboardData.theme.background_theme.animation.name}`
@@ -156,16 +137,7 @@ export function Dashboard({ dashboardData, onGenerateNew }: DashboardProps) {
 
   return (
     <ThemeProvider theme={dashboardData.theme}>
-      <div
-        className={`min-h-screen ${animationClass}`}
-        style={{
-          ...buildBackgroundStyle(),
-          ...(dashboardData.theme.background_theme.animation && {
-            ['--animation-duration' as string]: dashboardData.theme.background_theme.animation.duration,
-            ['--animation-timing' as string]: dashboardData.theme.background_theme.animation.timing,
-          }),
-        }}
-      >
+      <div className={`min-h-screen ${animationClass}`}>
         {/* Pin Board Layout - Full bleed */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

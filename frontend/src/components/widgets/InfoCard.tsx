@@ -62,7 +62,7 @@ function InfoCard({ id, data, size }: WidgetProps) {
       transition={{ duration: 0.5 }}
       className="h-full"
     >
-      <div className="card-background rounded-lg p-6 h-full flex flex-col justify-between shadow-lg border border-border/50 overflow-hidden relative">
+      <div className="card-background rounded-lg p-3 h-full flex flex-col justify-between shadow-lg border border-border/50 overflow-hidden relative">
         {/* Gradient background overlay */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -73,9 +73,9 @@ function InfoCard({ id, data, size }: WidgetProps) {
 
         <div className="relative z-10">
           {/* Location header */}
-          <div className="flex items-center gap-2 mb-6">
-            <MapPin className="w-4 h-4 text-primary" />
-            <h3 className="text-sm font-medium text-muted">{location}</h3>
+          <div className="flex items-center gap-1.5 mb-3">
+            <MapPin className="w-3 h-3 text-primary" />
+            <h3 className="text-xs font-medium text-muted">{location}</h3>
           </div>
 
           {/* Weather emoji icon */}
@@ -83,20 +83,20 @@ function InfoCard({ id, data, size }: WidgetProps) {
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-            className="mb-6"
+            className="mb-3"
           >
-            <div className={`w-16 h-16 rounded-full ${getWeatherAccent(subtitle)} flex items-center justify-center text-4xl`}>
+            <div className={`w-12 h-12 rounded-full ${getWeatherAccent(subtitle)} flex items-center justify-center text-3xl`}>
               {getWeatherEmoji(subtitle)}
             </div>
           </motion.div>
 
           {/* Temperature */}
-          <div className="mb-3">
+          <div className="mb-2">
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="text-5xl font-bold text-foreground"
+              className="text-4xl font-bold text-foreground"
             >
               {value}
             </motion.p>
@@ -107,7 +107,7 @@ function InfoCard({ id, data, size }: WidgetProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
-            className="text-lg font-medium text-muted-foreground"
+            className="text-sm font-medium text-muted-foreground"
           >
             {subtitle}
           </motion.p>

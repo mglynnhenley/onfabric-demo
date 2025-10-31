@@ -52,17 +52,20 @@ function TaskCard({ id, data, size }: WidgetProps) {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="h-full"
+      className="h-fit"
     >
-      <div className="card-background rounded-lg p-6 h-full flex flex-col shadow-lg border border-border/50">
+      <div className="card-background rounded-lg p-6 h-fit flex flex-col shadow-lg border border-border/50 font-body">
         {/* Header */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+            <h3 className="text-lg font-bold text-foreground flex items-center gap-2 font-heading">
               <ListTodo className="w-5 h-5 text-primary" />
               {title}
             </h3>
-            <span className="text-xs text-muted px-2 py-1 rounded-full bg-primary/10">
+            <span
+              className="text-xs text-muted px-2 py-1 rounded-full"
+              style={{ backgroundColor: 'rgba(var(--color-primary-rgb), 0.1)' }}
+            >
               {completedCount}/{totalCount}
             </span>
           </div>
@@ -79,7 +82,7 @@ function TaskCard({ id, data, size }: WidgetProps) {
         </div>
 
         {/* Task List */}
-        <div className="flex-1 space-y-2">
+        <div className="space-y-2">
           {tasks.map((task, index) => {
             const isCompleted = completedTasks.has(index);
 

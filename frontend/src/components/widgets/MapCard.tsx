@@ -43,6 +43,7 @@ function MapCard({ id, data, size }: WidgetProps) {
     if (!mapContainer.current || map.current) return;
 
     // Check if token exists
+    console.log('MAPBOX_TOKEN loaded:', MAPBOX_TOKEN ? `${MAPBOX_TOKEN.substring(0, 20)}...` : 'undefined');
     if (!MAPBOX_TOKEN) {
       console.error('Mapbox token is missing!');
       setMapError('Mapbox token not configured');

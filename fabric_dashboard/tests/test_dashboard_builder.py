@@ -390,7 +390,9 @@ def test_css_variables_generated(sample_color_scheme):
     assert sample_color_scheme.primary in css_vars
     assert "--secondary" in css_vars
     assert "--accent" in css_vars
-    assert "--background" in css_vars
+    # Background is now set directly on body element, not as CSS variable
+    assert "body {" in css_vars
+    assert "background:" in css_vars
     assert "--foreground" in css_vars
 
 

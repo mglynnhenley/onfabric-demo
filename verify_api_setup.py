@@ -1,56 +1,116 @@
 #!/usr/bin/env python3
-"""Quick verification script to check if API keys are loaded correctly."""
+"""Verification script for OnFabric API integration.
 
-import os
+This script tests the API client setup and connectivity.
+Run this after setting up your .env file with ONFABRIC_BEARER_TOKEN.
+"""
+
+import sys
 from pathlib import Path
-from dotenv import load_dotenv
 
-# Load .env file
-env_path = Path(__file__).parent / ".env"
-load_dotenv(env_path)
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).parent))
 
-print("=" * 60)
-print("API Configuration Status")
-print("=" * 60)
+from fabric_dashboard.api.onfabric_client import OnFabricAPIClient
+from fabric_dashboard.core.data_fetcher import DataFetcher
+from fabric_dashboard.utils import logger
 
-# Check each API key
-api_keys = {
-    "YouTube": os.getenv("YOUTUBE_API_KEY"),
-    "Ticketmaster": os.getenv("TICKETMASTER_API_KEY"),
-    "OpenWeatherMap": os.getenv("OPENWEATHERMAP_API_KEY"),
-    "Mapbox": os.getenv("MAPBOX_API_KEY"),
-}
 
-for api_name, api_key in api_keys.items():
-    if api_key and api_key.strip():
-        print(f"✅ {api_name}: Configured ({api_key[:8]}...)")
-    else:
-        print(f"❌ {api_name}: Not configured (will use mock data)")
+def verify_api_client():
+    """Test OnFabricAPIClient initialization and methods."""
+    logger.info("🔍 Verifying OnFabric API client setup...")
 
-print("=" * 60)
+    try:
+        # Test 1: Initialize client
+        logger.info("Test 1: Initializing API client...")
+        client = OnFabricAPIClient()
+        logger.success(f"✓ Client initialized with tapestry: {client.tapestry_id}")
 
-# Test the config loading
-print("\nTesting config loading...")
-try:
-    from fabric_dashboard.utils.config import get_config
+        # Test 2: Get tapestries
+        logger.info("Test 2: Fetching tapestries...")
+        tapestries = client.get_tapestries()
+        logger.success(f"✓ Found {len(tapestries)} tapestry/tapestries")
 
-    config = get_config()
-    if config:
-        print("✅ Config loaded successfully")
-        print(f"   - YouTube API: {'✅' if config.youtube_api_key else '❌ (mocks)'}")
-        print(f"   - Ticketmaster API: {'✅' if config.ticketmaster_api_key else '❌ (mocks)'}")
-        print(f"   - OpenWeatherMap API: {'✅' if config.openweathermap_api_key else '❌ (mocks)'}")
-        print(f"   - Mapbox API: {'✅' if config.mapbox_api_key else '❌ (mocks)'}")
-    else:
-        print("❌ Could not load config")
-except Exception as e:
-    print(f"❌ Error loading config: {e}")
+        # Test 3: Get threads
+        logger.info("Test 3: Fetching threads...")
+        threads = client.get_threads(client.tapestry_id)
+        logger.success(f"✓ Fetched {len(threads)} thread(s)")
 
-print("=" * 60)
-print("\nConclusion:")
-all_configured = all(key and key.strip() for key in api_keys.values())
-if all_configured:
-    print("✅ All APIs are configured - system will use REAL data")
-else:
-    print("⚠️  Some APIs are missing - system will use MOCK data for those")
-print("=" * 60)
+        # Test 4: Get summaries
+        logger.info("Test 4: Fetching summaries...")
+        summaries = client.get_summaries(client.tapestry_id)
+        logger.success(f"✓ Fetched {len(summaries)} summary/summaries")
+
+        return True
+
+    except ValueError as e:
+        logger.error(f"✗ Configuration error: {e}")
+        logger.info("\n📝 Setup instructions:")
+        logger.info("1. Copy .env.example to .env")
+        logger.info("2. Get your bearer token from https://app.onfabric.io")
+        logger.info("   - Open DevTools (F12) → Network tab")
+        logger.info("   - Navigate around the app")
+        logger.info("   - Find an API request, copy the Authorization header")
+        logger.info("3. Add token to .env: ONFABRIC_BEARER_TOKEN=your_token_here")
+        logger.info("4. (Optional) Add tapestry ID: ONFABRIC_TAPESTRY_ID=your_id")
+        return False
+
+    except Exception as e:
+        logger.error(f"✗ API error: {e}")
+        return False
+
+
+def verify_data_fetcher():
+    """Test DataFetcher with API client."""
+    logger.info("\n🔍 Verifying DataFetcher integration...")
+
+    try:
+        logger.info("Test 5: Fetching user data via DataFetcher...")
+        fetcher = DataFetcher(mock_mode=False)
+        user_data = fetcher.fetch_user_data(days_back=30)
+
+        if user_data:
+            logger.success(f"✓ Fetched {user_data.summary.total_interactions} interactions")
+            logger.info(f"  Date range: {user_data.summary.date_range_start.date()} to {user_data.summary.date_range_end.date()}")
+            logger.info(f"  Platforms: {', '.join(user_data.summary.platforms)}")
+            return True
+        else:
+            logger.error("✗ DataFetcher returned None")
+            return False
+
+    except Exception as e:
+        logger.error(f"✗ DataFetcher error: {e}")
+        return False
+
+
+def main():
+    """Run all verification tests."""
+    logger.info("=" * 60)
+    logger.info("OnFabric API Integration Verification")
+    logger.info("=" * 60)
+
+    # Test API client
+    api_ok = verify_api_client()
+
+    if not api_ok:
+        logger.error("\n❌ API client verification failed. Fix issues above and retry.")
+        sys.exit(1)
+
+    # Test DataFetcher
+    fetcher_ok = verify_data_fetcher()
+
+    if not fetcher_ok:
+        logger.error("\n❌ DataFetcher verification failed.")
+        sys.exit(1)
+
+    # Success!
+    logger.info("\n" + "=" * 60)
+    logger.success("✅ All verification tests passed!")
+    logger.info("=" * 60)
+    logger.info("\n🎉 OnFabric API integration is working correctly.")
+    logger.info("You can now generate dashboards with real data using:")
+    logger.info("  python -m fabric_dashboard.cli generate")
+
+
+if __name__ == "__main__":
+    main()

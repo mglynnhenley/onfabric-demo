@@ -75,6 +75,33 @@ Fabric Intelligence Dashboard is a beautiful, design-first CLI tool that analyze
    # PERPLEXITY_API_KEY=your_key_here
    ```
 
+### Configuration
+
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Get your OnFabric bearer token:
+   - Go to https://app.onfabric.io
+   - Open browser DevTools (F12 or right-click → Inspect)
+   - Navigate to the Network tab
+   - Click on Profile, Status, or Connections
+   - Find an API request in the Network tab
+   - Copy the `Authorization: Bearer <token>` header value
+   - Paste the token value into `.env` as `ONFABRIC_BEARER_TOKEN`
+
+3. (Optional) Get your tapestry ID:
+   ```bash
+   curl -X 'GET' 'https://api.onfabric.io/api/v1/tapestries' \
+     -H 'authorization: Bearer <your_token>'
+   ```
+   Copy the `id` field from the response and add to `.env` as `ONFABRIC_TAPESTRY_ID`.
+
+   If not set, the system will auto-discover and use the first available tapestry.
+
+4. Add your Anthropic and Perplexity API keys to `.env`
+
 5. **Authenticate with OnFabric**
    ```bash
    fabric-dashboard auth

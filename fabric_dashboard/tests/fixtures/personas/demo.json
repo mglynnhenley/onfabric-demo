@@ -78,40 +78,40 @@
     "content_depth_preference": "deep_dives"
   },
   "theme": {
-    "mood": "energetic and curious",
-    "primary": "#00D9FF",
-    "secondary": "#FF006E",
-    "accent": "#FFBE0B",
-    "background": "#0A0E27",
-    "foreground": "#E8F1F5",
-    "muted": "#64748B",
-    "success": "#00F5A0",
-    "warning": "#FF8E3C",
-    "destructive": "#FF006E",
-    "rationale": "Combines the energy of a startup scene with the contemplative depth of AI research. Electric cyan and magenta create visual impact while midnight blue background provides sophistication. Avoids generic purple gradients.",
+    "mood": "bold and electric",
+    "primary": "#FF0080",
+    "secondary": "#00FF94",
+    "accent": "#FFFF00",
+    "background": "#0D0221",
+    "foreground": "#FFFFFF",
+    "muted": "#A0A0C0",
+    "success": "#00FF94",
+    "warning": "#FFAA00",
+    "destructive": "#FF0055",
+    "rationale": "Bold cyberpunk aesthetic with neon hot pink, electric lime, and bright yellow creating maximum visual impact. Deep purple-black background ensures readability while vibrant gradients and funky typography make the interface unforgettable.",
     "fonts": {
-      "heading": "Archivo Black",
-      "body": "Work Sans",
-      "mono": "JetBrains Mono",
-      "heading_url": "https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap",
-      "body_url": "https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap",
-      "mono_url": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap"
+      "heading": "Bungee",
+      "body": "Space Grotesk",
+      "mono": "Fira Code",
+      "heading_url": "https://fonts.googleapis.com/css2?family=Bungee&display=swap",
+      "body_url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+      "mono_url": "https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap"
     },
     "background_theme": {
       "type": "gradient",
       "color": null,
       "gradient": {
-        "type": "radial-mesh",
-        "colors": ["#0A0E27", "#1A1F3A", "#00D9FF15"],
+        "type": "linear",
+        "colors": ["#0D0221", "#1A0B2E", "#FF008040", "#00FF9420", "#FFFF0010"],
         "direction": "to-br"
       },
       "pattern": null,
       "animation": {
         "name": "gradient-shift",
-        "duration": "20s",
+        "duration": "15s",
         "timing": "ease-in-out"
       },
-      "card_background": "rgba(10, 14, 39, 0.7)",
+      "card_background": "rgba(13, 2, 33, 0.85)",
       "card_backdrop_blur": true
     }
   },
@@ -126,31 +126,31 @@
       "zoom_level": 13,
       "markers": [
         {
-          "name": "Anchor Point",
+          "title": "Anchor Point",
           "lat": 30.5380,
           "lng": -9.7215,
           "description": "Right point break, works best on big NW swells"
         },
         {
-          "name": "Hash Point",
+          "title": "Hash Point",
           "lat": 30.5420,
           "lng": -9.7190,
           "description": "Powerful right-hander, intermediate to advanced"
         },
         {
-          "name": "Killer Point",
+          "title": "Killer Point",
           "lat": 30.5445,
           "lng": -9.7165,
           "description": "Long right point, multiple sections"
         },
         {
-          "name": "La Source",
+          "title": "La Source",
           "lat": 30.5520,
           "lng": -9.7100,
           "description": "Beach break, good for beginners"
         },
         {
-          "name": "Boilers",
+          "title": "Boilers",
           "lat": 30.5350,
           "lng": -9.7250,
           "description": "Heavy reef break, experts only"
@@ -311,64 +311,34 @@
       ]
     },
     {
-      "component_type": "weather-card",
+      "component_type": "info-card",
       "title": "Tagazhout Weather",
       "pattern_title": "Surf & Travel Enthusiast",
       "confidence": 0.89,
       "location": "Tagazhout, Morocco",
-      "lat": 30.5447,
-      "lng": -9.7143,
-      "current_temp": 22,
-      "feels_like": 21,
-      "condition": "Partly Cloudy",
-      "wind_speed": 15,
-      "wind_direction": "NW",
-      "humidity": 68,
-      "forecast": [
-        {"day": "Today", "high": 24, "low": 18, "condition": "Sunny"},
-        {"day": "Tomorrow", "high": 23, "low": 17, "condition": "Clear"},
-        {"day": "Saturday", "high": 25, "low": 19, "condition": "Sunny"}
-      ]
+      "info_type": "weather",
+      "units": "metric",
+      "show_forecast": true
     },
     {
-      "component_type": "weather-card",
+      "component_type": "info-card",
       "title": "London Weather",
       "pattern_title": "Tech Startup Navigator",
       "confidence": 0.85,
       "location": "London, UK",
-      "lat": 51.5074,
-      "lng": -0.1278,
-      "current_temp": 12,
-      "feels_like": 9,
-      "condition": "Overcast",
-      "wind_speed": 18,
-      "wind_direction": "SW",
-      "humidity": 78,
-      "forecast": [
-        {"day": "Today", "high": 14, "low": 9, "condition": "Cloudy"},
-        {"day": "Tomorrow", "high": 13, "low": 8, "condition": "Light Rain"},
-        {"day": "Saturday", "high": 15, "low": 10, "condition": "Partly Cloudy"}
-      ]
+      "info_type": "weather",
+      "units": "metric",
+      "show_forecast": true
     },
     {
-      "component_type": "weather-card",
+      "component_type": "info-card",
       "title": "Berlin Weather",
       "pattern_title": "AI Safety Researcher",
       "confidence": 0.92,
       "location": "Berlin, Germany",
-      "lat": 52.5200,
-      "lng": 13.4050,
-      "current_temp": 8,
-      "feels_like": 5,
-      "condition": "Clear",
-      "wind_speed": 12,
-      "wind_direction": "E",
-      "humidity": 72,
-      "forecast": [
-        {"day": "Today", "high": 11, "low": 5, "condition": "Sunny"},
-        {"day": "Tomorrow", "high": 10, "low": 4, "condition": "Clear"},
-        {"day": "Saturday", "high": 12, "low": 6, "condition": "Partly Cloudy"}
-      ]
+      "info_type": "weather",
+      "units": "metric",
+      "show_forecast": true
     },
     {
       "component_type": "task-list",
@@ -406,20 +376,6 @@
           "completed": true,
           "category": "Fitness"
         }
-      ]
-    },
-    {
-      "component_type": "info-card",
-      "title": "AI Safety Fundamentals",
-      "pattern_title": "AI Safety Researcher",
-      "confidence": 0.92,
-      "location": "London AI Safety Hub",
-      "overview": "Exploring the critical challenges in ensuring advanced AI systems remain beneficial and aligned with human values. Focus areas include alignment problem, scalable oversight, interpretability, and value learning.",
-      "key_topics": [
-        "Alignment Problem",
-        "Scalable Oversight",
-        "Interpretability",
-        "Value Learning"
       ]
     }
   ],

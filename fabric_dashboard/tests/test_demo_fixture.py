@@ -9,7 +9,7 @@ from fabric_dashboard.models.schemas import (
     Pattern, PersonaProfile, ColorScheme, CardContent
 )
 from fabric_dashboard.models.ui_components import (
-    MapCard, EventCalendar, VideoFeed, WeatherCard, TaskList, InfoCard
+    MapCard, EventCalendar, VideoFeed, TaskList, InfoCard
 )
 
 
@@ -86,7 +86,6 @@ def test_demo_ui_components_valid():
         "map-card": MapCard,
         "event-calendar": EventCalendar,
         "video-feed": VideoFeed,
-        "weather-card": WeatherCard,
         "task-list": TaskList,
         "info-card": InfoCard,
     }
@@ -97,7 +96,7 @@ def test_demo_ui_components_valid():
         comp_class = component_classes[comp_type]
         components.append(comp_class(**comp_data))
 
-    assert len(components) == 9
+    assert len(components) == 8
 
     # Verify specific components
     map_cards = [c for c in components if isinstance(c, MapCard)]
@@ -111,8 +110,8 @@ def test_demo_ui_components_valid():
     video_feeds = [c for c in components if isinstance(c, VideoFeed)]
     assert len(video_feeds) == 2
 
-    weather_cards = [c for c in components if isinstance(c, WeatherCard)]
-    assert len(weather_cards) == 3
+    info_cards = [c for c in components if isinstance(c, InfoCard)]
+    assert len(info_cards) == 3
 
 
 def test_demo_content_cards_valid():

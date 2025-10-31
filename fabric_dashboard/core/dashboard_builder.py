@@ -867,7 +867,7 @@ class DashboardBuilder:
         Render weather card with current conditions and forecast.
 
         Args:
-            component: WeatherCard component.
+            component: InfoCard component.
             idx: Component index.
 
         Returns:

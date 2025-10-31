@@ -466,7 +466,7 @@ class PipelineService:
             Tuple of (HTML string, DashboardJSON object).
         """
         from fabric_dashboard.models.ui_components import (
-            MapCard, EventCalendar, VideoFeed, WeatherCard, TaskList, InfoCard
+            MapCard, EventCalendar, VideoFeed, TaskList, InfoCard
         )
         from fabric_dashboard.core.dashboard_builder import DashboardBuilder
 
@@ -518,8 +518,6 @@ class PipelineService:
                 ui_components.append(EventCalendar(**comp_data))
             elif comp_type == "video-feed":
                 ui_components.append(VideoFeed(**comp_data))
-            elif comp_type == "weather-card":
-                ui_components.append(WeatherCard(**comp_data))
             elif comp_type == "task-list":
                 ui_components.append(TaskList(**comp_data))
             elif comp_type == "info-card":
@@ -528,6 +526,18 @@ class PipelineService:
                 logging.warning(f"Unknown component type: {comp_type}")
 
         logging.info(f"✓ Loaded {len(ui_components)} UI components")
+
+        # Enrich UI components with real API data
+        await self._send_progress(progress_callback, {
+            "step": "enriching",
+            "percent": 75,
+            "message": "Enriching widgets with live data...",
+        })
+
+        ui_generator = UIGenerator(mock_mode=False)
+        ui_components = await ui_generator._enrich_components(ui_components)
+
+        logging.info(f"✓ Enriched UI components with live API data")
 
         # Parse content cards
         await self._send_progress(progress_callback, {

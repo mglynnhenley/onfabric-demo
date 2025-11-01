@@ -40,6 +40,17 @@ function MapCard({ id, data, size }: WidgetProps) {
   const [mapError, setMapError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('🗺️ MapCard data received:', {
+      rawData: data,
+      title,
+      center,
+      zoom,
+      markers,
+      hasCenter: !!center,
+      hasZoom: zoom !== undefined,
+      markerCount: markers?.length || 0
+    });
+
     if (!mapContainer.current || map.current) return;
 
     // Check if token exists
@@ -50,73 +61,144 @@ function MapCard({ id, data, size }: WidgetProps) {
       return;
     }
 
-    console.log('Initializing Mapbox map with center:', center, 'zoom:', zoom);
-
     // Initialize map
     mapboxgl.accessToken = MAPBOX_TOKEN;
 
-    try {
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/light-v11',
-        center: [center.lng, center.lat],
-        zoom: zoom || 12,
-      });
+    const initMap = (width: number, height: number) => {
+      if (!mapContainer.current || map.current) return;
 
-      // Add markers
-      map.current.on('load', () => {
-        console.log('Map loaded successfully');
-        setMapLoaded(true);
+      console.log('Initializing Mapbox map with dimensions:', { width, height });
 
-        markers.forEach((marker) => {
-          if (!map.current) return;
-
-          // Create marker element
-          const el = document.createElement('div');
-          el.className = 'custom-marker';
-          el.style.width = '32px';
-          el.style.height = '32px';
-          el.style.backgroundColor = 'var(--color-primary)';
-          el.style.borderRadius = '50%';
-          el.style.border = '3px solid white';
-          el.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
-          el.style.cursor = 'pointer';
-          el.style.display = 'flex';
-          el.style.alignItems = 'center';
-          el.style.justifyContent = 'center';
-
-          // Add pin icon
-          const icon = document.createElement('div');
-          icon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
-          el.appendChild(icon);
-
-          // Create popup
-          const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<div style="padding: 8px;">
-              <p style="font-weight: 600; margin-bottom: 4px; font-size: 14px;">${marker.title}</p>
-              ${marker.description ? `<p style="color: #666; font-size: 12px;">${marker.description}</p>` : ''}
-            </div>`
-          );
-
-          // Add marker to map
-          new mapboxgl.Marker(el)
-            .setLngLat([marker.lng, marker.lat])
-            .setPopup(popup)
-            .addTo(map.current);
+      try {
+        map.current = new mapboxgl.Map({
+          container: mapContainer.current,
+          style: 'mapbox://styles/mapbox/satellite-streets-v12',
+          center: [center.lng, center.lat],
+          zoom: zoom || 12,
         });
-      });
 
-      map.current.on('error', (e) => {
-        console.error('Mapbox error:', e);
-        setMapError(`Map error: ${e.error?.message || 'Unknown error'}`);
-      });
-    } catch (error) {
-      console.error('Failed to initialize map:', error);
-      setMapError(`Failed to initialize map: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
+        // Set a timeout to detect stuck loading
+        const loadTimeout = setTimeout(() => {
+          if (!mapLoaded) {
+            console.error('Map loading timeout - map.load event never fired');
+            setMapError('Map loading timed out. Check network and Mapbox token.');
+          }
+        }, 10000); // 10 second timeout
+
+        // Add markers when map loads
+        map.current.on('load', () => {
+          console.log('Map loaded successfully');
+          clearTimeout(loadTimeout);
+          setMapLoaded(true);
+
+          // Force resize when map loads to ensure proper rendering
+          if (map.current) {
+            map.current.resize();
+            console.log('Resized map on load');
+          }
+
+          // Calculate bounds to fit all markers
+          const bounds = new mapboxgl.LngLatBounds();
+          markers.forEach((marker) => {
+            bounds.extend([marker.lng, marker.lat]);
+          });
+
+          // Fit map to show all markers with padding
+          if (map.current && markers.length > 0) {
+            map.current.fitBounds(bounds, {
+              padding: 60,
+              maxZoom: 13
+            });
+          }
+
+          markers.forEach((marker) => {
+            if (!map.current) return;
+
+            // Create marker element (smaller size)
+            const el = document.createElement('div');
+            el.className = 'custom-marker';
+            el.style.width = '24px';
+            el.style.height = '24px';
+            el.style.backgroundColor = 'var(--color-primary)';
+            el.style.borderRadius = '50%';
+            el.style.border = '2px solid white';
+            el.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+            el.style.cursor = 'pointer';
+            el.style.display = 'flex';
+            el.style.alignItems = 'center';
+            el.style.justifyContent = 'center';
+
+            // Add pin icon (smaller)
+            const icon = document.createElement('div');
+            icon.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
+            el.appendChild(icon);
+
+            // Create popup
+            const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+              `<div style="padding: 8px;">
+                <p style="font-weight: 600; margin-bottom: 4px; font-size: 14px;">${marker.title}</p>
+                ${marker.description ? `<p style="color: #666; font-size: 12px;">${marker.description}</p>` : ''}
+              </div>`
+            );
+
+            // Add marker to map
+            const mapMarker = new mapboxgl.Marker(el)
+              .setLngLat([marker.lng, marker.lat])
+              .setPopup(popup)
+              .addTo(map.current);
+
+            // Show popup on hover
+            el.addEventListener('mouseenter', () => {
+              popup.addTo(map.current!);
+            });
+
+            el.addEventListener('mouseleave', () => {
+              popup.remove();
+            });
+          });
+        });
+
+        map.current.on('error', (e) => {
+          console.error('Mapbox error:', e);
+          setMapError(`Map error: ${e.error?.message || 'Unknown error'}`);
+        });
+      } catch (error) {
+        console.error('Failed to initialize map:', error);
+        setMapError(`Failed to initialize map: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      }
+    };
+
+    // Use ResizeObserver to wait for container to have proper dimensions
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        console.log('Container resized:', { width, height });
+
+        // Once container has reasonable dimensions, initialize map
+        if (width > 100 && height > 100 && !map.current) {
+          console.log('Container ready, initializing map...');
+          initMap(width, height);
+
+          // Force resize after grid layout settles
+          setTimeout(() => {
+            if (map.current) {
+              console.log('Forcing map resize after layout settle');
+              map.current.resize();
+            }
+          }, 500);
+        } else if (map.current && width > 100 && height > 100) {
+          // Resize existing map when container changes
+          console.log('Resizing existing map to:', { width, height });
+          map.current.resize();
+        }
+      }
+    });
+
+    resizeObserver.observe(mapContainer.current);
 
     // Cleanup
     return () => {
+      resizeObserver.disconnect();
       map.current?.remove();
     };
   }, [center, zoom, markers]);

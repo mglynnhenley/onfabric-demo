@@ -5,47 +5,70 @@
  * Shows a monthly calendar view with highlighted event dates.
  */
 
-import { motion } from 'framer-motion';
-import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calendar, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 import { registerWidget } from './WidgetRegistry';
 import type { WidgetProps } from './WidgetTypes';
 import { useMemo, useState } from 'react';
 
 interface Event {
-  name: string;
+  title: string;
   date: string;
   location: string;
   url: string;
+  type?: string;
 }
 
 interface CalendarCardData {
   title: string;
-  query: string;
-  events: Event[];
+  search_query: string;
+  enriched_events: Event[];
 }
 
 function CalendarCard({ id, data, size }: WidgetProps) {
   const calendarData = data as CalendarCardData;
-  const { title, query, events } = calendarData;
+  const { title, search_query, enriched_events } = calendarData;
+  const events = enriched_events || [];
 
-  // Get current month for calendar view
-  const [currentDate] = useState(new Date());
+  // Debug logging
+  console.log('📅 CalendarCard received data:', {
+    rawData: data,
+    title,
+    search_query,
+    enriched_events,
+    eventsCount: events.length,
+    firstEvent: events[0],
+    allEventDates: events.map(e => e.date)
+  });
+
+  // Get current month for calendar view - start from November 2025
+  const [currentDate] = useState(new Date(2025, 10)); // Month 10 = November
+  const [hoveredDay, setHoveredDay] = useState<number | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number } | null>(null);
 
   // Get events by date
   const eventsByDate = useMemo(() => {
+    console.log('📅 Building eventsByDate map from events:', events);
     const map = new Map<string, Event[]>();
     events.forEach(event => {
       try {
         const date = new Date(event.date);
         const dateKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+        console.log('📅 Processing event:', {
+          eventTitle: event.title,
+          eventDate: event.date,
+          parsedDate: date.toISOString(),
+          dateKey
+        });
         if (!map.has(dateKey)) {
           map.set(dateKey, []);
         }
         map.get(dateKey)!.push(event);
       } catch (e) {
-        // Skip invalid dates
+        console.error('📅 Failed to parse event date:', event, e);
       }
     });
+    console.log('📅 Final eventsByDate map:', Array.from(map.entries()));
     return map;
   }, [events]);
 
@@ -83,6 +106,31 @@ function CalendarCard({ id, data, size }: WidgetProps) {
 
   const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
+  // Get events for hovered day
+  const hoveredDayEvents = useMemo(() => {
+    if (hoveredDay === null) return [];
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const dateKey = `${year}-${month}-${hoveredDay}`;
+    return eventsByDate.get(dateKey) || [];
+  }, [hoveredDay, currentDate, eventsByDate]);
+
+  // Handle mouse enter on calendar day
+  const handleDayMouseEnter = (day: number, event: React.MouseEvent<HTMLDivElement>) => {
+    setHoveredDay(day);
+    const rect = event.currentTarget.getBoundingClientRect();
+    setTooltipPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top - 8,
+    });
+  };
+
+  // Handle mouse leave
+  const handleDayMouseLeave = () => {
+    setHoveredDay(null);
+    setTooltipPosition(null);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -102,7 +150,7 @@ function CalendarCard({ id, data, size }: WidgetProps) {
         {/* Month Display */}
         <div className="flex items-center justify-between mb-3">
           <span className="text-xs font-medium text-foreground">{monthName}</span>
-          {query && (
+          {search_query && (
             <span className="text-[9px] text-muted">{events.length} events</span>
           )}
         </div>
@@ -137,21 +185,26 @@ function CalendarCard({ id, data, size }: WidgetProps) {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: idx * 0.01 }}
+                  onMouseEnter={(e) => hasEvents && handleDayMouseEnter(dayData.day, e)}
+                  onMouseLeave={handleDayMouseLeave}
                   className={`
                     aspect-square rounded-md flex items-center justify-center text-[9px] font-medium relative
-                    transition-colors cursor-default
+                    transition-all duration-200
                     ${hasEvents
-                      ? 'bg-gradient-to-br from-primary to-secondary text-white shadow-sm'
+                      ? 'bg-primary text-black font-bold shadow-lg shadow-primary/50 cursor-pointer hover:shadow-xl hover:shadow-primary/70 hover:scale-110 ring-2 ring-primary/30'
                       : isToday
-                      ? 'bg-muted/30 text-foreground ring-1 ring-primary'
-                      : 'text-muted hover:bg-muted/20'
+                      ? 'bg-muted/30 text-foreground ring-1 ring-primary cursor-default'
+                      : 'text-muted hover:bg-muted/20 cursor-default'
                     }
                   `}
-                  title={hasEvents ? `${dayData.events.length} event${dayData.events.length > 1 ? 's' : ''}` : ''}
                 >
                   <span>{dayData.day}</span>
                   {hasEvents && dayData.events.length > 1 && (
-                    <div className="absolute bottom-0.5 right-0.5 w-1 h-1 rounded-full bg-white/80" />
+                    <div className="absolute bottom-0.5 right-0.5 flex gap-0.5">
+                      {Array.from({ length: Math.min(dayData.events.length, 3) }).map((_, i) => (
+                        <div key={i} className="w-1 h-1 rounded-full bg-black" />
+                      ))}
+                    </div>
                   )}
                 </motion.div>
               );
@@ -167,6 +220,57 @@ function CalendarCard({ id, data, size }: WidgetProps) {
           </div>
         )}
       </div>
+
+      {/* Tooltip for events */}
+      <AnimatePresence>
+        {hoveredDay !== null && hoveredDayEvents.length > 0 && tooltipPosition && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              position: 'fixed',
+              left: `${tooltipPosition.x}px`,
+              top: `${tooltipPosition.y}px`,
+              transform: 'translate(-50%, -100%)',
+              zIndex: 9999,
+              pointerEvents: 'none',
+            }}
+            className="max-w-xs"
+          >
+            <div className="bg-black border-2 border-primary rounded-lg shadow-2xl shadow-primary/50 p-3 space-y-2">
+              {hoveredDayEvents.map((event, idx) => (
+                <div
+                  key={idx}
+                  className="space-y-1 pb-2 last:pb-0 border-b border-primary/30 last:border-0"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <h4 className="text-[10px] font-mono font-bold text-primary leading-tight">
+                      {event.title}
+                    </h4>
+                    {event.type && (
+                      <span
+                        className={`text-[8px] px-1.5 py-0.5 rounded font-mono font-medium flex-shrink-0 ${
+                          event.type === 'startup'
+                            ? 'bg-primary/30 text-primary border border-primary/50'
+                            : 'bg-secondary/30 text-secondary border border-secondary/50'
+                        }`}
+                      >
+                        {event.type}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-1 text-[9px] text-secondary">
+                    <MapPin className="w-2.5 h-2.5" />
+                    <span className="leading-tight font-mono">{event.location}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

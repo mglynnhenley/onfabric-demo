@@ -37,6 +37,11 @@ interface BackgroundTheme {
   color?: string;
   gradient?: GradientConfig;
   pattern?: PatternConfig;
+  animation?: {
+    name: string;
+    duration: string;
+    timing: string;
+  };
   card_background: string;
   card_backdrop_blur: boolean;
 }
@@ -121,6 +126,7 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     // 3. Apply background theme directly to body
     const bg = theme.background_theme;
     let backgroundStyle = '';
+    let backgroundSize: string | null = null;
 
     if (bg.type === 'solid') {
       backgroundStyle = bg.color || '#ffffff';
@@ -154,9 +160,43 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .join(', ');
       }
     } else if (bg.type === 'pattern' && bg.pattern) {
-      // Pattern backgrounds would require SVG generation
-      // For now, use a simple fallback
-      backgroundStyle = bg.color || '#ffffff';
+      // Create pattern backgrounds using CSS
+      const { type, color, opacity, scale } = bg.pattern;
+      const patternColor = `${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')}`;
+
+      console.log('🎨 PATTERN DETECTED:', {
+        type,
+        color,
+        opacity,
+        scale,
+        patternColor,
+        bgColor: bg.color
+      });
+
+      if (type === 'grid') {
+        // Criss-cross grid pattern
+        const size = 20 * scale;
+        backgroundStyle = `
+          repeating-linear-gradient(0deg, transparent, transparent ${size - 1}px, ${patternColor} ${size - 1}px, ${patternColor} ${size}px),
+          repeating-linear-gradient(90deg, transparent, transparent ${size - 1}px, ${patternColor} ${size - 1}px, ${patternColor} ${size}px),
+          ${bg.color || '#000000'}
+        `;
+      } else if (type === 'dots') {
+        // Dots/circles pattern with base color
+        const spacing = 20 * scale; // Scale affects spacing between dots
+        const dotRadius = Math.max(3, scale * 1.5); // Scale dot size with pattern scale (min 3px)
+        backgroundStyle = `radial-gradient(circle, ${patternColor} ${dotRadius}px, transparent ${dotRadius}px), ${bg.color || '#000000'}`;
+        backgroundSize = `${spacing}px ${spacing}px`;
+
+        console.log('🔵 DOTS PATTERN CREATED:', {
+          spacing,
+          dotRadius,
+          backgroundStyle,
+          backgroundSize
+        });
+      } else {
+        backgroundStyle = bg.color || '#000000';
+      }
     }
 
     // Set CSS variables
@@ -168,6 +208,12 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     body.style.background = backgroundStyle;
     body.style.fontFamily = 'var(--font-body)';
     body.style.color = theme.foreground;
+
+    // CRITICAL: Set backgroundSize AFTER setting background (shorthand resets it)
+    if (backgroundSize) {
+      body.style.backgroundSize = backgroundSize;
+      console.log('✅ Background size set AFTER background:', backgroundSize);
+    }
 
     console.log('🔍 LAYER 7: DOM MANIPULATION COMPLETE');
     console.log('  Background style:', backgroundStyle);
@@ -185,6 +231,23 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
       root.style.setProperty('--card-backdrop-blur', 'none');
     }
 
+    // Set animation CSS variables and apply animation class to body if defined
+    if (theme.background_theme.animation && theme.background_theme.animation.name !== 'none') {
+      root.style.setProperty('--animation-duration', theme.background_theme.animation.duration || '20s');
+      root.style.setProperty('--animation-timing', theme.background_theme.animation.timing || 'ease-in-out');
+
+      // Apply animation class to body element
+      const animationClass = `animate-${theme.background_theme.animation.name}`;
+      body.classList.add(animationClass);
+
+      console.log('🎬 Animation applied to body:', {
+        duration: theme.background_theme.animation.duration,
+        timing: theme.background_theme.animation.timing,
+        name: theme.background_theme.animation.name,
+        className: animationClass
+      });
+    }
+
     // Cleanup on unmount
     return () => {
       document.head.removeChild(headingLink);
@@ -195,6 +258,12 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
       body.style.background = '';
       body.style.fontFamily = '';
       body.style.color = '';
+
+      // Remove animation class if it was added
+      if (theme.background_theme.animation && theme.background_theme.animation.name !== 'none') {
+        const animationClass = `animate-${theme.background_theme.animation.name}`;
+        body.classList.remove(animationClass);
+      }
     };
   }, [theme]);
 

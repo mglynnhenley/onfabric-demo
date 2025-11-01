@@ -34,7 +34,7 @@ function ArticleCard({ id, data, size }: WidgetProps) {
       transition={{ duration: 0.5 }}
       className="h-full"
     >
-      <div className="card-background rounded-lg p-3 h-full flex flex-col shadow-lg border border-border/50 hover:border-primary/50 transition-colors">
+      <div className="card-background rounded-lg p-3 h-full flex flex-col shadow-lg border border-border/50 hover:border-primary/50 transition-colors overflow-hidden">
         {/* Header */}
         <div className="mb-3">
           <motion.h2
@@ -67,7 +67,7 @@ function ArticleCard({ id, data, size }: WidgetProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="text-xs leading-relaxed mb-2 break-words whitespace-normal flex-1"
+          className="text-xs leading-relaxed mb-2 break-words whitespace-normal flex-1 overflow-y-auto pr-2"
           style={{
             color: 'var(--color-foreground)',
             opacity: 0.9,

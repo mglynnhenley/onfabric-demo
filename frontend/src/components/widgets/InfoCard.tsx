@@ -60,9 +60,9 @@ function InfoCard({ id, data, size }: WidgetProps) {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="h-full"
+      className="h-full font-body"
     >
-      <div className="card-background rounded-lg p-3 h-full flex flex-col justify-between shadow-lg border border-border/50 overflow-hidden relative">
+      <div className="card-background rounded-lg p-4 h-full flex flex-col justify-between shadow-lg border border-border/50 overflow-hidden relative">
         {/* Gradient background overlay */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -71,46 +71,48 @@ function InfoCard({ id, data, size }: WidgetProps) {
           className={`absolute inset-0 bg-gradient-to-br ${getWeatherColor(subtitle)}`}
         />
 
-        <div className="relative z-10">
+        <div className="relative z-10 flex flex-col h-full">
           {/* Location header */}
-          <div className="flex items-center gap-1.5 mb-3">
-            <MapPin className="w-3 h-3 text-primary" />
-            <h3 className="text-xs font-medium text-muted">{location}</h3>
+          <div className="flex items-start gap-1.5 mb-4">
+            <MapPin className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" />
+            <p className="text-xs font-mono font-medium text-primary leading-tight tracking-wide">{location}</p>
           </div>
 
-          {/* Weather emoji icon */}
-          <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-            className="mb-3"
-          >
-            <div className={`w-12 h-12 rounded-full ${getWeatherAccent(subtitle)} flex items-center justify-center text-3xl`}>
-              {getWeatherEmoji(subtitle)}
-            </div>
-          </motion.div>
+          {/* Weather content - centered vertically */}
+          <div className="flex-1 flex flex-col justify-center items-start gap-3">
+            {/* Weather emoji icon */}
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+            >
+              <div className={`w-14 h-14 rounded-full ${getWeatherAccent(subtitle)} flex items-center justify-center text-3xl`}>
+                {getWeatherEmoji(subtitle)}
+              </div>
+            </motion.div>
 
-          {/* Temperature */}
-          <div className="mb-2">
-            <motion.p
+            {/* Temperature */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="text-4xl font-bold text-foreground"
+              className="w-full"
             >
-              {value}
+              <p className="text-5xl font-mono font-bold text-foreground tracking-tight leading-none">
+                {value}
+              </p>
+            </motion.div>
+
+            {/* Condition */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="text-sm font-mono font-medium text-muted-foreground tracking-wide uppercase"
+            >
+              {subtitle}
             </motion.p>
           </div>
-
-          {/* Condition */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="text-sm font-medium text-muted-foreground"
-          >
-            {subtitle}
-          </motion.p>
         </div>
       </div>
     </motion.div>

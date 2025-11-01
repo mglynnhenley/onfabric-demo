@@ -264,74 +264,129 @@ export function Landing({ onGenerate }: LandingProps) {
                 </p>
               </div>
 
-              {/* CTA */}
-              <div className="animate-fade-in" style={{ animationDelay: '0.7s' }}>
-                <motion.button
-                  ref={buttonRef}
-                  onClick={() => onGenerate('demo')}
-                  onMouseEnter={() => {
-                    if (buttonRef.current) {
-                      const rect = buttonRef.current.getBoundingClientRect();
-                      setButtonPos({
-                        x: rect.left + rect.width / 2,
-                        y: rect.top + rect.height / 2,
-                      });
-                    }
-                    setIsHovering(true);
-                  }}
-                  onMouseLeave={() => setIsHovering(false)}
-                  className="relative px-14 py-6 border-2"
-                  style={{
-                    borderColor: 'var(--color-charcoal)',
-                    background: 'var(--color-white)',
-                    fontFamily: 'var(--font-family-mono)',
-                    fontSize: '16px',
-                    letterSpacing: '0.1em',
-                    color: 'var(--color-charcoal)',
-                    fontWeight: 500,
-                    zIndex: 10,
-                  }}
-                  whileHover={{
-                    x: 8,
-                    borderColor: COLORS.crimson,
-                    boxShadow: `6px 6px 0px ${COLORS.crimson}`,
-                  }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 300,
-                    damping: 25,
-                    mass: 0.8
-                  }}
-                >
-                  <span className="flex items-center gap-4">
-                    <span>generate( )</span>
-                    <motion.span
-                      style={{ color: 'var(--color-crimson)', fontSize: '18px' }}
-                      initial={{ x: 0 }}
-                      whileHover={{ x: 4 }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 300,
-                        damping: 20
-                      }}
-                    >
-                      →
-                    </motion.span>
-                  </span>
-                </motion.button>
+              {/* CTA - Two Demo Buttons */}
+              <div className="animate-fade-in flex gap-6 items-start" style={{ animationDelay: '0.7s' }}>
+                <div>
+                  <motion.button
+                    ref={buttonRef}
+                    onClick={() => onGenerate('demo')}
+                    onMouseEnter={() => {
+                      if (buttonRef.current) {
+                        const rect = buttonRef.current.getBoundingClientRect();
+                        setButtonPos({
+                          x: rect.left + rect.width / 2,
+                          y: rect.top + rect.height / 2,
+                        });
+                      }
+                      setIsHovering(true);
+                    }}
+                    onMouseLeave={() => setIsHovering(false)}
+                    className="relative px-14 py-6 border-2"
+                    style={{
+                      borderColor: 'var(--color-charcoal)',
+                      background: 'var(--color-white)',
+                      fontFamily: 'var(--font-family-mono)',
+                      fontSize: '16px',
+                      letterSpacing: '0.1em',
+                      color: 'var(--color-charcoal)',
+                      fontWeight: 500,
+                      zIndex: 10,
+                    }}
+                    whileHover={{
+                      x: 8,
+                      borderColor: COLORS.crimson,
+                      boxShadow: `6px 6px 0px ${COLORS.crimson}`,
+                    }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 300,
+                      damping: 25,
+                      mass: 0.8
+                    }}
+                  >
+                    <span className="flex items-center gap-4">
+                      <span>demo_1( )</span>
+                      <motion.span
+                        style={{ color: 'var(--color-crimson)', fontSize: '18px' }}
+                        initial={{ x: 0 }}
+                        whileHover={{ x: 4 }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 300,
+                          damping: 20
+                        }}
+                      >
+                        →
+                      </motion.span>
+                    </span>
+                  </motion.button>
+                  <p
+                    className="mt-4 opacity-60"
+                    style={{
+                      fontFamily: 'var(--font-family-mono)',
+                      fontSize: '12px',
+                      color: 'var(--color-gray)',
+                      fontWeight: 300,
+                    }}
+                  >
+                    tech founder · terminal aesthetic
+                  </p>
+                </div>
 
-                {/* Subtle hint text */}
-                <p
-                  className="mt-6 opacity-60"
-                  style={{
-                    fontFamily: 'var(--font-family-mono)',
-                    fontSize: '13px',
-                    color: 'var(--color-gray)',
-                    fontWeight: 300,
-                  }}
-                >
-                  see your personalized dashboard in ~3 seconds
-                </p>
+                <div>
+                  <motion.button
+                    onClick={() => onGenerate('demo2')}
+                    className="relative px-14 py-6 border-2"
+                    style={{
+                      borderColor: 'var(--color-charcoal)',
+                      background: 'var(--color-white)',
+                      fontFamily: 'var(--font-family-mono)',
+                      fontSize: '16px',
+                      letterSpacing: '0.1em',
+                      color: 'var(--color-charcoal)',
+                      fontWeight: 500,
+                      zIndex: 10,
+                    }}
+                    whileHover={{
+                      x: 8,
+                      borderColor: COLORS.terminalGreen,
+                      boxShadow: `6px 6px 0px ${COLORS.terminalGreen}`,
+                    }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 300,
+                      damping: 25,
+                      mass: 0.8
+                    }}
+                  >
+                    <span className="flex items-center gap-4">
+                      <span>demo_2( )</span>
+                      <motion.span
+                        style={{ color: 'var(--color-terminal-green)', fontSize: '18px' }}
+                        initial={{ x: 0 }}
+                        whileHover={{ x: 4 }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 300,
+                          damping: 20
+                        }}
+                      >
+                        →
+                      </motion.span>
+                    </span>
+                  </motion.button>
+                  <p
+                    className="mt-4 opacity-60"
+                    style={{
+                      fontFamily: 'var(--font-family-mono)',
+                      fontSize: '12px',
+                      color: 'var(--color-gray)',
+                      fontWeight: 300,
+                    }}
+                  >
+                    film producer · editorial elegance
+                  </p>
+                </div>
               </div>
 
               {/* Terminal-style status */}

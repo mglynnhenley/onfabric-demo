@@ -148,13 +148,28 @@ class TicketmasterAPI:
                 date = start.get("localDate", "TBD")
                 time = start.get("localTime")
 
+                # Determine event type from classification
+                event_type = None
+                classifications = event.get("classifications", [])
+                if classifications:
+                    segment = classifications[0].get("segment", {}).get("name", "").lower()
+                    if any(keyword in segment for keyword in ["music", "concert", "festival"]):
+                        event_type = "club"
+                    elif any(keyword in segment for keyword in ["arts", "tech", "business", "conference"]):
+                        event_type = "startup"
+
+                # Combine venue and city for location
+                location = f"{venue_name}, {city}" if venue_name != "TBD" and city != "TBD" else venue_name
+
                 events.append({
-                    "name": event["name"],
+                    "title": event["name"],  # Frontend expects "title", not "name"
                     "date": date,
                     "time": time,
                     "url": event["url"],
-                    "venue": venue_name,
-                    "city": city,
+                    "location": location,  # Frontend expects "location" (combined venue + city)
+                    "type": event_type,  # Frontend expects "type" (startup/club)
+                    "venue": venue_name,  # Keep for backward compatibility
+                    "city": city,  # Keep for backward compatibility
                     "is_virtual": False,  # Ticketmaster doesn't clearly indicate virtual
                 })
 
@@ -182,14 +197,21 @@ class TicketmasterAPI:
         for i in range(max_results):
             event_date = today + timedelta(days=random.randint(3, 90))
             event_type = random.choice(event_types)
+            venue = random.choice(venues)
+            city = random.choice(cities)
+
+            # Determine type for frontend (startup or club)
+            frontend_type = "startup" if event_type in ["Workshop", "Meetup", "Conference", "Talk"] else "club"
 
             events.append({
-                "name": f"{query.title()} {event_type} {i + 1}",
+                "title": f"{query.title()} {event_type} {i + 1}",  # Frontend expects "title"
                 "date": event_date.strftime("%Y-%m-%d"),
                 "time": f"{random.randint(10, 19)}:00:00",
                 "url": f"https://example.com/event-{i}",
-                "venue": random.choice(venues),
-                "city": random.choice(cities),
+                "location": f"{venue}, {city}",  # Frontend expects "location"
+                "type": frontend_type,  # Frontend expects "type" (startup/club)
+                "venue": venue,  # Keep for backward compatibility
+                "city": city,  # Keep for backward compatibility
                 "is_virtual": random.choice([True, False]),
             })
 

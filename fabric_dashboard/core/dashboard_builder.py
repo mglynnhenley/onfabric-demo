@@ -52,8 +52,8 @@ class DashboardBuilder:
         Returns:
             Dashboard model with complete HTML and metadata.
         """
-        if not 4 <= len(cards) <= 10:
-            raise ValueError(f"Expected 4-10 cards, got {len(cards)}")
+        if not 3 <= len(cards) <= 10:
+            raise ValueError(f"Expected 3-10 cards, got {len(cards)}")
 
         # Default to empty list if no UI components provided
         if ui_components is None:
@@ -108,8 +108,8 @@ class DashboardBuilder:
         Returns:
             DashboardJSON with widgets, theme, and persona.
         """
-        if not 4 <= len(cards) <= 10:
-            raise ValueError(f"Expected 4-10 cards, got {len(cards)}")
+        if not 3 <= len(cards) <= 10:
+            raise ValueError(f"Expected 3-10 cards, got {len(cards)}")
 
         # Default to empty list if no UI components provided
         if ui_components is None:
@@ -121,19 +121,21 @@ class DashboardBuilder:
 
         widgets = []
 
-        # Convert UI components to widgets FIRST (show interactive widgets at top)
+        # Convert UI components to widgets
+        ui_widgets = []
         for idx, component in enumerate(ui_components):
             widget = self._convert_ui_component_to_widget(component, idx + 1)
             if widget:
-                widgets.append(widget)
+                ui_widgets.append(widget)
 
-        # Convert content cards to widgets LAST (show at bottom)
+        # Convert content cards to widgets
+        content_widgets = []
         for idx, card in enumerate(cards):
             widget = Widget(
                 id=f"article-{idx}",
                 type="article-card",
                 size=self._determine_card_size(card),
-                priority=len(ui_components) + idx + 1,
+                priority=len(ui_components) + idx + 1,  # Priority still matters but we'll interleave
                 data={
                     "title": card.title,
                     "excerpt": card.description,
@@ -144,7 +146,12 @@ class DashboardBuilder:
                     else [],
                 },
             )
-            widgets.append(widget)
+            content_widgets.append(widget)
+
+        # Combine all widgets and randomize order for organic scatter
+        import random
+        widgets = ui_widgets + content_widgets
+        random.shuffle(widgets)
 
         dashboard_json = DashboardJSON(
             id=f"dash_{int(time.time())}",

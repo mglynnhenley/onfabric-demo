@@ -160,8 +160,14 @@ async def websocket_generate_dashboard(websocket: WebSocket, persona: str):
             bg_theme = theme.get('background_theme', {})
             if bg_theme.get('gradient'):
                 print(f"  Gradient colors: {bg_theme['gradient'].get('colors')}")
+            elif bg_theme.get('pattern'):
+                print(f"  Pattern type: {bg_theme['pattern'].get('type')}")
+                print(f"  Pattern color: {bg_theme['pattern'].get('color')}")
+                print(f"  Pattern scale: {bg_theme['pattern'].get('scale')}")
             elif bg_theme.get('color'):
                 print(f"  BG color: {bg_theme.get('color')}")
+            print(f"  Card BG: {bg_theme.get('card_background')}")
+            print(f"  Backdrop blur: {bg_theme.get('card_backdrop_blur')}")
         print("")
 
         # Send complete message with dashboard data

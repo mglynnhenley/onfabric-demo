@@ -137,7 +137,7 @@ class EventCalendar(UIComponent):
     Uses Eventbrite API to fetch relevant local/online events.
     """
 
-    component_type: Literal["event-calendar"] = "event-calendar"
+    component_type: Literal["event-calendar", "calendar-card"] = "event-calendar"
     search_query: str = Field(
         min_length=1,
         max_length=200,

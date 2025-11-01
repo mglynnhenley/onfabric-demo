@@ -47,22 +47,25 @@ class PipelineService:
         self.mock_mode = mock_mode
         self.persona_fixtures_dir = Path(__file__).parent.parent.parent.parent / "fabric_dashboard" / "tests" / "fixtures" / "personas"
 
-    def _load_demo_fixture(self) -> dict:
+    def _load_demo_fixture(self, demo_name: str = "demo") -> dict:
         """
         Load pre-crafted demo persona fixture.
+
+        Args:
+            demo_name: Name of the demo fixture (e.g., "demo", "demo2")
 
         Returns:
             Dict with patterns, persona, theme, ui_components, content_cards.
 
         Raises:
-            FileNotFoundError: If demo.json doesn't exist.
+            FileNotFoundError: If demo fixture doesn't exist.
         """
-        demo_fixture = self.persona_fixtures_dir / "demo.json"
+        demo_fixture = self.persona_fixtures_dir / f"{demo_name}.json"
 
         if not demo_fixture.exists():
             raise FileNotFoundError(
                 f"Demo fixture not found at {demo_fixture}. "
-                "Run fixture generation first."
+                f"Available demos: demo, demo2"
             )
 
         import json
@@ -94,10 +97,10 @@ class PipelineService:
         logging.info("=" * 80)
 
         try:
-            # Check if this is the demo persona
-            if persona == "demo":
-                logging.info("🎭 DEMO MODE: Loading pre-crafted demo persona")
-                return await self._generate_demo_dashboard(progress_callback, start_time)
+            # Check if this is a demo persona
+            if persona in ["demo", "demo2"]:
+                logging.info(f"🎭 DEMO MODE: Loading pre-crafted {persona} persona")
+                return await self._generate_demo_dashboard(progress_callback, start_time, demo_name=persona)
 
             # Send progress: Starting
             await self._send_progress(progress_callback, {
@@ -252,6 +255,11 @@ class PipelineService:
             if color_scheme.background_theme.gradient:
                 logging.info(f"  Gradient: {color_scheme.background_theme.gradient.type}")
                 logging.info(f"  Colors: {', '.join(color_scheme.background_theme.gradient.colors)}")
+            elif color_scheme.background_theme.pattern:
+                logging.info(f"  Pattern type: {color_scheme.background_theme.pattern.type}")
+                logging.info(f"  Pattern color: {color_scheme.background_theme.pattern.color}")
+                logging.info(f"  Pattern opacity: {color_scheme.background_theme.pattern.opacity}")
+                logging.info(f"  Pattern scale: {color_scheme.background_theme.pattern.scale}")
             elif color_scheme.background_theme.color:
                 logging.info(f"  Color: {color_scheme.background_theme.color}")
             logging.info(f"  Card BG: {color_scheme.background_theme.card_background}")
@@ -444,6 +452,10 @@ class PipelineService:
                 logging.info(f"  Theme bg type: {dashboard_json.theme.background_theme.type}")
                 if dashboard_json.theme.background_theme.gradient:
                     logging.info(f"  Gradient colors: {dashboard_json.theme.background_theme.gradient.colors}")
+                elif dashboard_json.theme.background_theme.pattern:
+                    logging.info(f"  Pattern type: {dashboard_json.theme.background_theme.pattern.type}")
+                    logging.info(f"  Pattern color: {dashboard_json.theme.background_theme.pattern.color}")
+                    logging.info(f"  Pattern scale: {dashboard_json.theme.background_theme.pattern.scale}")
                 elif dashboard_json.theme.background_theme.color:
                     logging.info(f"  BG color: {dashboard_json.theme.background_theme.color}")
             logging.info("")
@@ -478,6 +490,7 @@ class PipelineService:
         self,
         progress_callback: Optional[Callable[[Dict[str, Any]], None]],
         start_time: datetime,
+        demo_name: str = "demo",
     ) -> tuple[str, Any]:
         """
         Generate dashboard from pre-crafted demo fixture (no LLM calls).
@@ -485,6 +498,7 @@ class PipelineService:
         Args:
             progress_callback: Async function to call with progress updates.
             start_time: When generation started (for timing).
+            demo_name: Name of the demo fixture to load (e.g., "demo", "demo2").
 
         Returns:
             Tuple of (HTML string, DashboardJSON object).
@@ -498,10 +512,10 @@ class PipelineService:
         await self._send_progress(progress_callback, {
             "step": "initializing",
             "percent": 0,
-            "message": "Loading demo data...",
+            "message": f"Loading {demo_name} data...",
         })
 
-        demo_data = self._load_demo_fixture()
+        demo_data = self._load_demo_fixture(demo_name)
 
         # Parse patterns
         await self._send_progress(progress_callback, {
@@ -525,6 +539,12 @@ class PipelineService:
         color_scheme = ColorScheme(**demo_data["theme"])
 
         logging.info(f"✓ Loaded theme: {color_scheme.mood}")
+        logging.info(f"  Background type: {color_scheme.background_theme.type}")
+        logging.info(f"  Has pattern field: {color_scheme.background_theme.pattern is not None}")
+        if color_scheme.background_theme.pattern:
+            logging.info(f"  Pattern details: type={color_scheme.background_theme.pattern.type}, "
+                        f"color={color_scheme.background_theme.pattern.color}, "
+                        f"scale={color_scheme.background_theme.pattern.scale}")
 
         # Parse UI components
         await self._send_progress(progress_callback, {
@@ -538,7 +558,7 @@ class PipelineService:
             comp_type = comp_data["component_type"]
             if comp_type == "map-card":
                 ui_components.append(MapCard(**comp_data))
-            elif comp_type == "event-calendar":
+            elif comp_type in ["event-calendar", "calendar-card"]:
                 ui_components.append(EventCalendar(**comp_data))
             elif comp_type == "video-feed":
                 ui_components.append(VideoFeed(**comp_data))

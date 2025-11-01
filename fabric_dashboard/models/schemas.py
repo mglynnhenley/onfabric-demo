@@ -346,7 +346,7 @@ class Dashboard(BaseModel):
         description="Persona-matched color scheme for theming"
     )
     cards: list[CardContent] = Field(
-        description="Dashboard cards (4-8 cards)", min_length=4, max_length=8
+        description="Dashboard cards (3-10 cards)", min_length=3, max_length=10
     )
     persona: PersonaProfile = Field(description="User's persona profile")
     data_summary: DataSummary = Field(description="Summary of analyzed data")
@@ -360,9 +360,9 @@ class Dashboard(BaseModel):
     @field_validator("cards")
     @classmethod
     def validate_card_count(cls, v: list[CardContent]) -> list[CardContent]:
-        """Ensure we have 4-8 cards."""
-        if not (4 <= len(v) <= 8):
-            raise ValueError(f"Dashboard must have 4-8 cards, got {len(v)}")
+        """Ensure we have 3-10 cards."""
+        if not (3 <= len(v) <= 10):
+            raise ValueError(f"Dashboard must have 3-10 cards, got {len(v)}")
         return v
 
 

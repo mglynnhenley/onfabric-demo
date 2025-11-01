@@ -1,4 +1,19 @@
-"""Unit tests for Pydantic data models."""
+"""
+Tests for data model schemas and validation.
+
+Validates Pydantic models for:
+- User interaction data
+- Pattern extraction results
+- Dashboard configuration
+- Widget schemas
+
+How to run:
+    # All schema tests
+    pytest fabric_dashboard/tests/test_schemas.py -v
+
+    # Specific test
+    pytest fabric_dashboard/tests/test_schemas.py::test_name -v
+"""
 
 from datetime import datetime, timedelta
 

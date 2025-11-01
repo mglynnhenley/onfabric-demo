@@ -1,4 +1,19 @@
-"""Tests for data fetcher module."""
+"""
+Tests for data fetching from OnFabric API.
+
+Tests data retrieval and transformation:
+- API client initialization
+- Mock data loading (default)
+- Real API calls (when configured)
+- Error handling
+
+How to run:
+    # With mock data (default)
+    pytest fabric_dashboard/tests/test_data_fetcher.py -v
+
+    # With real API (requires ONFABRIC_API_KEY in .env)
+    MOCK_MODE=false pytest fabric_dashboard/tests/test_data_fetcher.py -v
+"""
 
 from unittest.mock import Mock, patch
 

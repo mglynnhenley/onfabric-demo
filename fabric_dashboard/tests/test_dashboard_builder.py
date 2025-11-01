@@ -1,4 +1,20 @@
-"""Unit tests for dashboard builder."""
+"""
+Tests for dashboard generation logic.
+
+Tests the core dashboard building pipeline:
+- Pattern analysis
+- Card generation from patterns
+- Layout calculation
+- Theme application
+- Widget assembly
+
+How to run:
+    # All dashboard builder tests
+    pytest fabric_dashboard/tests/test_dashboard_builder.py -v
+
+    # With verbose output
+    pytest fabric_dashboard/tests/test_dashboard_builder.py -v --tb=short
+"""
 
 import pytest
 import re

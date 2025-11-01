@@ -1,4 +1,15 @@
-"""Unit tests for utility modules."""
+"""
+Tests for utility functions.
+
+Tests helper functions for:
+- Date/time parsing
+- Text processing
+- Data normalization
+- Configuration loading
+
+How to run:
+    pytest fabric_dashboard/tests/test_utils.py -v
+"""
 
 import json
 import tempfile

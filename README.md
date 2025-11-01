@@ -22,15 +22,17 @@ git clone <your-repo-url>
 cd onfabric_mvp
 
 # Install dependencies
-npm install                    # Frontend dependencies
-pip install -e .               # Python package in editable mode
+cd frontend && npm install && cd ..  # Frontend dependencies
+uv sync                               # Python dependencies via uv
 
-# Start the application
-npm run dev                    # Frontend → http://localhost:3000
-python -m uvicorn backend.app.main:app --reload  # Backend → http://localhost:8000
+# Start the application (in separate terminals)
+cd frontend && npm run dev            # Frontend → http://localhost:5173
+cd backend && uv run uvicorn app.main:app --reload  # Backend → http://localhost:8000
 ```
 
-Visit `http://localhost:3000` to see a demo dashboard generated from mock data.
+Visit `http://localhost:5173` to see demo dashboards. Choose between:
+- **demo_1()** - Tech founder with terminal aesthetic
+- **demo_2()** - Film producer with editorial elegance
 
 ## 🏗️ Architecture
 
@@ -74,7 +76,7 @@ See [docs/README.md](docs/README.md) for detailed architecture documentation.
 3. **Restart the application**:
    ```bash
    # Backend will now fetch real user data
-   python -m uvicorn backend.app.main:app --reload
+   cd backend && uv run uvicorn app.main:app --reload
    ```
 
 ### Data Flow
@@ -110,13 +112,13 @@ onfabric_mvp/
 
 ```bash
 # All tests with mock data (default)
-pytest fabric_dashboard/tests/ -v
+uv run pytest fabric_dashboard/tests/ -v
 
 # Specific test file
-pytest fabric_dashboard/tests/test_dashboard_builder.py -v
+uv run pytest fabric_dashboard/tests/test_dashboard_builder.py -v
 
 # With real API data (requires .env configuration)
-MOCK_MODE=false pytest fabric_dashboard/tests/ -v
+MOCK_MODE=false uv run pytest fabric_dashboard/tests/ -v
 ```
 
 ### Adding New Widget Types
@@ -137,11 +139,12 @@ MOCK_MODE=false pytest fabric_dashboard/tests/ -v
 - FastAPI - REST API framework
 - Pydantic - Data validation
 - Python 3.11+
+- uv - Fast Python package installer
 
 **Frontend:**
 - React 18
 - Vite - Build tool
-- Tailwind CSS - Styling
+- Tailwind CSS v4 - Styling
 
 **Testing:**
 - pytest - Test framework

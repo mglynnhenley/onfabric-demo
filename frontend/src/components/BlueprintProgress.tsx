@@ -25,10 +25,6 @@ interface DataSource {
   interactions: number;
 }
 
-interface DashboardCard {
-  label: string;
-}
-
 interface APICall {
   service: string;
   status: 'calling' | 'complete';
@@ -37,16 +33,6 @@ interface APICall {
 export function BlueprintProgress({ progress, intelligence }: BlueprintProgressProps) {
   const [messages, setMessages] = useState<TerminalMessage[]>([]);
   const [apiCalls, setApiCalls] = useState<APICall[]>([]);
-
-  // Dashboard cards
-  const dashboardCards: DashboardCard[] = [
-    { label: 'Activity Timeline' },
-    { label: 'Pattern Analysis' },
-    { label: 'Engagement Metrics' },
-    { label: 'Content Insights' },
-    { label: 'Peak Hours' },
-    { label: 'Recommendations' },
-  ];
 
   // Color constants for animations (Framer Motion can't animate CSS variables)
   const COLORS = {

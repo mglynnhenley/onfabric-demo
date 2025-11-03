@@ -217,20 +217,6 @@ export function PinBoardLayout({ widgets }: PinBoardLayoutProps) {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.8, y: 20 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 100,
-        damping: 15,
-      },
-    },
-  };
-
   if (containerWidth === 0) {
     return <div className="w-full max-w-[1600px] mx-auto px-8 py-12">Loading...</div>;
   }
@@ -256,7 +242,7 @@ export function PinBoardLayout({ widgets }: PinBoardLayoutProps) {
         preventCollision={true}
         margin={[20, 20]}
       >
-        {uniqueWidgets.map((widget, idx) => {
+        {uniqueWidgets.map((widget) => {
           const WidgetComponent = getWidget(widget.type);
 
           if (!WidgetComponent) {

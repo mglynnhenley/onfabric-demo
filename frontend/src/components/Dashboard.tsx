@@ -3,7 +3,6 @@
  */
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import { ThemeProvider } from './theme/ThemeProvider';
 import { PinBoardLayout } from './dashboard/PinBoardLayout';
 import { FloatingActionButton } from './FloatingActionButton';
@@ -98,8 +97,6 @@ interface DashboardProps {
 }
 
 export function Dashboard({ dashboardData, onGenerateNew }: DashboardProps) {
-  const [isReady, setIsReady] = useState(true);
-
   // DEBUG: Log theme data on mount
   console.log('🔍 Dashboard component received:', {
     hasData: !!dashboardData,

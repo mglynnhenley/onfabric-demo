@@ -3,7 +3,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import type { PersonaType } from '../types';
 
 interface LandingProps {
@@ -28,9 +28,6 @@ export function Landing({ onGenerate }: LandingProps) {
     stroke: '#E5E5E5',
     charcoal: '#2B2726',
   };
-
-  // Framer Motion scroll animations (keeping for future use)
-  const { scrollYProgress } = useScroll();
 
   // Track mouse position for parallax
   useEffect(() => {

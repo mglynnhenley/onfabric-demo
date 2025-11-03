@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PipelineStage } from './PipelineStage';
 import type { LoadingState, PipelineStageConfig } from './types';
@@ -86,9 +87,8 @@ export const LoadingOverlay = ({ show, progress }: LoadingOverlayProps) => {
             {/* Pipeline Stages */}
             <div className="w-full max-w-2xl space-y-4">
               {PIPELINE_STAGES.map((stage, index) => (
-                <>
+                <React.Fragment key={stage.id}>
                   <PipelineStage
-                    key={stage.id}
                     id={stage.id}
                     title={stage.title}
                     icon={stage.icon}
@@ -99,11 +99,11 @@ export const LoadingOverlay = ({ show, progress }: LoadingOverlayProps) => {
 
                   {/* Arrow connector (except after last stage) */}
                   {index < PIPELINE_STAGES.length - 1 && (
-                    <div key={`arrow-${stage.id}`} className="flex justify-center">
+                    <div className="flex justify-center">
                       <div className="w-0.5 h-6 bg-gray-700" />
                     </div>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </div>
           </div>

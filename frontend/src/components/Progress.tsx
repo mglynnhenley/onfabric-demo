@@ -44,8 +44,8 @@ export function Progress({ progress, currentMessage, intelligence }: ProgressPro
     }
 
     intelligence.patterns.forEach(pattern => {
-      if (pattern.name && pattern.name !== 'undefined') {
-        newMessages.push(`▸ Pattern detected: ${pattern.name}`);
+      if (pattern.title && pattern.title !== 'undefined') {
+        newMessages.push(`▸ Pattern detected: ${pattern.title}`);
       }
     });
 

@@ -60,6 +60,7 @@ diskcache/
 .fabric-dashboard/
 dashboards/
 *.html
+!frontend/index.html
 
 # Logs
 *.log

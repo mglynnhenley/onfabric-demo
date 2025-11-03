@@ -132,8 +132,17 @@ export function Dashboard({ dashboardData, onGenerateNew }: DashboardProps) {
     ? `animate-${dashboardData.theme.background_theme.animation.name}`
     : '';
 
+  // Type assertion to handle backend string types vs frontend literal types
+  const theme = {
+    ...dashboardData.theme,
+    background_theme: {
+      ...dashboardData.theme.background_theme,
+      type: dashboardData.theme.background_theme.type as "solid" | "pattern" | "gradient" | "animated"
+    }
+  };
+
   return (
-    <ThemeProvider theme={dashboardData.theme}>
+    <ThemeProvider theme={theme as any}>
       <div className={`min-h-screen ${animationClass}`}>
         {/* Pin Board Layout - Full bleed */}
         <motion.div

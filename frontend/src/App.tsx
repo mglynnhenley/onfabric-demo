@@ -6,6 +6,8 @@ import { useState, useCallback, useEffect } from 'react';
 import { Landing } from './components/Landing';
 import { Progress } from './components/Progress';
 import { Dashboard } from './components/Dashboard';
+import { LoadingOverlay } from './components/loading';
+import type { LoadingState } from './components/loading';
 import { useWebSocket } from './hooks/useWebSocket';
 import type { AppState, PersonaType, WebSocketMessage, Pattern, ThemeData, CardPreview } from './types';
 
@@ -31,11 +33,107 @@ function App() {
     error: null,
   });
 
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState<LoadingState>({
+    currentStep: '',
+    percent: 0,
+    message: '',
+    stageStatuses: {
+      data: 'pending',
+      patterns: 'pending',
+      theme: 'pending',
+      widgets: 'pending',
+      enrichment: 'pending',
+      building: 'pending',
+    },
+    stageData: {},
+  });
+
   // Set data-screen attribute on body for conditional CSS styling
   useEffect(() => {
     document.body.setAttribute('data-screen', state.screen);
     console.log(`📍 Body data-screen attribute set to: ${state.screen}`);
   }, [state.screen]);
+
+  const updateStageFromWebSocket = useCallback((step: string, data: any) => {
+    // Map WebSocket step to stage ID and update status
+    const stageMapping: Record<string, keyof LoadingState['stageStatuses']> = {
+      'initializing': 'data',
+      'data': 'data',
+      'patterns': 'patterns',
+      'patterns_complete': 'patterns',
+      'theme': 'theme',
+      'theme_complete': 'theme',
+      'widgets': 'widgets',
+      'widgets_complete': 'widgets',
+      'search': 'enrichment',
+      'enriching': 'enrichment',
+      'content': 'enrichment',
+      'content_complete': 'enrichment',
+      'building': 'building',
+    };
+
+    const stageId = stageMapping[step];
+    if (!stageId) return;
+
+    setLoadingProgress(prev => {
+      const newStatuses = { ...prev.stageStatuses };
+      const newData = { ...prev.stageData };
+
+      // Mark current stage as active
+      newStatuses[stageId] = 'active';
+
+      // Mark previous stages as complete
+      const stages: (keyof LoadingState['stageStatuses'])[] = ['data', 'patterns', 'theme', 'widgets', 'enrichment', 'building'];
+      const currentIndex = stages.indexOf(stageId);
+      for (let i = 0; i < currentIndex; i++) {
+        if (newStatuses[stages[i]] !== 'complete') {
+          newStatuses[stages[i]] = 'complete';
+        }
+      }
+
+      // Store stage-specific data
+      if (data) {
+        if (stageId === 'data' && data.interactions) {
+          newData.data = {
+            interactions: data.interactions,
+            platforms: data.platforms || [],
+          };
+        } else if (stageId === 'patterns' && data.patterns) {
+          newData.patterns = {
+            persona: data.persona,
+            patterns: data.patterns,
+          };
+        } else if (stageId === 'theme' && data.mood) {
+          newData.theme = {
+            mood: data.mood,
+            primary: data.primary,
+            rationale: data.rationale,
+          };
+        } else if (stageId === 'widgets' && data.widgets) {
+          newData.widgets = {
+            widgets: data.widgets,
+          };
+        } else if (stageId === 'enrichment') {
+          // Track API calls
+          newData.enrichment = {
+            apis: ['Perplexity', 'Weather API', 'Mapbox'],
+          };
+        } else if (stageId === 'building' && data.cardCount) {
+          newData.building = {
+            cardCount: data.cardCount,
+            widgetCount: data.widgetCount,
+          };
+        }
+      }
+
+      return {
+        ...prev,
+        stageStatuses: newStatuses,
+        stageData: newData,
+      };
+    });
+  }, []);
 
   const handleMessage = useCallback((message: WebSocketMessage) => {
     if (message.type === 'error') {
@@ -45,6 +143,7 @@ function App() {
         screen: 'landing',
         error: message.message,
       }));
+      setIsGenerating(false);
       return;
     }
 
@@ -59,18 +158,49 @@ function App() {
         console.log('  Theme bg:', message.dashboard.theme.background_theme);
       }
 
-      setState(prev => ({
+      // Mark all stages complete
+      setLoadingProgress(prev => ({
         ...prev,
-        screen: 'dashboard',
-        progress: 100,
-        dashboardHTML: message.html,  // Deprecated, keeping for backward compatibility
-        dashboardData: message.dashboard,  // New JSON format
+        percent: 100,
+        stageStatuses: {
+          data: 'complete',
+          patterns: 'complete',
+          theme: 'complete',
+          widgets: 'complete',
+          enrichment: 'complete',
+          building: 'complete',
+        },
       }));
-      disconnect();
+
+      // Hide overlay after brief delay
+      setTimeout(() => {
+        setIsGenerating(false);
+        setState(prev => ({
+          ...prev,
+          screen: 'dashboard',
+          progress: 100,
+          dashboardHTML: message.html,  // Deprecated, keeping for backward compatibility
+          dashboardData: message.dashboard,  // New JSON format
+        }));
+        disconnect();
+      }, 1000);
       return;
     }
 
     if (message.type === 'progress') {
+      setIsGenerating(true);
+
+      // Update progress bar and message
+      setLoadingProgress(prev => ({
+        ...prev,
+        currentStep: message.step,
+        percent: message.percent,
+        message: message.message,
+      }));
+
+      // Update stage statuses
+      updateStageFromWebSocket(message.step, message.data);
+
       setState(prev => {
         const newState = {
           ...prev,
@@ -121,7 +251,7 @@ function App() {
         return newState;
       });
     }
-  }, [disconnect]);
+  }, [disconnect, updateStageFromWebSocket]);
 
   const handleError = useCallback((error: string) => {
     alert(`Connection Error: ${error}\n\nMake sure the backend is running:\ncd backend && uvicorn app.main:app --reload`);
@@ -177,34 +307,42 @@ function App() {
     });
   };
 
-  // Render current screen
-  switch (state.screen) {
-    case 'landing':
-      return <Landing onGenerate={handleGenerate} />;
+  // Render current screen with LoadingOverlay
+  return (
+    <>
+      <LoadingOverlay show={isGenerating} progress={loadingProgress} />
 
-    case 'generating':
-      return (
-        <Progress
-          progress={state.progress}
-          currentStep={state.currentStep}
-          currentMessage={state.currentMessage}
-          intelligence={state.intelligence}
-        />
-      );
+      {(() => {
+        switch (state.screen) {
+          case 'landing':
+            return <Landing onGenerate={handleGenerate} />;
 
-    case 'dashboard':
-      return state.dashboardData ? (
-        <Dashboard
-          dashboardData={state.dashboardData}
-          onGenerateNew={handleGenerateNew}
-        />
-      ) : (
-        <div>Loading dashboard...</div>
-      );
+          case 'generating':
+            return (
+              <Progress
+                progress={state.progress}
+                currentStep={state.currentStep}
+                currentMessage={state.currentMessage}
+                intelligence={state.intelligence}
+              />
+            );
 
-    default:
-      return <div>Unknown screen</div>;
-  }
+          case 'dashboard':
+            return state.dashboardData ? (
+              <Dashboard
+                dashboardData={state.dashboardData}
+                onGenerateNew={handleGenerateNew}
+              />
+            ) : (
+              <div>Loading dashboard...</div>
+            );
+
+          default:
+            return <div>Unknown screen</div>;
+        }
+      })()}
+    </>
+  );
 }
 
 export default App;

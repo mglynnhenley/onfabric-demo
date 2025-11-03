@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { ThemeProvider } from './theme/ThemeProvider';
 import { PinBoardLayout } from './dashboard/PinBoardLayout';
 import { FloatingActionButton } from './FloatingActionButton';
+import type { DashboardJSON } from '../types';
 import '../styles/animations.css';
 
 // Import widgets to ensure they register
@@ -17,79 +18,6 @@ import './widgets/VideoCard';
 import './widgets/CalendarCard';
 import './widgets/TaskCard';
 import './widgets/ContentCard';
-
-interface PersonaProfile {
-  writing_style: string;
-  interests: string[];
-  activity_level: string;
-  professional_context?: string;
-  tone_preference: string;
-  age_range?: string;
-  content_depth_preference: string;
-}
-
-interface FontScheme {
-  heading: string;
-  body: string;
-  mono: string;
-  heading_url: string;
-  body_url: string;
-  mono_url: string;
-}
-
-interface BackgroundTheme {
-  type: string;
-  color?: string;
-  gradient?: {
-    type: string;
-    colors: string[];
-    direction?: string;
-  };
-  pattern?: {
-    type: string;
-    color: string;
-    opacity: number;
-    scale: number;
-  };
-  animation?: {
-    name: string;
-    duration: string;
-    timing: string;
-  };
-  card_background: string;
-  card_backdrop_blur: boolean;
-}
-
-interface ColorScheme {
-  primary: string;
-  secondary: string;
-  accent: string;
-  foreground: string;
-  muted: string;
-  success: string;
-  warning: string;
-  destructive: string;
-  background_theme: BackgroundTheme;
-  fonts: FontScheme;
-  mood: string;
-  rationale: string;
-}
-
-interface Widget {
-  id: string;
-  type: string;
-  size: 'small' | 'medium' | 'large';
-  priority: number;
-  data: Record<string, any>;
-}
-
-interface DashboardJSON {
-  id: string;
-  generated_at: string;
-  widgets: Widget[];
-  theme: ColorScheme;
-  persona: PersonaProfile;
-}
 
 interface DashboardProps {
   dashboardData: DashboardJSON;
@@ -132,17 +60,8 @@ export function Dashboard({ dashboardData, onGenerateNew }: DashboardProps) {
     ? `animate-${dashboardData.theme.background_theme.animation.name}`
     : '';
 
-  // Type assertion to handle backend string types vs frontend literal types
-  const theme = {
-    ...dashboardData.theme,
-    background_theme: {
-      ...dashboardData.theme.background_theme,
-      type: dashboardData.theme.background_theme.type as "solid" | "pattern" | "gradient" | "animated"
-    }
-  };
-
   return (
-    <ThemeProvider theme={theme as any}>
+    <ThemeProvider theme={dashboardData.theme}>
       <div className={`min-h-screen ${animationClass}`}>
         {/* Pin Board Layout - Full bleed */}
         <motion.div

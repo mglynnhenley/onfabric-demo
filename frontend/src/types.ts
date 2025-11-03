@@ -85,6 +85,11 @@ export interface BackgroundTheme {
     opacity: number;
     scale: number;
   };
+  animation?: {
+    name: string;
+    duration: string;
+    timing: string;
+  };
   card_background: string;
   card_backdrop_blur: boolean;
 }

@@ -10,66 +10,7 @@
 
 import { useEffect } from 'react';
 import type { ReactNode } from 'react';
-
-interface FontScheme {
-  heading: string;
-  body: string;
-  mono: string;
-  heading_url: string;
-  body_url: string;
-  mono_url: string;
-}
-
-interface GradientConfig {
-  type: 'linear' | 'radial' | 'mesh';
-  colors: string[];
-  direction?: string;
-}
-
-interface PatternConfig {
-  type: 'dots' | 'grid' | 'noise' | 'geometric';
-  color: string;
-  opacity: number;
-  scale: number;
-}
-
-interface BackgroundTheme {
-  type: 'solid' | 'gradient' | 'pattern' | 'animated';
-  color?: string;
-  gradient?: GradientConfig;
-  pattern?: PatternConfig;
-  animation?: {
-    name: string;
-    duration: string;
-    timing: string;
-  };
-  card_background: string;
-  card_backdrop_blur: boolean;
-}
-
-interface ColorScheme {
-  // Primary palette
-  primary: string;
-  secondary: string;
-  accent: string;
-
-  // Text
-  foreground: string;
-  muted: string;
-
-  // Semantic
-  success: string;
-  warning: string;
-  destructive: string;
-
-  // Theming
-  background_theme: BackgroundTheme;
-  fonts: FontScheme;
-
-  // Metadata
-  mood: string;
-  rationale: string;
-}
+import type { ColorScheme } from '../../types';
 
 interface ThemeProviderProps {
   theme: ColorScheme;

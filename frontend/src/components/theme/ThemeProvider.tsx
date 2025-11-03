@@ -8,7 +8,8 @@
  * - Handles backdrop blur for glass morphism
  */
 
-import { useEffect, ReactNode } from 'react';
+import { useEffect } from 'react';
+import type { ReactNode } from 'react';
 
 interface FontScheme {
   heading: string;

@@ -9,7 +9,8 @@
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import GridLayout, { Layout } from 'react-grid-layout';
+import GridLayout from 'react-grid-layout';
+import type { Layout } from 'react-grid-layout';
 import { motion } from 'framer-motion';
 import { getWidget } from '../widgets/WidgetRegistry';
 import 'react-grid-layout/css/styles.css';

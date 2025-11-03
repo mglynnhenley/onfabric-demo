@@ -6,7 +6,7 @@
  * without the frontend needing to know the implementation details.
  */
 
-import { ComponentType } from 'react';
+import type { ComponentType } from 'react';
 import type { WidgetProps } from './WidgetTypes';
 
 // Re-export types for convenience

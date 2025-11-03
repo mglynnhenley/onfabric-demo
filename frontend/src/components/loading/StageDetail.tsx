@@ -52,8 +52,8 @@ const PersonaStageDetail = ({ data }: { data?: StageData['patterns'] }) => {
         {persona.professional_context || persona.writing_style}
       </p>
       <div className="space-y-1">
-        {persona.interests.slice(0, 4).map((interest, idx) => (
-          <div key={idx}>• {interest}</div>
+        {persona.interests.slice(0, 4).map((interest) => (
+          <div key={interest}>• {interest}</div>
         ))}
       </div>
     </div>
@@ -74,7 +74,9 @@ const ThemeStageDetail = ({ data }: { data?: StageData['theme'] }) => {
       <div>• Mood: {data.mood}</div>
       {data.rationale && (
         <div className="text-xs text-gray-400 italic">
-          {data.rationale.slice(0, 100)}...
+          {data.rationale.length > 100
+            ? `${data.rationale.slice(0, 100)}...`
+            : data.rationale}
         </div>
       )}
     </div>
@@ -85,8 +87,8 @@ const WidgetsStageDetail = ({ data }: { data?: StageData['widgets'] }) => {
   if (!data?.widgets) return null;
   return (
     <div className="text-sm space-y-1">
-      {data.widgets.map((widget, idx) => (
-        <div key={idx}>• {widget}</div>
+      {data.widgets.map((widget) => (
+        <div key={widget}>• {widget}</div>
       ))}
     </div>
   );
@@ -96,8 +98,8 @@ const EnrichmentStageDetail = ({ data }: { data?: StageData['enrichment'] }) => 
   if (!data?.apis) return null;
   return (
     <div className="text-sm space-y-1">
-      {data.apis.map((api, idx) => (
-        <div key={idx}>• Calling {api}...</div>
+      {data.apis.map((api) => (
+        <div key={api}>• Calling {api}...</div>
       ))}
     </div>
   );

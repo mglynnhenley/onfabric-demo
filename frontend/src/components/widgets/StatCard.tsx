@@ -9,7 +9,6 @@ import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { registerWidget } from './WidgetRegistry';
 import type { WidgetProps } from './WidgetTypes';
-import { useEffect } from 'react';
 
 interface StatCardData {
   title: string;
@@ -19,7 +18,7 @@ interface StatCardData {
   unit?: string; // Unit label (e.g., "posts", "hours", "followers")
 }
 
-function StatCard({ id, data, size }: WidgetProps) {
+function StatCard({ id: _id, data, size: _size }: WidgetProps) {
   const statData = data as StatCardData;
   const { title, value, change, icon, unit } = statData;
 

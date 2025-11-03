@@ -6,7 +6,7 @@
  */
 
 import { motion } from 'framer-motion';
-import { BookOpen, ExternalLink, Calendar, Newspaper } from 'lucide-react';
+import { BookOpen, ExternalLink } from 'lucide-react';
 import { registerWidget } from './WidgetRegistry';
 import type { WidgetProps } from './WidgetTypes';
 
@@ -18,23 +18,9 @@ interface ContentCardData {
   publishedDate: string;
 }
 
-function ContentCard({ id, data, size }: WidgetProps) {
+function ContentCard({ id: _id, data, size: _size }: WidgetProps) {
   const contentData = data as ContentCardData;
-  const { title, overview, url, sourceName, publishedDate } = contentData;
-
-  // Format date to readable format
-  const formatDate = (dateString: string) => {
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      });
-    } catch {
-      return dateString;
-    }
-  };
+  const { title, overview: _overview, url, sourceName: _sourceName, publishedDate: _publishedDate } = contentData;
 
   return (
     <motion.div

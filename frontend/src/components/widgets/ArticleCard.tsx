@@ -23,7 +23,7 @@ interface ArticleCardData {
   sources?: Source[];
 }
 
-function ArticleCard({ id, data, size }: WidgetProps) {
+function ArticleCard({ id: _id, data, size: _size }: WidgetProps) {
   const articleData = data as ArticleCardData;
   const { title, excerpt, content, readingTime, sources } = articleData;
 

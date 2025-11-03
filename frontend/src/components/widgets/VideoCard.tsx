@@ -6,7 +6,7 @@
  */
 
 import { motion } from 'framer-motion';
-import { Play, Youtube, ExternalLink } from 'lucide-react';
+import { Play, Youtube } from 'lucide-react';
 import { registerWidget } from './WidgetRegistry';
 import type { WidgetProps } from './WidgetTypes';
 
@@ -22,7 +22,7 @@ interface VideoCardData {
   videos: Video[];
 }
 
-function VideoCard({ id, data, size }: WidgetProps) {
+function VideoCard({ id: _id, data, size: _size }: WidgetProps) {
   const videoData = data as VideoCardData;
   const { title, query, videos } = videoData;
 

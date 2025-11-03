@@ -6,7 +6,7 @@
  */
 
 import { motion } from 'framer-motion';
-import { MapPin, Cloud, Sun, CloudRain, CloudSnow, Wind } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { registerWidget } from './WidgetRegistry';
 import type { WidgetProps } from './WidgetTypes';
 
@@ -17,9 +17,9 @@ interface InfoCardData {
   location: string;     // "San Francisco, CA"
 }
 
-function InfoCard({ id, data, size }: WidgetProps) {
+function InfoCard({ id: _id, data, size: _size }: WidgetProps) {
   const infoData = data as InfoCardData;
-  const { title, value, subtitle, location } = infoData;
+  const { title: _title, value, subtitle, location } = infoData;
 
   // Get weather emoji and accent color based on condition
   const getWeatherEmoji = (condition: string) => {

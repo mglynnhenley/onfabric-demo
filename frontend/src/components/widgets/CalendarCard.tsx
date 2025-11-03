@@ -6,7 +6,7 @@
  */
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
+import { Calendar, MapPin } from 'lucide-react';
 import { registerWidget } from './WidgetRegistry';
 import type { WidgetProps } from './WidgetTypes';
 import { useMemo, useState } from 'react';
@@ -25,7 +25,7 @@ interface CalendarCardData {
   enriched_events: Event[];
 }
 
-function CalendarCard({ id, data, size }: WidgetProps) {
+function CalendarCard({ id: _id, data, size: _size }: WidgetProps) {
   const calendarData = data as CalendarCardData;
   const { title, search_query, enriched_events } = calendarData;
   const events = enriched_events || [];

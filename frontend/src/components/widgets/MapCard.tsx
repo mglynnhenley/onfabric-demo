@@ -5,7 +5,7 @@
  */
 
 import { motion } from 'framer-motion';
-import { MapPin, Navigation } from 'lucide-react';
+import { Navigation } from 'lucide-react';
 import { registerWidget } from './WidgetRegistry';
 import type { WidgetProps } from './WidgetTypes';
 import { useEffect, useRef, useState } from 'react';
@@ -31,7 +31,7 @@ interface MapCardData {
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
-function MapCard({ id, data, size }: WidgetProps) {
+function MapCard({ id: _id, data, size: _size }: WidgetProps) {
   const mapData = data as MapCardData;
   const { title, center, zoom, markers } = mapData;
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -142,7 +142,7 @@ function MapCard({ id, data, size }: WidgetProps) {
             );
 
             // Add marker to map
-            const mapMarker = new mapboxgl.Marker(el)
+            new mapboxgl.Marker(el)
               .setLngLat([marker.lng, marker.lat])
               .setPopup(popup)
               .addTo(map.current);

@@ -22,7 +22,7 @@ interface TaskCardData {
   tasks: TaskItem[];
 }
 
-function TaskCard({ id, data, size }: WidgetProps) {
+function TaskCard({ id: _id, data, size: _size }: WidgetProps) {
   const taskData = data as TaskCardData;
   const { title, tasks } = taskData;
 

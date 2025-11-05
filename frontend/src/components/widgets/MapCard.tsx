@@ -53,6 +53,15 @@ function MapCard({ id: _id, data, size: _size }: WidgetProps) {
 
     if (!mapContainer.current || map.current) return;
 
+    // Check WebGL support
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) {
+      console.warn('WebGL not supported, falling back to static map');
+      setMapError('WebGL not supported in your browser. Please enable hardware acceleration or try a different browser.');
+      return;
+    }
+
     // Check if token exists
     console.log('MAPBOX_TOKEN loaded:', MAPBOX_TOKEN ? `${MAPBOX_TOKEN.substring(0, 20)}...` : 'undefined');
     if (!MAPBOX_TOKEN) {
@@ -229,10 +238,21 @@ function MapCard({ id: _id, data, size: _size }: WidgetProps) {
         >
           <div ref={mapContainer} className="w-full h-full" />
           {mapError && (
-            <div className="absolute inset-0 flex items-center justify-center bg-destructive/10">
-              <div className="text-sm text-destructive px-4 text-center">
-                <p className="font-semibold mb-1">Map Error</p>
-                <p className="text-xs">{mapError}</p>
+            <div className="absolute inset-0 flex items-center justify-center bg-muted/80 backdrop-blur-sm">
+              <div className="text-sm px-6 text-center max-w-md">
+                <Navigation className="w-8 h-8 text-muted mx-auto mb-3 opacity-50" />
+                <p className="font-semibold mb-2 text-foreground">Map Unavailable</p>
+                <p className="text-xs text-muted-foreground mb-3">{mapError}</p>
+                {mapError.includes('WebGL') && (
+                  <div className="text-xs text-left bg-background/50 rounded p-3 space-y-1">
+                    <p className="font-medium text-foreground mb-2">To fix this:</p>
+                    <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                      <li>Enable hardware acceleration in your browser settings</li>
+                      <li>Update your graphics drivers</li>
+                      <li>Try Chrome, Firefox, or Edge browsers</li>
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
           )}

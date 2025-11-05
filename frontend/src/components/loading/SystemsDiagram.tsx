@@ -41,7 +41,7 @@ export const SystemsDiagram = () => {
             />
           </pattern>
 
-          {/* Arrow marker */}
+          {/* Arrow markers */}
           <marker
             id="arrowhead"
             markerWidth="10"
@@ -53,6 +53,34 @@ export const SystemsDiagram = () => {
             <polygon
               points="0 0, 10 3, 0 6"
               fill={COLORS.crimson}
+            />
+          </marker>
+
+          <marker
+            id="arrowheadGreen"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="3"
+            orient="auto"
+          >
+            <polygon
+              points="0 0, 10 3, 0 6"
+              fill={COLORS.terminalGreen}
+            />
+          </marker>
+
+          <marker
+            id="arrowheadGray"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="3"
+            orient="auto"
+          >
+            <polygon
+              points="0 0, 10 3, 0 6"
+              fill={COLORS.gray}
             />
           </marker>
 
@@ -138,7 +166,7 @@ export const SystemsDiagram = () => {
           x2="450" y2="120"
           stroke={COLORS.terminalGreen}
           strokeWidth="2"
-          markerEnd="url(#arrowhead)"
+          markerEnd="url(#arrowheadGreen)"
         />
 
         {/* Theme Generator */}
@@ -177,14 +205,14 @@ export const SystemsDiagram = () => {
           x2="370" y2="200"
           stroke={COLORS.gray}
           strokeWidth="1.5"
-          markerEnd="url(#arrowhead)"
+          markerEnd="url(#arrowheadGray)"
         />
         <line
           x1="530" y1="160"
           x2="530" y2="200"
           stroke={COLORS.gray}
           strokeWidth="1.5"
-          markerEnd="url(#arrowhead)"
+          markerEnd="url(#arrowheadGray)"
         />
 
         {/* Content Writer */}
@@ -241,7 +269,7 @@ export const SystemsDiagram = () => {
           x2="520" y2="320"
           stroke={COLORS.terminalGreen}
           strokeWidth="2"
-          markerEnd="url(#arrowhead)"
+          markerEnd="url(#arrowheadGreen)"
         />
 
         {/* Arrow from Pattern Detector to Content Writer */}
@@ -250,7 +278,16 @@ export const SystemsDiagram = () => {
           x2="320" y2="320"
           stroke={COLORS.gray}
           strokeWidth="1.5"
-          markerEnd="url(#arrowhead)"
+          markerEnd="url(#arrowheadGray)"
+        />
+
+        {/* Arrow from UI Generator to Content Writer */}
+        <line
+          x1="490" y1="280"
+          x2="360" y2="320"
+          stroke={COLORS.terminalGreen}
+          strokeWidth="2"
+          markerEnd="url(#arrowheadGreen)"
         />
 
         {/* Arrows to Dashboard Builder */}
@@ -291,7 +328,7 @@ export const SystemsDiagram = () => {
           x2="600" y2="490"
           stroke={COLORS.terminalGreen}
           strokeWidth="3"
-          markerEnd="url(#arrowhead)"
+          markerEnd="url(#arrowheadGreen)"
         />
       </svg>
 

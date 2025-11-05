@@ -4,7 +4,15 @@
       "title": "Surf & Travel Enthusiast",
       "description": "Deep engagement with surf culture and Atlantic coast travel, particularly Morocco's legendary point breaks. Follows surf forecasts, saves travel guides, and researches optimal surf seasons.",
       "confidence": 0.89,
-      "keywords": ["surf", "Morocco", "Tagazhout", "travel", "Atlantic", "waves", "point breaks"],
+      "keywords": [
+        "surf",
+        "Morocco",
+        "Tagazhout",
+        "travel",
+        "Atlantic",
+        "waves",
+        "point breaks"
+      ],
       "interaction_count": 45,
       "time_range": {
         "start": "2025-09-01T00:00:00Z",
@@ -16,7 +24,15 @@
       "title": "Tech Startup Navigator",
       "description": "Active participant in London's startup ecosystem, attending demo days, founder events, and nightlife. Balances professional networking with cultural experiences in the city's electronic music scene.",
       "confidence": 0.85,
-      "keywords": ["startups", "London", "tech events", "founders", "pitching", "clubs", "nightlife"],
+      "keywords": [
+        "startups",
+        "London",
+        "tech events",
+        "founders",
+        "pitching",
+        "clubs",
+        "nightlife"
+      ],
       "interaction_count": 38,
       "time_range": {
         "start": "2025-09-01T00:00:00Z",
@@ -28,7 +44,14 @@
       "title": "AI Safety Researcher",
       "description": "Seriously engaged with AI safety and alignment research, exploring both technical and philosophical dimensions. Reads academic papers, follows key researchers, and participates in safety-focused communities.",
       "confidence": 0.92,
-      "keywords": ["AI safety", "alignment", "ethics", "research", "existential risk", "governance"],
+      "keywords": [
+        "AI safety",
+        "alignment",
+        "ethics",
+        "research",
+        "existential risk",
+        "governance"
+      ],
       "interaction_count": 52,
       "time_range": {
         "start": "2025-09-01T00:00:00Z",
@@ -40,7 +63,13 @@
       "title": "AI Alignment Deep Diver",
       "description": "Systematic consumption of AI alignment educational content, particularly technical explainers. Watches Robert Miles videos, reads Anthropic papers, and explores mesa-optimization and scalable oversight concepts.",
       "confidence": 0.87,
-      "keywords": ["Robert Miles", "mesa-optimization", "scalable oversight", "instrumental convergence", "AI alignment"],
+      "keywords": [
+        "Robert Miles",
+        "mesa-optimization",
+        "scalable oversight",
+        "instrumental convergence",
+        "AI alignment"
+      ],
       "interaction_count": 31,
       "time_range": {
         "start": "2025-09-01T00:00:00Z",
@@ -52,7 +81,13 @@
       "title": "Celebrity Cooking Entertainment",
       "description": "Enjoys watching professional chefs demonstrate cooking techniques and personalities. Follows Gordon Ramsay, Matty Matheson, and other celebrity chefs for both entertainment and skill development.",
       "confidence": 0.78,
-      "keywords": ["Gordon Ramsay", "cooking techniques", "chef tutorials", "recipes", "culinary"],
+      "keywords": [
+        "Gordon Ramsay",
+        "cooking techniques",
+        "chef tutorials",
+        "recipes",
+        "culinary"
+      ],
       "interaction_count": 24,
       "time_range": {
         "start": "2025-09-01T00:00:00Z",
@@ -72,8 +107,8 @@
       "Electronic music and nightlife"
     ],
     "activity_level": "high",
-    "professional_context": "Tech founder or researcher in AI safety space, likely early 30s, values both work and lifestyle balance",
-    "tone_preference": "thoughtful and observational with occasional playfulness",
+    "professional_context": "Works in tech and startups, likely early 20s, values both work and lifestyle balance",
+    "tone_preference": "thoughtful and observational with occasional humour",
     "age_range": "28-35",
     "content_depth_preference": "deep_dives"
   },

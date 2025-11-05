@@ -422,6 +422,28 @@ export const LoadingOverlay = ({ show, progress, onComplete }: LoadingOverlayPro
                         ))}
                       </div>
                     )}
+
+                    {/* Tone and Content Depth */}
+                    {(progress.stageData.patterns.persona.tone_preference || progress.stageData.patterns.persona.content_depth_preference) && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8 }}
+                        className="mt-4 pt-4 border-t space-y-2"
+                        style={{ borderColor: 'rgba(220, 20, 60, 0.2)' }}
+                      >
+                        {progress.stageData.patterns.persona.tone_preference && (
+                          <div className="text-xs" style={{ fontFamily: 'var(--font-family-mono)', color: 'var(--color-gray)' }}>
+                            <span style={{ color: 'var(--color-crimson)', fontWeight: 600 }}>Tone:</span> {progress.stageData.patterns.persona.tone_preference}
+                          </div>
+                        )}
+                        {progress.stageData.patterns.persona.content_depth_preference && (
+                          <div className="text-xs" style={{ fontFamily: 'var(--font-family-mono)', color: 'var(--color-gray)' }}>
+                            <span style={{ color: 'var(--color-terminal-green)', fontWeight: 600 }}>Content Depth:</span> {progress.stageData.patterns.persona.content_depth_preference}
+                          </div>
+                        )}
+                      </motion.div>
+                    )}
                   </motion.div>
                 )}
 

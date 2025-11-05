@@ -314,13 +314,14 @@ const PersonaStageDetail = ({ data, status }: { data?: StageData['patterns']; st
 const ThemeStageDetail = ({ data, status }: { data?: StageData['theme']; status: string }) => {
   if (!data) return null;
 
-  // Generate sample colors for palette
+  // Generate palette based on the actual theme primary color
+  const primaryColor = data.primary || '#FFB000';
   const palette = [
-    data.primary,
-    data.primary + '88', // 50% opacity
-    data.primary + '44', // 25% opacity
-    '#FFB000', // Accent
-    '#00AA2E', // Terminal green
+    primaryColor,
+    primaryColor + 'CC', // 80% opacity
+    primaryColor + '88', // 50% opacity
+    primaryColor + '44', // 25% opacity
+    primaryColor + '22', // 13% opacity
   ];
 
   return (
@@ -336,7 +337,7 @@ const ThemeStageDetail = ({ data, status }: { data?: StageData['theme']; status:
               className="w-8 h-8 rounded-full border-2"
               style={{
                 backgroundColor: color,
-                borderColor: 'var(--color-paper)',
+                borderColor: '#000000',
                 zIndex: palette.length - i,
               }}
             />
@@ -344,7 +345,7 @@ const ThemeStageDetail = ({ data, status }: { data?: StageData['theme']; status:
         </div>
         <div className="flex-1">
           <div className="text-xs opacity-60">Theme mood</div>
-          <div className="font-semibold">{data.mood}</div>
+          <div className="font-semibold" style={{ color: primaryColor }}>{data.mood}</div>
         </div>
       </div>
 
@@ -353,14 +354,14 @@ const ThemeStageDetail = ({ data, status }: { data?: StageData['theme']; status:
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="p-2 rounded text-xs"
+          className="p-3 rounded text-xs"
           style={{
-            backgroundColor: 'var(--color-paper)',
-            border: '1px solid var(--color-stroke)',
+            backgroundColor: `${primaryColor}11`,
+            border: `1px solid ${primaryColor}44`,
             color: 'var(--color-gray)'
           }}
         >
-          <span className="opacity-60">Rationale: </span>
+          <span style={{ color: primaryColor, opacity: 0.8, fontWeight: 600 }}>Rationale: </span>
           {data.rationale.length > 80
             ? `${data.rationale.slice(0, 80)}...`
             : data.rationale}

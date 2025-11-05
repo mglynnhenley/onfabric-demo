@@ -135,6 +135,16 @@ function App() {
     });
   }, []);
 
+  const handleComplete = useCallback(() => {
+    // Transition to dashboard when user clicks Next button
+    setIsGenerating(false);
+    setState(prev => ({
+      ...prev,
+      screen: 'dashboard',
+    }));
+    disconnect();
+  }, [disconnect]);
+
   const handleMessage = useCallback((message: WebSocketMessage) => {
     if (message.type === 'error') {
       alert(`Error: ${message.message}`);
@@ -172,18 +182,13 @@ function App() {
         },
       }));
 
-      // Hide overlay after brief delay
-      setTimeout(() => {
-        setIsGenerating(false);
-        setState(prev => ({
-          ...prev,
-          screen: 'dashboard',
-          progress: 100,
-          dashboardHTML: message.html,  // Deprecated, keeping for backward compatibility
-          dashboardData: message.dashboard,  // New JSON format
-        }));
-        disconnect();
-      }, 1000);
+      // Store completion data for manual transition
+      setState(prev => ({
+        ...prev,
+        progress: 100,
+        dashboardHTML: message.html,  // Deprecated, keeping for backward compatibility
+        dashboardData: message.dashboard,  // New JSON format
+      }));
       return;
     }
 
@@ -310,7 +315,7 @@ function App() {
   // Render current screen with LoadingOverlay
   return (
     <>
-      <LoadingOverlay show={isGenerating} progress={loadingProgress} />
+      <LoadingOverlay show={isGenerating} progress={loadingProgress} onComplete={handleComplete} />
 
       {(() => {
         switch (state.screen) {
